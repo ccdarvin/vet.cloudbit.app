@@ -27,6 +27,7 @@ import { ColorModeContextProvider } from "./contexts/color-mode";
 import { supabaseClient } from "./utility";
 import { TenantCreate, TenantEdit, TenantList, TenantShow } from "./pages/tenants";
 import { PatientsCreate, PatientsEdit, PatientsList, PatientsShow } from "./pages/patients";
+import { SpeciesList } from "./pages/species";
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -72,10 +73,8 @@ function App() {
                   },
                 }, {
                   name: "species",
-                  list: "/species",
-                  create: "/species/create",
-                  edit: "/species/edit/:id",
-                  show: "/species/show/:id"
+                  list: "/:tenant/species",
+                  create: "/:tenant/species/create"
                 }]}
                 options={{
                   syncWithLocation: true,
@@ -116,6 +115,9 @@ function App() {
                         <Route path="create" element={<PatientsCreate />} />
                         <Route path="edit/:id" element={<PatientsEdit />} />
                         <Route path="show/:id" element={<PatientsShow />} />
+                      </Route>
+                      <Route path="species">
+                        <Route index element={<SpeciesList />} />
                       </Route>
                     </Route>
                     <Route path="*" element={<ErrorComponent />} />

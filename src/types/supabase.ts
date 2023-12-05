@@ -564,7 +564,7 @@ export interface Database {
           created_by: string | null
           id: string
           name: string
-          sex: string | null
+          sex: Database["public"]["Enums"]["patient_sex"] | null
           species_id: string | null
           tenant_id: string
           updated_at: string | null
@@ -577,7 +577,7 @@ export interface Database {
           created_by?: string | null
           id?: string
           name: string
-          sex?: string | null
+          sex?: Database["public"]["Enums"]["patient_sex"] | null
           species_id?: string | null
           tenant_id: string
           updated_at?: string | null
@@ -590,7 +590,7 @@ export interface Database {
           created_by?: string | null
           id?: string
           name?: string
-          sex?: string | null
+          sex?: Database["public"]["Enums"]["patient_sex"] | null
           species_id?: string | null
           tenant_id?: string
           updated_at?: string | null
@@ -688,6 +688,38 @@ export interface Database {
             columns: ["updated_by"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      species: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+          tenant_id: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+          tenant_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+          tenant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "species_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
             referencedColumns: ["id"]
           }
         ]
@@ -834,6 +866,7 @@ export interface Database {
     }
     Enums: {
       cashbox_status: "open" | "closed"
+      patient_sex: "F" | "M"
     }
     CompositeTypes: {
       [_ in never]: never
