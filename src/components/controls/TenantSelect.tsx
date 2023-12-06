@@ -28,7 +28,7 @@ export default function TenantSelect() {
         }),
       });
     }
-  }, [queryResult?.data?.total]);
+  }, [params?.tenant, queryResult?.data?.total]);
 
   return (
     <Select
