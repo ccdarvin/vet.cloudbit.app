@@ -31,6 +31,7 @@ import { SpeciesList } from "./pages/species";
 import { CustomerList } from "./pages/customers";
 import { ItemList } from "./pages/items";
 import { ServiceList } from "./pages/services";
+import { OrderCreate, OrderEdit, OrderList, OrderShow } from "./pages/orders";
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -112,7 +113,17 @@ function App() {
                     hide: true,
                     tenant
                   },
-                }, ]}
+                }, {
+                  name: "orders",
+                  list: "/:tenant/orders",
+                  create: "/:tenant/orders/create",
+                  edit: "/:tenant/orders/edit/:id",
+                  show: "/:tenant/orders/show/:id",
+                  meta: {
+                    tenant,
+                    label: "Ordenes"
+                  },
+                }]}
                 options={{
                   syncWithLocation: true,
                   warnWhenUnsavedChanges: true,
@@ -160,10 +171,14 @@ function App() {
                       <Route path="items">
                         <Route index element={<ItemList />} />
                       </Route>
+                      <Route path="orders">
+                        <Route index element={<OrderList />} />
+                        <Route path="create" element={<OrderCreate />} />
+                        <Route path="edit/:id" element={<OrderEdit />} />
+                        <Route path="show/:id" element={<OrderShow />} />
+                      </Route>
                       <Route path="species">
                         <Route index element={<SpeciesList />} />
-                      </Route>
-                      <Route path="breeds">
                       </Route>
                     </Route>
                     <Route path="*" element={<ErrorComponent />} />
