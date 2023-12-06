@@ -2,22 +2,35 @@ import {
   IResourceComponentsProps,
   BaseRecord,
   useTranslate,
+  useParsed,
 } from "@refinedev/core";
 import {
   useTable,
   List,
   EditButton,
-  ShowButton,
   useDrawerForm,
 } from "@refinedev/antd";
 import { Table, Space } from "antd";
 import { Tables } from "../../types/supabase";
 import { SpeciesCreateOrEdit } from "./CreateOrEdit";
+import { BreedList } from "../breeds";
 
 export const SpeciesList: React.FC<IResourceComponentsProps> = () => {
   const translate = useTranslate();
+
+  const { params } = useParsed<{ tenant: string }>();
+
   const { tableProps } = useTable({
     syncWithLocation: true,
+    filters: {
+      permanent: [
+        {
+          field: "tenant_id",
+          operator: "eq",
+          value: params?.tenant as string,
+        },
+      ],
+    },
   });
 
   const drawerFormPropsCreate = useDrawerForm<Tables<'species'>>({
@@ -37,7 +50,13 @@ export const SpeciesList: React.FC<IResourceComponentsProps> = () => {
           onClick: () => drawerFormPropsCreate.show()
         }}
       >
-        <Table {...tableProps} rowKey="id">
+        <Table 
+          {...tableProps} 
+          rowKey="id"
+          expandable={{
+            expandedRowRender: record => <BreedList species_id={record.id as string} />,
+          }}
+        >
           <Table.Column
             dataIndex="name"
             title={translate("species.fields.name")}

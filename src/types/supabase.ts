@@ -45,6 +45,48 @@ export interface Database {
           }
         ]
       }
+      breeds: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+          species_id: string | null
+          tenant_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+          species_id?: string | null
+          tenant_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+          species_id?: string | null
+          tenant_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "breeds_species_id_fkey"
+            columns: ["species_id"]
+            isOneToOne: false
+            referencedRelation: "species"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "breeds_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       cashboxes: {
         Row: {
           closed_at: string | null
@@ -615,7 +657,7 @@ export interface Database {
             foreignKeyName: "patients_species_id_fkey"
             columns: ["species_id"]
             isOneToOne: false
-            referencedRelation: "options"
+            referencedRelation: "species"
             referencedColumns: ["id"]
           },
           {

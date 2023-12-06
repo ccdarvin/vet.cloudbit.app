@@ -74,7 +74,17 @@ function App() {
                 }, {
                   name: "species",
                   list: "/:tenant/species",
-                  create: "/:tenant/species/create"
+                  create: "/:tenant/species/create",
+                  meta: {
+                    tenant
+                  },
+                }, {
+                  name: "breeds",
+                  list: "/:tenant/breeds",
+                  create: "/:tenant/breeds/create",
+                  meta: {
+                    tenant
+                  },
                 }]}
                 options={{
                   syncWithLocation: true,
@@ -118,6 +128,8 @@ function App() {
                       </Route>
                       <Route path="species">
                         <Route index element={<SpeciesList />} />
+                      </Route>
+                      <Route path="breeds">
                       </Route>
                     </Route>
                     <Route path="*" element={<ErrorComponent />} />

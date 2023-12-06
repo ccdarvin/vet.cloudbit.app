@@ -32,7 +32,7 @@ export default function TenantSelect() {
 
   return (
     <Select
-      defaultValue={params?.tenant}
+      value={params?.tenant}
       style={{ width: 120 }}
       onChange={(tenant) =>
         go({
