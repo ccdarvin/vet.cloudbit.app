@@ -29,6 +29,8 @@ import { TenantCreate, TenantEdit, TenantList, TenantShow } from "./pages/tenant
 import { PatientsList, PatientsShow } from "./pages/patients";
 import { SpeciesList } from "./pages/species";
 import { CustomerList } from "./pages/customers";
+import { ServicesList } from "./pages/services";
+import { ItemList } from "./pages/items";
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -71,6 +73,31 @@ function App() {
                     tenant
                   },
                 }, {
+                  name: "customers",
+                  list: "/:tenant/customers",
+                  show: "/:tenant/customers/show/:id",
+                  meta: {
+                    tenant
+                  },
+                }, {
+                  name: "services",
+                  list: "/:tenant/services",
+                  create: "/:tenant/services/create",
+                  edit: "/:tenant/services/edit/:id",
+                  show: "/:tenant/services/show/:id",
+                  meta: {
+                    tenant
+                  },
+                }, {
+                  name: "items",
+                  list: "/:tenant/items",
+                  create: "/:tenant/items/create",
+                  edit: "/:tenant/items/edit/:id",
+                  show: "/:tenant/items/show/:id",
+                  meta: {
+                    tenant
+                  },
+                }, {
                   name: "species",
                   list: "/:tenant/species",
                   meta: {
@@ -83,13 +110,7 @@ function App() {
                     hide: true,
                     tenant
                   },
-                }, {
-                  name: "customers",
-                  list: "/:tenant/customers",
-                  create: "/:tenant/customers/create",
-                  edit: "/:tenant/customers/edit/:id",
-                  show: "/:tenant/customers/show/:id"
-                }]}
+                }, ]}
                 options={{
                   syncWithLocation: true,
                   warnWhenUnsavedChanges: true,
@@ -131,6 +152,12 @@ function App() {
                       <Route path="customers">
                         <Route index element={<CustomerList />} />
                       </Route>
+                      <Route path="services">
+                        <Route index element={<ServicesList />} />
+                      </Route>
+                      <Route path="items">
+                        <Route index element={<ItemList />} />
+                      </Route>
                       <Route path="species">
                         <Route index element={<SpeciesList />} />
                       </Route>
@@ -155,10 +182,6 @@ function App() {
                         <AuthPage
                           type="login"
                           formProps={{
-                            initialValues: {
-                              email: "info@refine.dev",
-                              password: "refine-supabase",
-                            },
                           }}
                         />
                       }
