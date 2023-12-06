@@ -16,7 +16,7 @@ export const PatientsList: React.FC<IResourceComponentsProps> = () => {
   const translate = useTranslate();
   const { params } = useParsed<{ tenant: string }>();
 
-  const { tableProps, tableQueryResult } = useTable({
+  const { tableProps } = useTable({
     syncWithLocation: true,
     meta: {
       select: "*, breed_id, species:species_id(*), breed:breed_id(*)",
@@ -57,7 +57,7 @@ export const PatientsList: React.FC<IResourceComponentsProps> = () => {
         <Table.Column
           dataIndex={["birthday"]}
           title={translate("patients.fields.birthday")}
-          render={(value: any) => <DateField value={value} />}
+          render={(value: string) => <DateField value={value} />}
         />
         <Table.Column
           dataIndex="sex"

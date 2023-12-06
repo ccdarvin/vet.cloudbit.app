@@ -28,6 +28,7 @@ import { supabaseClient } from "./utility";
 import { TenantCreate, TenantEdit, TenantList, TenantShow } from "./pages/tenants";
 import { PatientsList, PatientsShow } from "./pages/patients";
 import { SpeciesList } from "./pages/species";
+import { CustomerList } from "./pages/customers";
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -82,6 +83,12 @@ function App() {
                     hide: true,
                     tenant
                   },
+                }, {
+                  name: "customers",
+                  list: "/:tenant/customers",
+                  create: "/:tenant/customers/create",
+                  edit: "/:tenant/customers/edit/:id",
+                  show: "/:tenant/customers/show/:id"
                 }]}
                 options={{
                   syncWithLocation: true,
@@ -120,6 +127,9 @@ function App() {
                       <Route path="patient">
                         <Route index element={<PatientsList />} />
                         <Route path="show/:id" element={<PatientsShow />} />
+                      </Route>
+                      <Route path="customers">
+                        <Route index element={<CustomerList />} />
                       </Route>
                       <Route path="species">
                         <Route index element={<SpeciesList />} />
