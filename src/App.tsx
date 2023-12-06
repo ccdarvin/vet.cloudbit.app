@@ -29,8 +29,8 @@ import { TenantCreate, TenantEdit, TenantList, TenantShow } from "./pages/tenant
 import { PatientsList, PatientsShow } from "./pages/patients";
 import { SpeciesList } from "./pages/species";
 import { CustomerList } from "./pages/customers";
-import { ServicesList } from "./pages/services";
 import { ItemList } from "./pages/items";
+import { ServiceList } from "./pages/services";
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -80,13 +80,14 @@ function App() {
                     tenant
                   },
                 }, {
-                  name: "services",
+                  name: "items",
                   list: "/:tenant/services",
                   create: "/:tenant/services/create",
                   edit: "/:tenant/services/edit/:id",
                   show: "/:tenant/services/show/:id",
                   meta: {
-                    tenant
+                    tenant,
+                    label: "Servicios"
                   },
                 }, {
                   name: "items",
@@ -95,7 +96,8 @@ function App() {
                   edit: "/:tenant/items/edit/:id",
                   show: "/:tenant/items/show/:id",
                   meta: {
-                    tenant
+                    tenant,
+                    label: "Productos"
                   },
                 }, {
                   name: "species",
@@ -153,7 +155,7 @@ function App() {
                         <Route index element={<CustomerList />} />
                       </Route>
                       <Route path="services">
-                        <Route index element={<ServicesList />} />
+                        <Route index element={<ServiceList />} />
                       </Route>
                       <Route path="items">
                         <Route index element={<ItemList />} />
