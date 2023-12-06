@@ -1,6 +1,24 @@
-import { IResourceComponentsProps } from "@refinedev/core";
-import { AntdInferencer } from "@refinedev/inferencer/antd";
+import React from "react";
+import { IResourceComponentsProps, useTranslate } from "@refinedev/core";
+import { Edit, UseDrawerFormReturnType, useSelect } from "@refinedev/antd";
+import { Drawer } from "antd";
 
-export const PatientsEdit: React.FC<IResourceComponentsProps> = () => {
-    return <AntdInferencer />;
+import { Tables } from "../../types/supabase";
+import { PatientForm } from "./form";
+
+export const PatientEdit: React.FC<IResourceComponentsProps & 
+{ drawerFormProps: UseDrawerFormReturnType<Tables<'patients'>> }>  = ({
+  drawerFormProps,
+}) => {
+  const translate = useTranslate();
+
+  const { formProps, drawerProps, saveButtonProps } = drawerFormProps;
+
+  return (
+    <Drawer {...drawerProps} title={translate("species.create.title")}>
+      <Edit saveButtonProps={saveButtonProps}>
+        <PatientForm formProps={formProps} />
+      </Edit>
+    </Drawer>
+  );
 };

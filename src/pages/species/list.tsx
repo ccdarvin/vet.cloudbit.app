@@ -12,8 +12,9 @@ import {
 } from "@refinedev/antd";
 import { Table, Space } from "antd";
 import { Tables } from "../../types/supabase";
-import { SpeciesCreateOrEdit } from "./CreateOrEdit";
 import { BreedList } from "../breeds";
+import { SpeciesCreate } from "./create";
+import { SpeciesEdit } from "./edit";
 
 export const SpeciesList: React.FC<IResourceComponentsProps> = () => {
   const translate = useTranslate();
@@ -27,7 +28,7 @@ export const SpeciesList: React.FC<IResourceComponentsProps> = () => {
         {
           field: "tenant_id",
           operator: "eq",
-          value: params?.tenant as string,
+          value: params?.tenant,
         },
       ],
     },
@@ -72,8 +73,8 @@ export const SpeciesList: React.FC<IResourceComponentsProps> = () => {
           />
         </Table>
       </List>
-      <SpeciesCreateOrEdit  drawerFormProps={drawerFormPropsCreate}/>
-      <SpeciesCreateOrEdit  drawerFormProps={drawerFormPropsEdit}/>
+      <SpeciesCreate drawerFormProps={drawerFormPropsCreate}/>
+      <SpeciesEdit  drawerFormProps={drawerFormPropsEdit}/>
     </>
   );
 };

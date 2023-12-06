@@ -26,7 +26,7 @@ import { Header } from "./components/header";
 import { ColorModeContextProvider } from "./contexts/color-mode";
 import { supabaseClient } from "./utility";
 import { TenantCreate, TenantEdit, TenantList, TenantShow } from "./pages/tenants";
-import { PatientsCreate, PatientsEdit, PatientsList, PatientsShow } from "./pages/patients";
+import { PatientsList, PatientsShow } from "./pages/patients";
 import { SpeciesList } from "./pages/species";
 
 function App() {
@@ -65,8 +65,6 @@ function App() {
                 }, {
                   name: "patients",
                   list: "/:tenant/patient",
-                  create: "/:tenant/patient/create",
-                  edit: "/:tenant/patient/edit/:id",
                   show: "/:tenant/patient/show/:id",
                   meta: {
                     tenant
@@ -74,15 +72,14 @@ function App() {
                 }, {
                   name: "species",
                   list: "/:tenant/species",
-                  create: "/:tenant/species/create",
                   meta: {
                     tenant
                   },
                 }, {
                   name: "breeds",
                   list: "/:tenant/breeds",
-                  create: "/:tenant/breeds/create",
                   meta: {
+                    hide: true,
                     tenant
                   },
                 }]}
@@ -122,8 +119,6 @@ function App() {
                     <Route path="/:tenant">
                       <Route path="patient">
                         <Route index element={<PatientsList />} />
-                        <Route path="create" element={<PatientsCreate />} />
-                        <Route path="edit/:id" element={<PatientsEdit />} />
                         <Route path="show/:id" element={<PatientsShow />} />
                       </Route>
                       <Route path="species">
