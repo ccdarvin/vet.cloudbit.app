@@ -1,11 +1,14 @@
-import { IResourceComponentsProps, useTranslate } from "@refinedev/core"
+import { IResourceComponentsProps, useTranslate, useParsed } from "@refinedev/core"
 import { Edit, useForm, useSelect } from "@refinedev/antd"
 import { Form, Input, Select, Table, Button, InputNumber, Space } from "antd"
 import { Tables } from "../../types/supabase";
+import ItemSelect from "../../components/controls/ItemSelect";
 
 
 export const OrderEdit: React.FC<IResourceComponentsProps> = () => {
   const translate = useTranslate();
+  const { params } = useParsed<{ tenant: string }>();
+
   const { formProps, saveButtonProps, queryResult } = useForm();
   const { form } = formProps;
   const ordenesData = queryResult?.data?.data;
@@ -20,9 +23,35 @@ export const OrderEdit: React.FC<IResourceComponentsProps> = () => {
     return null;
   }
 
+  const handleTotals = () => {
+    // create totals, fields are: subtotal_base, discount, subtotal, total
+
+    const items = form.getFieldValue('items') as Tables<'order_items'>[]
+    const subtotal_base = Math.round(items?.reduce((acc, item) => acc + Number(item.subtotal), 0)*100)/100
+    const discount = form.getFieldValue('discount')
+    const total = Math.round(subtotal_base * (1 - discount / 100)*100)/100
+    // set values
+    form.setFieldValue('subtotal_base', subtotal_base)
+    form.setFieldValue('total', total)
+  }
+
   return (
     <Edit saveButtonProps={saveButtonProps}>
-      <Form {...formProps} layout="vertical">
+      <Form 
+        {...formProps}
+        onFinish={(values: any) => {
+          const { items } = values
+          delete values.items
+          return formProps.onFinish?.({
+            ...values,
+            tenant_id: params?.tenant as string,
+          });
+        }}
+        onFieldsChange={(changedFields, allFields) => {
+          handleTotals()
+        }}
+        layout="vertical"
+      >
         <Form.Item
           label={translate("orders.fields.customer")}
           name={"customer_id"}
@@ -70,16 +99,35 @@ export const OrderEdit: React.FC<IResourceComponentsProps> = () => {
                 </div>}
               >
                 <Table.Column
+                  title="id"
+                  dataIndex={"id"}
+                  key={"id"}
+                  render={(value, record: Tables<'order_items'>, index) => (
+                    <Form.Item
+                      name={[index, 'id']}
+                      noStyle
+                    >
+                    </Form.Item>
+                  )}
+                />
+                <Table.Column
                   title="Producto o servicio"
                   dataIndex="item_id"
                   key="item_id"
                   render={(value, record: Tables<'order_items'>, index) => (
-                    <Form.Item
-                      name={[index, 'item_id']}
-                      noStyle
-                      rules={[{ required: true, message: 'Missing item' }]}
-                    >
-                    </Form.Item>
+                    <>
+                      <Form.Item
+                        name={[index, 'item_id']}
+                        noStyle
+                        rules={[{ required: true, message: 'Missing item' }]}
+                      >
+                        <ItemSelect onChange={(value, options: any ) => {
+                          form.setFieldValue(['items', index, 'unit_price_base'], options?.item.price)
+                          form.setFieldValue(['items', index, 'subtotal'], options?.item.price)
+                          return value
+                        }} />
+                      </Form.Item>
+                    </>
                   )}
                 />
                 <Table.Column
@@ -92,7 +140,7 @@ export const OrderEdit: React.FC<IResourceComponentsProps> = () => {
                       noStyle
                       rules={[{ required: true, message: 'Missing quantity' }]}
                     >
-                      <InputNumber bordered={false} className="w-full"
+                      <InputNumber className="w-full"
                         onChange={(value) => {
                           value = Number(value || 0)
                           const discount = form.getFieldValue(['items', index, 'discount'])
@@ -110,7 +158,9 @@ export const OrderEdit: React.FC<IResourceComponentsProps> = () => {
                   dataIndex="unit_price"
                   key="unit_price"
                   render={(value, record: Tables<'order_items'>, index) => (
-                    <Space.Compact>
+                    <Space.Compact block style={{
+                      maxWidth: 200
+                    }}>
                       <Form.Item
                         name={[index, 'unit_price_base']}
                         noStyle
@@ -150,7 +200,7 @@ export const OrderEdit: React.FC<IResourceComponentsProps> = () => {
                         noStyle
                         rules={[{ required: true, message: 'Missing unit price' }]}
                       >
-                        <Input bordered={false} className="w-full" readOnly />
+                        <InputNumber bordered={false} className="w-full" readOnly />
                       </Form.Item>
                     </Space.Compact>
                   )}
@@ -176,39 +226,36 @@ export const OrderEdit: React.FC<IResourceComponentsProps> = () => {
             </>
           )}
         </Form.List>
-        <Form.Item
-          label={translate("orders.fields.subtotal_base")}
-          name={["subtotal_base"]}
-          rules={[
-            {
-              required: true,
-            },
-          ]}
+        <div style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            alignItems: "flex-end",
+            flexDirection: "column",
+            gap: 8,
+            marginTop: 16
+          }}
         >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label={translate("orders.fields.discount")}
-          name={["discount"]}
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label={translate("orders.fields.total")}
-          name={["total"]}
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
+          <Space.Compact>
+            <Form.Item
+              label={translate("orders.fields.subtotal_base")}
+              name={["subtotal_base"]}
+            >
+              <Input readOnly bordered={false} />
+            </Form.Item>
+            <Form.Item
+              label={translate("orders.fields.discount")}
+              name={["discount"]}
+            >
+              <Input readOnly bordered={false} />
+            </Form.Item>
+            <Form.Item
+              label={translate("orders.fields.total")}
+              name={["total"]}
+            >
+              <Input readOnly bordered={false} />
+            </Form.Item>
+          </Space.Compact>
+        </div>
       </Form>
     </Edit>
   );
