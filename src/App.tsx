@@ -31,7 +31,8 @@ import { SpeciesList } from "./pages/species";
 import { CustomerList } from "./pages/customers";
 import { ItemList } from "./pages/items";
 import { ServiceList } from "./pages/services";
-import { OrderCreate, OrderEdit, OrderList, OrderShow } from "./pages/orders";
+import { OrderEdit, OrderList, OrderShow } from "./pages/orders";
+import { PatientIcon } from "./components/icons";
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -71,7 +72,9 @@ function App() {
                   list: "/:tenant/patient",
                   show: "/:tenant/patient/show/:id",
                   meta: {
-                    tenant
+                    tenant,
+                    label: "Pacientes",
+                    icon: <PatientIcon />
                   },
                 }, {
                   name: "customers",
@@ -173,7 +176,7 @@ function App() {
                       </Route>
                       <Route path="orders">
                         <Route index element={<OrderList />} />
-                        <Route path="create" element={<OrderCreate />} />
+                        <Route path="create" element={<OrderEdit />} />
                         <Route path="edit/:id" element={<OrderEdit />} />
                         <Route path="show/:id" element={<OrderShow />} />
                       </Route>

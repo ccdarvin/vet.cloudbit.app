@@ -1,15 +1,23 @@
-import { IResourceComponentsProps, useTranslate, useParsed } from "@refinedev/core"
-import { Edit, useForm, useSelect } from "@refinedev/antd"
+import { IResourceComponentsProps, useTranslate, useParsed, HttpError } from "@refinedev/core"
 import { Form, Input, Select, Table, Button, InputNumber, Space } from "antd"
-import { Tables } from "../../types/supabase";
 import ItemSelect from "../../components/controls/ItemSelect";
+import { Edit, useForm, useSelect } from "@refinedev/antd"
+import { supabaseClient } from "../../utility";
+import { Tables } from "../../types/supabase";
 
 
 export const OrderEdit: React.FC<IResourceComponentsProps> = () => {
   const translate = useTranslate();
   const { params } = useParsed<{ tenant: string }>();
 
-  const { formProps, saveButtonProps, queryResult } = useForm();
+  const { formProps, saveButtonProps, queryResult, onFinish } = useForm<Tables<'orders'>, HttpError, any>({
+    meta: {
+      select: "*, items:order_items(*)",
+    },
+    onMutationSuccess: (data, variables, context) => {
+      handlerFinish(data?.data?.id)
+    },
+  });
   const { form } = formProps;
   const ordenesData = queryResult?.data?.data;
 
@@ -35,6 +43,14 @@ export const OrderEdit: React.FC<IResourceComponentsProps> = () => {
     form.setFieldValue('total', total)
   }
 
+  const handlerFinish = async (id: string) => {
+    const form = formProps.form
+    const items = form?.getFieldValue('items') as Tables<'order_items'>[]
+    const { data, error } = await supabaseClient.from('order_items').upsert(
+      items.map(item => ({...item, order_id: id, tenant_id: params?.tenant as string}))
+    )
+    console.log(data, error)
+  }
   return (
     <Edit saveButtonProps={saveButtonProps}>
       <Form 
@@ -98,18 +114,6 @@ export const OrderEdit: React.FC<IResourceComponentsProps> = () => {
                   </Button>
                 </div>}
               >
-                <Table.Column
-                  title="id"
-                  dataIndex={"id"}
-                  key={"id"}
-                  render={(value, record: Tables<'order_items'>, index) => (
-                    <Form.Item
-                      name={[index, 'id']}
-                      noStyle
-                    >
-                    </Form.Item>
-                  )}
-                />
                 <Table.Column
                   title="Producto o servicio"
                   dataIndex="item_id"

@@ -1,10 +1,11 @@
 import React from "react";
 import { IResourceComponentsProps, useTranslate } from "@refinedev/core";
-import { Edit, UseDrawerFormReturnType, useSelect } from "@refinedev/antd";
+import { Edit, UseDrawerFormReturnType } from "@refinedev/antd";
 import { Drawer } from "antd";
 
 import { Tables } from "../../types/supabase";
 import { PatientForm } from "./form";
+import EditDrawer from "../../components/crud/EditDrawer";
 
 export const PatientEdit: React.FC<IResourceComponentsProps & 
 { drawerFormProps: UseDrawerFormReturnType<Tables<'patients'>> }>  = ({
@@ -15,10 +16,8 @@ export const PatientEdit: React.FC<IResourceComponentsProps &
   const { formProps, drawerProps, saveButtonProps } = drawerFormProps;
 
   return (
-    <Drawer {...drawerProps} title={translate("species.create.title")}>
-      <Edit saveButtonProps={saveButtonProps}>
-        <PatientForm formProps={formProps} />
-      </Edit>
-    </Drawer>
+    <EditDrawer drawerProps={drawerProps} saveButtonProps={saveButtonProps}>
+      <PatientForm formProps={formProps} />
+    </EditDrawer>
   );
 };
