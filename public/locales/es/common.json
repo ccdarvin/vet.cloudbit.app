@@ -193,5 +193,13 @@
       "M": "Macho",
       "F": "Hembra"
     }
+  },
+  "vaccines": {
+    "fields": {
+      "name": "Nombre",
+      "date": "Fecha de vacunación",
+      "has": "¿Tiene la vacuna?",
+      "observations": "Observaciones"
+    }
   }
 }

@@ -1,7 +1,6 @@
 import React from "react";
 import { IResourceComponentsProps, useTranslate } from "@refinedev/core";
-import { Create, UseDrawerFormReturnType, useSelect } from "@refinedev/antd";
-import { Drawer } from "antd";
+import { UseDrawerFormReturnType } from "@refinedev/antd";
 
 import { Tables } from "../../types/supabase";
 import { PatientForm } from "./form";
