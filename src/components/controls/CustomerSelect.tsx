@@ -1,9 +1,8 @@
-import { Button, Select, Space } from "antd";
-import { useDrawerForm, useSelect } from "@refinedev/antd";
+import { Select, Space } from "antd";
+import { useSelect } from "@refinedev/antd";
 import { SelectProps } from "antd/lib";
 import { useParsed } from "@refinedev/core";
 import { Tables } from "../../types/supabase";
-import { CustomerCreate, CustomerEdit } from "../../pages/customers";
 
 
 

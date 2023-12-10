@@ -35,7 +35,7 @@ import { OrderEdit, OrderList, OrderShow } from "./pages/orders";
 import { PatientIcon } from "./components/icons";
 
 function App() {
-  const { t, i18n } = useTranslation();
+  const { t, i18n } = useTranslation(['common', 'models']);
 
   const i18nProvider = {
     translate: (key: string, params: object) => t(key, params),

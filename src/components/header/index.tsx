@@ -44,12 +44,12 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = ({
     .map((lang: string) => ({
       key: lang,
       onClick: () => changeLanguage(lang),
-      icon: (
+      /*icon: (
         <span style={{ marginRight: 8 }}>
           <Avatar size={16} src={`/images/flags/${lang}.svg`} />
         </span>
-      ),
-      label: lang === "en" ? "English" : "German",
+      ),*/
+      label: lang === "es" ? "Español" : "English",
     }));
 
   const headerStyles: React.CSSProperties = {
@@ -79,8 +79,7 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = ({
         >
           <Button type="text">
             <Space>
-              <Avatar size={16} src={`/images/flags/${currentLocale}.svg`} />
-              {currentLocale === "en" ? "English" : "German"}
+              {currentLocale === "es" ? "Español" : "English"}
               <DownOutlined />
             </Space>
           </Button>

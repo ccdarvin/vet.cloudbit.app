@@ -8,13 +8,13 @@ i18n
   .use(detector)
   .use(initReactI18next)
   .init({
-    supportedLngs: ["en", "de"],
+    supportedLngs: ["es", "en"],
     backend: {
       loadPath: "/locales/{{lng}}/{{ns}}.json",
     },
-    ns: ["common"],
+    ns: ["common", "models"],
     defaultNS: "common",
-    fallbackLng: ["en", "de"],
+    fallbackLng: ["es", "en"],
   });
 
 export default i18n;
