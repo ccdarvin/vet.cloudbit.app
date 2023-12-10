@@ -1,0 +1,205 @@
+{
+  "pages": {
+    "login": {
+      "title": "Inicia sesión en tu cuenta",
+      "signin": "Iniciar sesión",
+      "signup": "Registrarse",
+      "divider": "O",
+      "fields": {
+        "email": "Correo electrónico",
+        "password": "Contraseña"
+      },
+      "errors": {
+        "validEmail": "Dirección de correo electrónico no válida"
+      },
+      "buttons": {
+        "submit": "Iniciar sesión",
+        "forgotPassword": "¿Olvidaste tu contraseña?",
+        "noAccount": "¿No tienes una cuenta?",
+        "rememberMe": "Recuérdame"
+      }
+    },
+    "forgotPassword": {
+      "title": "Olvidé mi contraseña",
+      "fields": {
+        "email": "Correo electrónico"
+      },
+      "errors": {
+        "validEmail": "Dirección de correo electrónico no válida"
+      },
+      "buttons": {
+        "submit": "Enviar correo electrónico de restablecimiento de contraseña"
+      }
+    },
+    "register": {
+      "title": "Create an account",
+      "fields": {
+        "email": "Correo electrónico",
+        "password": "Contraseña"
+      },
+      "errors": {
+        "validEmail": "Dirección de correo electrónico no válida"
+      },
+      "buttons": {
+        "submit": "Registrarse",
+        "haveAccount": "¿Ya tienes una cuenta?"
+      }
+    },
+    "updatePassword": {
+      "title": "Actualiza tu contraseña",
+      "fields": {
+        "password": "Nueva contraseña",
+        "confirmPassword": "Confirmar contraseña"
+      },
+      "errors": {
+        "confirmPasswordNotMatch": "Las contraseñas no coinciden"
+      },
+      "buttons": {
+        "submit": "Actualizar contraseña"
+      }
+    },
+    "error": {
+      "info": "Es posible que haya olvidado agregar el componente {{action}} al recurso {{resource}}.",
+      "404": "Página no encontrada",
+      "resource404": "Recurso {{resource}} no encontrado",
+      "backHome": "Volver a  inicio"
+    }
+  },
+  "actions": {
+    "list": "Lista",
+    "create": "Crear",
+    "edit": "Editar",
+    "show": "Mostrar"
+  },
+  "buttons": {
+    "create": "Crear",
+    "save": "Guardar",
+    "logout": "Cerrar sesión",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "cancel": "Cancelar",
+    "confirm": "¿Estás seguro?",
+    "filter": "Filtrar",
+    "clear": "Limpiar",
+    "refresh": "Actualizar",
+    "show": "Mostrar",
+    "undo": "Deshacer",
+    "import": "Importar",
+    "clone": "Clonar",
+    "notAccessTitle": "No tienes acceso a esta página"
+  },
+  "warnWhenUnsavedChanges": "Tienes cambios sin guardar. ¿Estás seguro de que quieres continuar?",
+  "notifications": {
+    "success": "Exitoso",
+    "error": "Error (status code: {{statusCode}})",
+    "undoable": "You have {{seconds}} seconds to undo",
+    "createSuccess": "Successfully created {{resource}}",
+    "createError": "There was an error creating {{resource}} (status code: {{statusCode}})",
+    "deleteSuccess": "Successfully deleted {{resource}}",
+    "deleteError": "Error when deleting {{resource}} (status code: {{statusCode}})",
+    "editSuccess": "Successfully edited {{resource}}",
+    "editError": "Error when editing {{resource}} (status code: {{statusCode}})",
+    "importProgress": "Importing: {{processed}}/{{total}}"
+  },
+  "loading": "Cargando...",
+  "tags": {
+    "clone": "Clonar"
+  },
+  "bool": {
+    "true": "Sí",
+    "false": "No"
+  },
+  "dashboard": {
+    "title": "Dashboard"
+  },
+  "menu": {
+    "info": "Datos"
+  },
+  "blog_posts": {
+    "blog_posts": "Blog Posts",
+    "fields": {
+      "id": "Id",
+      "title": "Title",
+      "content": "Content",
+      "status": "Status",
+      "created_at": "Created At",
+      "categoryId": "Category"
+    },
+    "titles": {
+      "create": "Create Blog Post",
+      "edit": "Edit Blog Post",
+      "list": "Blog Posts",
+      "show": "Show Blog Post"
+    }
+  },
+  "categories": {
+    "categories": "Categories",
+    "fields": {
+      "id": "Id",
+      "title": "Title",
+      "created_at": "Created At"
+    },
+    "titles": {
+      "create": "Create Category",
+      "edit": "Edit Category",
+      "list": "Categories",
+      "show": "Show Category"
+    }
+  },
+  "documentTitle": {
+    "default": "refine",
+    "suffix": " | refine",
+    "blog_posts": {
+      "list": "Blog Posts | refine",
+      "show": "#{{id}} Show Blog Post | refine",
+      "edit": "#{{id}} Edit Blog Post | refine",
+      "create": "Create new Blog Post | refine",
+      "clone": "#{{id}} Clone Blog Post | refine"
+    },
+    "categories": {
+      "list": "Categories | refine",
+      "show": "#{{id}} Show Category | refine",
+      "edit": "#{{id}} Edit Category | refine",
+      "create": "Create new Category | refine",
+      "clone": "#{{id}} Clone Category | refine"
+    }
+  },
+  "table": {
+    "actions": "Actions"
+  },
+  "patients": {
+    "fields": {
+      "id": "Id",
+      "name": "Nombre",
+      "customer": "Cliente",
+      "species": "Especie",
+      "breed": "Raza",
+      "birthday": "Fecha de nacimiento",
+      "age": "Edad",
+      "color": "Color",
+      "sex": "Sexo",
+      "microchip": "Microchip",
+      "weight": "Peso",
+      "last_heat": "Último celo",
+      "aggressiveness": "Agresividad",
+      "meal": "Comida",
+      "observations": "Observaciones",
+      "is_castrated": "¿Está castrado?",
+      "is_dead": "Está muerto",
+      "created_at": "Creado en",
+      "updated_at": "Actualizado en"
+    },
+    "enums": {
+      "M": "Macho",
+      "F": "Hembra"
+    }
+  },
+  "vaccines": {
+    "fields": {
+      "name": "Nombre",
+      "date": "Fecha de vacunación",
+      "has": "¿Tiene la vacuna?",
+      "observations": "Observaciones"
+    }
+  }
+}

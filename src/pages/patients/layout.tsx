@@ -9,7 +9,6 @@ import { useDrawerForm } from "@refinedev/antd";
 import { Avatar, Layout, Space, Typography } from "antd";
 import SideBar from "../../components/layout/SideBar";
 import { Tables } from "../../types/supabase";
-import { PatientEdit } from "./edit";
 
 const { Text } = Typography;
 
@@ -59,7 +58,6 @@ export const PatientLayout: React.FC<IResourceComponentsProps & {
         }
       />
       <Layout.Content>{children}</Layout.Content>
-      <PatientEdit drawerFormProps={drawerFormPropsEdit} />
     </Layout>
   );
 };

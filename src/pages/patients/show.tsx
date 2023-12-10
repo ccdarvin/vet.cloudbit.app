@@ -8,6 +8,7 @@ import { useParsed } from "@refinedev/core";
 import { Descriptions } from "antd";
 import { Tables } from "../../types/supabase";
 import AgeField from "../../components/fields/AgeField";
+import { PatientEdit } from "./edit";
 
 export const PacientShow: React.FC<IResourceComponentsProps> = () => {
   const translate = useTranslate();
@@ -23,6 +24,8 @@ export const PacientShow: React.FC<IResourceComponentsProps> = () => {
   const record = data?.data;
 
   const drawerFormPropsEdit = useDrawerForm<Tables<"patients">>({
+    resource: "patients",
+    id: params?.patient,
     action: "edit",
     redirect: "show",
     meta: {
@@ -94,6 +97,7 @@ export const PacientShow: React.FC<IResourceComponentsProps> = () => {
           {translate(`bool.${record?.is_dead}`)}
         </Descriptions.Item>
       </Descriptions>
+      <PatientEdit drawerFormProps={drawerFormPropsEdit} />
     </Show> 
   );
 };

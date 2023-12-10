@@ -10,7 +10,6 @@ export const PatientCreate: React.FC<IResourceComponentsProps &
 { drawerFormProps: UseDrawerFormReturnType<Tables<'patients'>> }>  = ({
   drawerFormProps,
 }) => {
-  const translate = useTranslate();
 
   const { formProps, drawerProps, saveButtonProps } = drawerFormProps;
 
