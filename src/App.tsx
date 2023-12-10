@@ -26,13 +26,14 @@ import { Header } from "./components/header";
 import { ColorModeContextProvider } from "./contexts/color-mode";
 import { supabaseClient } from "./utility";
 import { TenantCreate, TenantEdit, TenantList, TenantShow } from "./pages/tenants";
-import { PatientsList, PacientShow } from "./pages/patients";
+import { PatientsList, PacientShow, PatientLayout } from "./pages/patients";
 import { SpeciesList } from "./pages/species";
 import { CustomerList } from "./pages/customers";
 import { ItemList } from "./pages/items";
 import { ServiceList } from "./pages/services";
 import { OrderEdit, OrderList, OrderShow } from "./pages/orders";
-import { PatientIcon } from "./components/icons";
+import { PatientIcon, VaccineIcon } from "./components/icons";
+import { VaccinesList } from "./pages/vaccines";
 
 function App() {
   const { t, i18n } = useTranslation(['common', 'models']);
@@ -43,9 +44,11 @@ function App() {
     getLocale: () => i18n.language,
   };
 
-  const { params } = useParsed<{ tenant: string }>();
+  const { params } = useParsed<{ tenant: string, patient: string }>();
 
   const tenant = params?.tenant;
+  const patient = params?.patient;
+  const isMainMenu = undefined;
 
   return (
     <BrowserRouter>
@@ -74,7 +77,21 @@ function App() {
                   meta: {
                     tenant,
                     label: "Pacientes",
-                    icon: <PatientIcon />
+                    icon: <PatientIcon />,
+                    isMainMenu,
+                  },
+                }, {
+                  name: "vaccines",
+                  list: "/:tenant/patient/:patient/vaccine",
+                  create: "/:tenant/patient/:patient/vaccine/create",
+                  edit: "/:tenant/patient/:patient/vaccine/edit/:id",
+                  show: "/:tenant/patient/:patient/vaccine/show/:id",
+                  meta: {
+                    tenant,
+                    patient,
+                    icon: <VaccineIcon />,
+                    label: "Vacunas",
+                    parent: "patients",
                   },
                 }, {
                   name: "customers",
@@ -126,12 +143,6 @@ function App() {
                     tenant,
                     label: "Ordenes"
                   },
-                }, {
-                  name: "vaccines",
-                  list: "/vaccines",
-                  create: "/vaccines/create",
-                  edit: "/vaccines/edit/:id",
-                  show: "/vaccines/show/:id"
                 }]}
                 options={{
                   syncWithLocation: true,
@@ -169,7 +180,15 @@ function App() {
                     <Route path="/:tenant">
                       <Route path="patient">
                         <Route index element={<PatientsList />} />
-                        <Route path=":id" element={<PacientShow />} />
+                        <Route path=":patient" element={<PatientLayout>
+                            <Outlet />
+                          </PatientLayout>}
+                        >
+                          <Route index element={<PacientShow />} />
+                          <Route path="vaccine">
+                            <Route index element={<VaccinesList />} />
+                          </Route>
+                        </Route>
                       </Route>
                       <Route path="customers">
                         <Route index element={<CustomerList />} />

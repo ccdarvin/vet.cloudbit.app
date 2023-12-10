@@ -16,20 +16,6 @@ export default function TenantSelect() {
     optionValue: "id",
   });
 
-  useEffect(() => {
-    if (queryResult?.data?.total === 1) {
-      go({
-        to: getToPath({
-          resource,
-          action: action || "list",
-          meta: {
-            tenant: queryResult.data?.data[0].id,
-          },
-        }),
-      });
-    }
-  }, [params?.tenant, queryResult?.data?.total]);
-
   return (
     <Select
       value={params?.tenant}

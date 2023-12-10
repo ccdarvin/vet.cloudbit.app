@@ -1,6 +1,40 @@
-import { IResourceComponentsProps } from "@refinedev/core";
-import { AntdInferencer } from "@refinedev/inferencer/antd";
+import React from "react";
+import {
+    IResourceComponentsProps,
+    BaseRecord,
+    useTranslate,
+} from "@refinedev/core";
+import { useTable, List, EditButton, ShowButton } from "@refinedev/antd";
+import { Table, Space } from "antd";
 
 export const VaccinesList: React.FC<IResourceComponentsProps> = () => {
-    return <AntdInferencer />;
+    const translate = useTranslate();
+    const { tableProps } = useTable({
+        syncWithLocation: true,
+    });
+
+    return (
+        <List>
+            <Table {...tableProps} rowKey="id">
+                <Table.Column
+                    title={translate("table.actions")}
+                    dataIndex="actions"
+                    render={(_, record: BaseRecord) => (
+                        <Space>
+                            <EditButton
+                                hideText
+                                size="small"
+                                recordItemId={record.id}
+                            />
+                            <ShowButton
+                                hideText
+                                size="small"
+                                recordItemId={record.id}
+                            />
+                        </Space>
+                    )}
+                />
+            </Table>
+        </List>
+    );
 };

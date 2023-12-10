@@ -1,30 +1,34 @@
 import React from "react";
 import {
+  useOne,
   IResourceComponentsProps,
-  useShow,
   useTranslate,
+  useParsed
 } from "@refinedev/core";
 import { useDrawerForm } from "@refinedev/antd";
-import { Avatar, Layout, Menu, Space, Typography } from "antd";
+import { Avatar, Layout, Space, Typography } from "antd";
 import SideBar from "../../components/layout/SideBar";
 import { Tables } from "../../types/supabase";
 import { PatientEdit } from "./edit";
 
-const { Title, Text } = Typography;
+const { Text } = Typography;
 
-export const PacientLayout: React.FC<IResourceComponentsProps & {
+export const PatientLayout: React.FC<IResourceComponentsProps & {
   children: React.ReactNode;
 }> = ({
   children,
 }) => {
   const translate = useTranslate();
-  const { queryResult } = useShow({
+  const { params } = useParsed<{ patient: string }>();
+  const { data, isLoading, isError } = useOne({
+    resource: "patients",
+    id: params?.patient,
     meta: {
       select:
         "*, species:species_id(*), breed:breed_id(*), customer:customer_id(*)",
     },
   });
-  const { data, isLoading } = queryResult;
+
   const record = data?.data;
 
   const drawerFormPropsEdit = useDrawerForm<Tables<"patients">>({
@@ -43,6 +47,7 @@ export const PacientLayout: React.FC<IResourceComponentsProps & {
       }}
     >
       <SideBar
+        parentName="patients"
         header={
           <Space>
             <Avatar size={64}>{record?.name?.toUpperCase()[0]}</Avatar>
@@ -51,12 +56,6 @@ export const PacientLayout: React.FC<IResourceComponentsProps & {
               <Text type="secondary">{record?.species?.name}</Text>
             </Space>
           </Space>
-        }
-        menuItems={
-          <>
-            <Menu.Item key="1">Información</Menu.Item>
-            <Menu.Item key="2">vacunas</Menu.Item>
-          </>
         }
       />
       <Layout.Content>{children}</Layout.Content>

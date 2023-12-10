@@ -12,7 +12,7 @@ i18n
     backend: {
       loadPath: "/locales/{{lng}}/{{ns}}.json",
     },
-    ns: ["common", "models"],
+    ns: ["common"],
     defaultNS: "common",
     fallbackLng: ["es", "en"],
   });

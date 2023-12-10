@@ -1,13 +1,23 @@
-import React, { CSSProperties } from "react";
+import { CSSProperties } from "react";
 import {  useThemedLayoutContext } from "@refinedev/antd";
 import {
   BarsOutlined,
   LeftOutlined,
   RightOutlined,
+  UnorderedListOutlined,
 } from "@ant-design/icons";
+import { 
+  ITreeMenu, 
+  CanAccess, 
+  pickNotDeprecated, 
+  useLink, 
+  useMenu,
+  useTranslate,
+  useNavigation,
+  useParsed
+} from "@refinedev/core";
 import { Layout, Menu, Grid, Drawer, Button, theme } from "antd";
-import type { RefineThemedLayoutV2SiderProps } from "@refinedev/antd";
-import { MenuItemProps, MenuProps } from "antd/lib";
+import { InfoIcon } from "../icons";
 
 const drawerButtonStyles: CSSProperties = {
   borderTopLeftRadius: 0,
@@ -18,15 +28,18 @@ const drawerButtonStyles: CSSProperties = {
 };
 
 const { useToken } = theme;
+const { SubMenu } = Menu;
 
 export const SideBar: React.FC<{
   fixed?: boolean;
   header?: React.ReactNode;
-  menuItems?: React.ReactNode;
+  beginningItems?: React.ReactNode;
+  parentName?: string,
 }> = ({
   fixed,
   header,
-  menuItems,
+  beginningItems,
+  parentName,
 }) => {
   const { token } = useToken();
   const {
@@ -36,10 +49,101 @@ export const SideBar: React.FC<{
     setMobileSiderOpen,
   } = useThemedLayoutContext();
   const breakpoint = Grid.useBreakpoint();
-  
-
+  const Link = useLink();
+  const translate = useTranslate();
   const isMobile =
     typeof breakpoint.lg === "undefined" ? false : !breakpoint.lg;
+
+  const { showUrl } = useNavigation();
+
+
+  const renderSubMenu = () => {
+    const { menuItems } = useMenu()
+  // find childer of patients
+    const subMenuItem = menuItems?.find(item => item.name === parentName)?.children || []
+    return renderTreeView(subMenuItem, undefined)
+  }
+
+  const renderTreeView = (tree: ITreeMenu[], selectedKey?: string) => {
+    return tree.map((item: ITreeMenu) => {
+      const {
+        icon,
+        label,
+        route,
+        key,
+        name,
+        children,
+        parentName,
+        meta,
+        options,
+      } = item;
+
+      if (children.length > 0) {
+        return (
+          <CanAccess
+            key={item.key}
+            resource={name.toLowerCase()}
+            action="list"
+            params={{
+              resource: item,
+            }}
+          >
+            <SubMenu
+              key={item.key}
+              icon={icon ?? <UnorderedListOutlined />}
+              title={label}
+            >
+              {renderSubMenu()}
+            </SubMenu>
+          </CanAccess>
+        );
+      }
+      const isSelected = key === selectedKey;
+      const isRoute = !(
+        pickNotDeprecated(meta?.parent, options?.parent, parentName) !==
+          undefined && children.length === 0
+      );
+      
+      const activeItemDisabled = false;
+      const linkStyle: React.CSSProperties =
+        activeItemDisabled && isSelected ? { pointerEvents: "none" } : {};
+
+      return (
+        <CanAccess
+          key={item.key}
+          resource={name.toLowerCase()}
+          action="list"
+          params={{
+            resource: item,
+          }}
+        >
+          <Menu.Item
+            key={item.key}
+            icon={icon ?? (isRoute && <UnorderedListOutlined />)}
+            style={linkStyle}
+          >
+            <Link to={route ?? ""} style={linkStyle}>
+              {label}
+            </Link>
+            {!siderCollapsed && isSelected && (
+              <div className="ant-menu-tree-arrow" />
+            )}
+          </Menu.Item>
+        </CanAccess>
+      );
+    });
+  };
+
+  const { params } = useParsed<{ patient: string }>();
+  const infoUrl = parentName ? showUrl(parentName, params?.patient as string) : "/"
+  const info = (  
+    <Menu.Item key="info" icon={<InfoIcon />}>
+      <Link to={infoUrl}>{translate("menu.info")}</Link>
+      {/*!siderCollapsed && selectedKey === "/" && (
+        <div className="ant-menu-tree-arrow" />
+      )*/}
+    </Menu.Item>
+  )
 
 
   const renderMenu = () => {
@@ -56,7 +160,8 @@ export const SideBar: React.FC<{
           setMobileSiderOpen(false);
         }}
       >
-        {menuItems}
+        {info}
+        {renderSubMenu()}
       </Menu>
     );
   };

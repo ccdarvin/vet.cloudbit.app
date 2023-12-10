@@ -1,5 +1,5 @@
 import { useParsed, useTranslate } from "@refinedev/core";
-import { Col, DatePicker, Flex, Form, Input, Row, Select, Slider, Space, Switch } from "antd";
+import { Col, DatePicker, Flex, Form, Input, Row, Select, Slider, Switch } from "antd";
 import { FormProps } from "antd/lib";
 import dayjs from "dayjs";
 import SpeciesSelect from "../../components/controls/SpeciesSelect";
@@ -11,7 +11,6 @@ export const PatientForm: React.FC<{ formProps: FormProps }> = ({
 }) => {
   const translate = useTranslate();
   const { params } = useParsed<{ tenant: string }>();
-
   const species_id = Form.useWatch("species_id", { form: formProps.form });
 
   return (

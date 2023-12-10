@@ -112,6 +112,9 @@
   "dashboard": {
     "title": "Dashboard"
   },
+  "menu": {
+    "info": "Datos"
+  },
   "blog_posts": {
     "blog_posts": "Blog Posts",
     "fields": {
