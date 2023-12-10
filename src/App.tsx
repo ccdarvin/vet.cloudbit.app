@@ -26,7 +26,7 @@ import { Header } from "./components/header";
 import { ColorModeContextProvider } from "./contexts/color-mode";
 import { supabaseClient } from "./utility";
 import { TenantCreate, TenantEdit, TenantList, TenantShow } from "./pages/tenants";
-import { PatientsList, PatientsShow } from "./pages/patients";
+import { PatientsList, PacientShow } from "./pages/patients";
 import { SpeciesList } from "./pages/species";
 import { CustomerList } from "./pages/customers";
 import { ItemList } from "./pages/items";
@@ -70,7 +70,7 @@ function App() {
                 }, {
                   name: "patients",
                   list: "/:tenant/patient",
-                  show: "/:tenant/patient/show/:id",
+                  show: "/:tenant/patient/:id",
                   meta: {
                     tenant,
                     label: "Pacientes",
@@ -126,6 +126,12 @@ function App() {
                     tenant,
                     label: "Ordenes"
                   },
+                }, {
+                  name: "vaccines",
+                  list: "/vaccines",
+                  create: "/vaccines/create",
+                  edit: "/vaccines/edit/:id",
+                  show: "/vaccines/show/:id"
                 }]}
                 options={{
                   syncWithLocation: true,
@@ -163,7 +169,7 @@ function App() {
                     <Route path="/:tenant">
                       <Route path="patient">
                         <Route index element={<PatientsList />} />
-                        <Route path="show/:id" element={<PatientsShow />} />
+                        <Route path=":id" element={<PacientShow />} />
                       </Route>
                       <Route path="customers">
                         <Route index element={<CustomerList />} />

@@ -148,7 +148,7 @@ export const PatientForm: React.FC<{ formProps: FormProps }> = ({
         <Col xs={{ span: 24 }} sm={{ span: 12 }}>
           <Form.Item
             label={translate("patients.fields.is_castrated")}
-            name={["vaccines"]}
+            name={["is_castrated"]}
           >
             <Switch />
           </Form.Item>

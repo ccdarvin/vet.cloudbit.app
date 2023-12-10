@@ -1,7 +1,6 @@
 import React from "react";
-import { IResourceComponentsProps, useTranslate } from "@refinedev/core";
-import { Edit, UseDrawerFormReturnType } from "@refinedev/antd";
-import { Drawer } from "antd";
+import { IResourceComponentsProps } from "@refinedev/core";
+import { UseDrawerFormReturnType } from "@refinedev/antd";
 
 import { Tables } from "../../types/supabase";
 import { PatientForm } from "./form";
@@ -11,7 +10,6 @@ export const PatientEdit: React.FC<IResourceComponentsProps &
 { drawerFormProps: UseDrawerFormReturnType<Tables<'patients'>> }>  = ({
   drawerFormProps,
 }) => {
-  const translate = useTranslate();
 
   const { formProps, drawerProps, saveButtonProps } = drawerFormProps;
 
