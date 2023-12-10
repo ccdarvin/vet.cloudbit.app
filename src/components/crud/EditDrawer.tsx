@@ -203,25 +203,6 @@ export const EditDrawer: React.FC<EditProps & { drawerProps: any }> = ({
       }
     >
       <div {...(wrapperProps ?? {})}>
-        <PageHeader
-          ghost={true}
-          backIcon={goBackFromProps}
-          onBack={
-            action !== "list" && typeof action !== "undefined"
-              ? routerType === "legacy"
-                ? goBack
-                : back
-              : undefined
-          }
-          breadcrumb={
-            typeof breadcrumb !== "undefined" ? (
-              <>{breadcrumb}</> ?? undefined
-            ) : (
-              <Breadcrumb />
-            )
-          }
-          {...(headerProps ?? {})}
-        >
           <Spin spinning={isLoading}>
             {/*<Card bordered={false} actions={[]} {...(contentProps ?? {})}>
             </Card>*/}
@@ -229,7 +210,6 @@ export const EditDrawer: React.FC<EditProps & { drawerProps: any }> = ({
               {children}
             </div>
           </Spin>
-        </PageHeader>
       </div>
     </Drawer>
   );

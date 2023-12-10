@@ -123,7 +123,7 @@ export const PatientForm: React.FC<{ formProps: FormProps }> = ({
         </Col>
         <Col xs={{ span: 24 }}>
           <Form.Item
-            label={translate("patients.fields.aggressive")}
+            label={translate("patients.fields.aggressiveness")}
             name={["aggressive"]}
           >
             <Slider max={10} />

@@ -177,7 +177,7 @@
       "aggressiveness": "Agresividad",
       "meal": "Comida",
       "observations": "Observaciones",
-      "is_castrated": "Está castrado",
+      "is_castrated": "¿Está castrado?",
       "is_dead": "Está muerto",
       "created_at": "Creado en",
       "updated_at": "Actualizado en"

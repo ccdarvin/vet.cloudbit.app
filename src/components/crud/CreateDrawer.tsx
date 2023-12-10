@@ -14,7 +14,7 @@ import {
   PageHeader,
   SaveButtonProps,
 } from "@refinedev/antd";
-import { Card, Space, Spin } from "antd";
+import { Card, Drawer, Space, Spin } from "antd";
 import type { CreateProps } from "@refinedev/antd";
 
 /**
@@ -23,7 +23,7 @@ import type { CreateProps } from "@refinedev/antd";
  *
  * @see {@link https://refine.dev/docs/ui-frameworks/antd/components/basic-views/create} for more details.
  */
-export const Create: React.FC<CreateProps> = ({
+export const CreateDrawer: React.FC<CreateProps & { drawerProps: any }> = ({
   title,
   saveButtonProps: saveButtonPropsFromProps,
   children,
@@ -38,6 +38,7 @@ export const Create: React.FC<CreateProps> = ({
   footerButtonProps,
   footerButtons,
   goBack: goBackFromProps,
+  drawerProps,
 }) => {
   const translate = useTranslate();
   const { options: { breadcrumb: globalBreadcrumb } = {} } = useRefineContext();
@@ -67,75 +68,55 @@ export const Create: React.FC<CreateProps> = ({
   );
 
   return (
-    <div {...(wrapperProps ?? {})}>
-      <PageHeader
-        ghost={false}
-        backIcon={goBackFromProps}
-        onBack={
-          action !== "list" || typeof action !== "undefined"
-            ? routerType === "legacy"
-              ? goBack
-              : back
-            : undefined
-        }
-        title={
-          title ??
-          translate(
-            `${identifier}.titles.create`,
-            `Create ${getUserFriendlyName(
-              resource?.meta?.label ??
-                resource?.options?.label ??
-                resource?.label ??
-                identifier,
-              "singular"
-            )}`
-          )
-        }
-        breadcrumb={
-          typeof breadcrumb !== "undefined" ? (
-            <>{breadcrumb}</> ?? undefined
-          ) : (
-            <Breadcrumb />
-          )
-        }
-        extra={
-          <Space wrap {...(headerButtonProps ?? {})}>
-            {headerButtons
-              ? typeof headerButtons === "function"
-                ? headerButtons({
-                    defaultButtons: null,
-                  })
-                : headerButtons
-              : null}
-          </Space>
-        }
-        {...(headerProps ?? {})}
-      >
-        <Spin spinning={isLoading}>
-          <Card
-            bordered={false}
-            actions={[
-              <Space
-                key="action-buttons"
-                style={{ float: "right", marginRight: 24 }}
-                {...(footerButtonProps ?? {})}
-              >
-                {footerButtons
-                  ? typeof footerButtons === "function"
-                    ? footerButtons({
-                        defaultButtons: defaultFooterButtons,
-                        saveButtonProps: saveButtonProps,
-                      })
-                    : footerButtons
-                  : defaultFooterButtons}
-              </Space>,
-            ]}
-            {...(contentProps ?? {})}
-          >
-            {children}
-          </Card>
-        </Spin>
-      </PageHeader>
-    </div>
+    <Drawer
+      {...drawerProps}
+      width={720}
+      maskClosable={false}
+      mask={false}
+      title={
+        title ??
+        translate(
+          `${identifier}.titles.create`,
+          `Create ${getUserFriendlyName(
+            resource?.meta?.label ??
+              resource?.options?.label ??
+              resource?.label ??
+              identifier,
+            "singular"
+          )}`
+        )
+      }
+      extra={
+        <Space wrap {...(headerButtonProps ?? {})}>
+          {headerButtons
+            ? typeof headerButtons === "function"
+              ? headerButtons({
+                  defaultButtons: null,
+                })
+              : headerButtons
+            : null}
+        </Space>
+      }
+      footer={
+        <Space
+          key="action-buttons"
+          style={{ float: "right", marginRight: 24 }}
+          {...(footerButtonProps ?? {})}
+        >
+          {footerButtons
+            ? typeof footerButtons === "function"
+              ? footerButtons({
+                  defaultButtons: defaultFooterButtons,
+                  saveButtonProps: saveButtonProps,
+                })
+              : footerButtons
+            : defaultFooterButtons}
+        </Space>
+      }
+    >
+      <Spin spinning={isLoading}>{children}</Spin>
+    </Drawer>
   );
 };
+
+export default CreateDrawer;

@@ -5,6 +5,7 @@ import { Drawer } from "antd";
 
 import { Tables } from "../../types/supabase";
 import { PatientForm } from "./form";
+import CreateDrawer from "../../components/crud/CreateDrawer";
 
 export const PatientCreate: React.FC<IResourceComponentsProps & 
 { drawerFormProps: UseDrawerFormReturnType<Tables<'patients'>> }>  = ({
@@ -15,10 +16,8 @@ export const PatientCreate: React.FC<IResourceComponentsProps &
   const { formProps, drawerProps, saveButtonProps } = drawerFormProps;
 
   return (
-    <Drawer {...drawerProps} title={translate("species.create.title")}>
-      <Create saveButtonProps={saveButtonProps}>
+      <CreateDrawer drawerProps={drawerProps} saveButtonProps={saveButtonProps}>
         <PatientForm formProps={formProps} />
-      </Create>
-    </Drawer>
+      </CreateDrawer>
   );
 };
