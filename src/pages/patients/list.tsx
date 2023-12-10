@@ -7,7 +7,6 @@ import {
 } from "@refinedev/core";
 import { useTable, List, EditButton, ShowButton, useDrawerForm } from "@refinedev/antd";
 import { Table, Space } from "antd";
-import DateField from "../../components/fields/DateField";
 import { Tables } from "../../types/supabase";
 import { PatientCreate } from "./create";
 import { PatientEdit } from "./edit";
@@ -20,7 +19,7 @@ export const PatientsList: React.FC<IResourceComponentsProps> = () => {
   const { tableProps } = useTable({
     syncWithLocation: true,
     meta: {
-      select: "*, breed_id, species:species_id(*), breed:breed_id(*)",
+      select: "*, breed_id, species:species_id(*), breed:breed_id(*), customer:customer_id(*)",
     },
     filters: {
       permanent: [
