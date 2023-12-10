@@ -11,6 +11,7 @@ import DateField from "../../components/fields/DateField";
 import { Tables } from "../../types/supabase";
 import { PatientCreate } from "./create";
 import { PatientEdit } from "./edit";
+import AgeField from "../../components/fields/AgeField";
 
 export const PatientsList: React.FC<IResourceComponentsProps> = () => {
   const translate = useTranslate();
@@ -56,8 +57,8 @@ export const PatientsList: React.FC<IResourceComponentsProps> = () => {
 
         <Table.Column
           dataIndex={["birthday"]}
-          title={translate("patients.fields.birthday")}
-          render={(value: string) => <DateField value={value} />}
+          title={translate("patients.fields.age")}
+          render={(value: string) => <AgeField value={value} />}
         />
         <Table.Column
           dataIndex="sex"

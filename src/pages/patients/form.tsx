@@ -1,5 +1,5 @@
 import { useParsed, useTranslate } from "@refinedev/core";
-import { Col, DatePicker, Flex, Form, Input, Row, Select, Slider, Space } from "antd";
+import { Col, DatePicker, Flex, Form, Input, Row, Select, Slider, Space, Switch } from "antd";
 import { FormProps } from "antd/lib";
 import dayjs from "dayjs";
 import SpeciesSelect from "../../components/controls/SpeciesSelect";
@@ -54,7 +54,7 @@ export const PatientForm: React.FC<{ formProps: FormProps }> = ({
         </Col>
         <Col xs={{ span: 24 }} sm={{ span: 12 }}>
           <Form.Item
-            label={translate("patients.fields.species_id")}
+            label={translate("patients.fields.species")}
             name={"species_id"}
           >
             <SpeciesSelect />
@@ -62,7 +62,7 @@ export const PatientForm: React.FC<{ formProps: FormProps }> = ({
         </Col>
         <Col xs={{ span: 24 }} sm={{ span: 12 }}>
           <Form.Item
-            label={translate("patients.fields.breed_id")}
+            label={translate("patients.fields.breed")}
             name={"breed_id"}
           >
             <BreedsSelect species_id={species_id} />
@@ -115,7 +115,7 @@ export const PatientForm: React.FC<{ formProps: FormProps }> = ({
         </Col>
         <Col xs={{ span: 24 }} sm={{ span: 12 }}>
           <Form.Item 
-            label={translate("patients.fields.lastHeat")} 
+            label={translate("patients.fields.last_heat")} 
             name={["lastHeat"]}
           >
             <DatePicker />
@@ -143,6 +143,22 @@ export const PatientForm: React.FC<{ formProps: FormProps }> = ({
             name={["observations"]}
           >
             <Input.TextArea />
+          </Form.Item>
+        </Col>
+        <Col xs={{ span: 24 }} sm={{ span: 12 }}>
+          <Form.Item
+            label={translate("patients.fields.is_castrated")}
+            name={["vaccines"]}
+          >
+            <Switch />
+          </Form.Item>
+        </Col>
+        <Col xs={{ span: 24 }} sm={{ span: 12 }}>
+          <Form.Item
+            label={translate("patients.fields.is_dead")}
+            name={["is_dead"]}
+          >
+            <Switch />
           </Form.Item>
         </Col>
       </Row>

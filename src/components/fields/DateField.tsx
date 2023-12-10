@@ -1,4 +1,3 @@
-import React from "react";
 import { Typography } from "antd";
 import dayjs from "dayjs";
 import LocalizedFormat from "dayjs/plugin/localizedFormat";
@@ -33,7 +32,7 @@ export default function DateField ({
 
   return (
     <Text {...rest}>
-      <span style={{ color: "#ccc" }}>—</span>
+      —
     </Text>
   )
 };
