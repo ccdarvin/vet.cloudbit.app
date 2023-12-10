@@ -54,15 +54,9 @@ export const PatientsList: React.FC<IResourceComponentsProps> = () => {
           dataIndex="name"
           title={translate("patients.fields.name")}
         />
-
         <Table.Column
-          dataIndex={["birthday"]}
-          title={translate("patients.fields.age")}
-          render={(value: string) => <AgeField value={value} />}
-        />
-        <Table.Column
-          dataIndex="sex"
-          title={translate("patients.fields.sex")}
+          dataIndex={["customer", "name"]}
+          title={translate("patients.fields.customer")}
         />
         <Table.Column
           dataIndex={["species", "name"]}
@@ -71,6 +65,19 @@ export const PatientsList: React.FC<IResourceComponentsProps> = () => {
         <Table.Column
           dataIndex={["breed", "name"]}
           title={translate("patients.fields.breed")}
+        />
+        <Table.Column
+          dataIndex={["birthday"]}
+          title={translate("patients.fields.age")}
+          render={(value: string) => <AgeField value={value} />}
+        />
+        <Table.Column
+          dataIndex={["sex"]}
+          title={translate("patients.fields.sex")}
+          render={(value: string) => <span>
+            {value? translate(`patients.enums.${value}`): "-"}
+          </span>
+          }
         />
         <Table.Column
           title={translate("table.actions")}

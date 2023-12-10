@@ -181,6 +181,10 @@
       "is_dead": "Está muerto",
       "created_at": "Creado en",
       "updated_at": "Actualizado en"
+    },
+    "enums": {
+      "M": "Macho",
+      "F": "Hembra"
     }
   }
 }
