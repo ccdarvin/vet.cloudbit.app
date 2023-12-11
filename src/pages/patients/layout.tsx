@@ -17,9 +17,8 @@ export const PatientLayout: React.FC<IResourceComponentsProps & {
 }> = ({
   children,
 }) => {
-  const translate = useTranslate();
   const { params } = useParsed<{ patient: string }>();
-  const { data, isLoading, isError } = useOne({
+  const { data } = useOne({
     resource: "patients",
     id: params?.patient,
     meta: {
@@ -30,15 +29,6 @@ export const PatientLayout: React.FC<IResourceComponentsProps & {
 
   const record = data?.data;
 
-  const drawerFormPropsEdit = useDrawerForm<Tables<"patients">>({
-    action: "edit",
-    redirect: "show",
-    meta: {
-      select: "*",
-    },
-    syncWithLocation: true,
-  });
-
   return (
     <Layout
       style={{
@@ -46,7 +36,8 @@ export const PatientLayout: React.FC<IResourceComponentsProps & {
       }}
     >
       <SideBar
-        parentName="patients"
+        parentMenuName="patientsMenu"
+        resourceName="patients"
         header={
           <Space>
             <Avatar size={64}>{record?.name?.toUpperCase()[0]}</Avatar>

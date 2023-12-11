@@ -3,6 +3,9 @@ import { CustomIconComponentProps } from '@ant-design/icons/lib/components/Icon'
 import { PiDog } from "react-icons/pi";
 import { TbVaccine } from "react-icons/tb";
 import { BsCardText } from "react-icons/bs";
+import { GiPillDrop } from "react-icons/gi";
+
+
 
 
 export const PatientIcon = (props: Partial<CustomIconComponentProps>) => {
@@ -21,5 +24,11 @@ export const VaccineIcon = (props: Partial<CustomIconComponentProps>) => {
 export const InfoIcon = (props: Partial<CustomIconComponentProps>) => {
   return (
     <Icon component={BsCardText} {...props} />
+  )
+}
+
+export const AntiparasithicsIcon = (props: Partial<CustomIconComponentProps>) => {
+  return (
+    <Icon component={GiPillDrop} {...props} />
   )
 }

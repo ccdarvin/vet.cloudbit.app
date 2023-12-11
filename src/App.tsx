@@ -32,8 +32,9 @@ import { CustomerList } from "./pages/customers";
 import { ItemList } from "./pages/items";
 import { ServiceList } from "./pages/services";
 import { OrderEdit, OrderList, OrderShow } from "./pages/orders";
-import { PatientIcon, VaccineIcon } from "./components/icons";
+import { AntiparasithicsIcon, PatientIcon, VaccineIcon } from "./components/icons";
 import { VaccinesList } from "./pages/vaccines";
+import { AntiparasithicsList } from "./pages/antiparasithics";
 
 function App() {
   const { t, i18n } = useTranslation(['common', 'models']);
@@ -81,6 +82,8 @@ function App() {
                     isMainMenu,
                   },
                 }, {
+                  name: "patientsMenu",
+                }, {
                   name: "vaccines",
                   list: "/:tenant/patient/:patient/vaccine",
                   create: "/:tenant/patient/:patient/vaccine/create",
@@ -91,7 +94,20 @@ function App() {
                     patient,
                     icon: <VaccineIcon />,
                     label: "Vacunas",
-                    parent: "patients",
+                    parent: "patientsMenu",
+                  },
+                }, {
+                  name: "antiparasithics",
+                  list: "/:tenant/patient/:/antiparasithics",
+                  create: "/:tenant/patient/:/antiparasithics/create",
+                  edit: "/:tenant/patient/:/antiparasithics/edit/:id",
+                  show: "/:tenant/patient/:/antiparasithics/show/:id",
+                  meta: {
+                    tenant,
+                    patient,
+                    icon: <AntiparasithicsIcon />,
+                    label: "Antiparasitarios",
+                    parent: "patientsMenu",
                   },
                 }, {
                   name: "customers",
@@ -187,6 +203,9 @@ function App() {
                           <Route index element={<PacientShow />} />
                           <Route path="vaccine">
                             <Route index element={<VaccinesList />} />
+                          </Route>
+                          <Route path="antiparasithics">
+                            <Route index element={<AntiparasithicsList />} />
                           </Route>
                         </Route>
                       </Route>

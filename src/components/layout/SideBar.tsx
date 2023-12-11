@@ -33,13 +33,13 @@ const { SubMenu } = Menu;
 export const SideBar: React.FC<{
   fixed?: boolean;
   header?: React.ReactNode;
-  beginningItems?: React.ReactNode;
-  parentName?: string,
+  parentMenuName?: string,
+  resourceName?: string,
 }> = ({
   fixed,
   header,
-  beginningItems,
-  parentName,
+  parentMenuName,
+  resourceName,
 }) => {
   const { token } = useToken();
   const {
@@ -55,12 +55,13 @@ export const SideBar: React.FC<{
     typeof breakpoint.lg === "undefined" ? false : !breakpoint.lg;
 
   const { showUrl } = useNavigation();
+  const { menuItems } = useMenu()
 
 
   const renderSubMenu = () => {
-    const { menuItems } = useMenu()
   // find childer of patients
-    const subMenuItem = menuItems?.find(item => item.name === parentName)?.children || []
+    const subMenuItem = menuItems?.find(item => item.name === parentMenuName)?.children || []
+    console.log(menuItems?.find(item => item.name === parentMenuName))
     return renderTreeView(subMenuItem, undefined)
   }
 
@@ -135,7 +136,7 @@ export const SideBar: React.FC<{
   };
 
   const { params } = useParsed<{ patient: string }>();
-  const infoUrl = parentName ? showUrl(parentName, params?.patient as string) : "/"
+  const infoUrl = resourceName ? showUrl(resourceName, params?.patient as string) : "/"
   const info = (  
     <Menu.Item key="info" icon={<InfoIcon />}>
       <Link to={infoUrl}>{translate("menu.info")}</Link>
