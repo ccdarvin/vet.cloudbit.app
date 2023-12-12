@@ -3,21 +3,43 @@ import {  useThemedLayoutContext } from "@refinedev/antd";
 import {
   BarsOutlined,
   LeftOutlined,
-  RightOutlined,
-  UnorderedListOutlined,
+  RightOutlined
 } from "@ant-design/icons";
 import { 
-  ITreeMenu, 
-  CanAccess, 
-  pickNotDeprecated, 
+  CanAccess,  
   useLink, 
-  useMenu,
   useTranslate,
   useNavigation,
-  useParsed
+  useParsed,
+  useResource
 } from "@refinedev/core";
 import { Layout, Menu, Grid, Drawer, Button, theme } from "antd";
 import { InfoIcon } from "../icons";
+
+
+
+const ResourceLink: React.FC<{
+  resrouceName: string,
+}> = ({resrouceName}) => {
+
+  const { resource } = useResource(resrouceName);
+  const Link = useLink(); 
+  const translate = useTranslate();
+  const { listUrl } = useNavigation();
+  console.log(resource)
+  return (
+    <CanAccess
+        resource={resource.name}
+        action="list"
+        >
+        <Menu.Item
+          icon={resource?.meta?.icon}
+        >
+          <Link to={listUrl(resource.name)}>{translate(`menu.${resource.name}`)}</Link>
+        </Menu.Item>
+    </CanAccess>
+  )
+} 
 
 const drawerButtonStyles: CSSProperties = {
   borderTopLeftRadius: 0,
@@ -28,18 +50,17 @@ const drawerButtonStyles: CSSProperties = {
 };
 
 const { useToken } = theme;
-const { SubMenu } = Menu;
 
 export const SideBar: React.FC<{
   fixed?: boolean;
   header?: React.ReactNode;
-  parentMenuName?: string,
-  resourceName?: string,
+  resourceMenuList?: string[],
+  resource?: string,
 }> = ({
   fixed,
   header,
-  parentMenuName,
-  resourceName,
+  resourceMenuList,
+  resource,
 }) => {
   const { token } = useToken();
   const {
@@ -55,88 +76,10 @@ export const SideBar: React.FC<{
     typeof breakpoint.lg === "undefined" ? false : !breakpoint.lg;
 
   const { showUrl } = useNavigation();
-  const { menuItems } = useMenu()
-
-
-  const renderSubMenu = () => {
-  // find childer of patients
-    const subMenuItem = menuItems?.find(item => item.name === parentMenuName)?.children || []
-    console.log(menuItems?.find(item => item.name === parentMenuName))
-    return renderTreeView(subMenuItem, undefined)
-  }
-
-  const renderTreeView = (tree: ITreeMenu[], selectedKey?: string) => {
-    return tree.map((item: ITreeMenu) => {
-      const {
-        icon,
-        label,
-        route,
-        key,
-        name,
-        children,
-        parentName,
-        meta,
-        options,
-      } = item;
-
-      if (children.length > 0) {
-        return (
-          <CanAccess
-            key={item.key}
-            resource={name.toLowerCase()}
-            action="list"
-            params={{
-              resource: item,
-            }}
-          >
-            <SubMenu
-              key={item.key}
-              icon={icon ?? <UnorderedListOutlined />}
-              title={label}
-            >
-              {renderSubMenu()}
-            </SubMenu>
-          </CanAccess>
-        );
-      }
-      const isSelected = key === selectedKey;
-      const isRoute = !(
-        pickNotDeprecated(meta?.parent, options?.parent, parentName) !==
-          undefined && children.length === 0
-      );
-      
-      const activeItemDisabled = false;
-      const linkStyle: React.CSSProperties =
-        activeItemDisabled && isSelected ? { pointerEvents: "none" } : {};
-
-      return (
-        <CanAccess
-          key={item.key}
-          resource={name.toLowerCase()}
-          action="list"
-          params={{
-            resource: item,
-          }}
-        >
-          <Menu.Item
-            key={item.key}
-            icon={icon ?? (isRoute && <UnorderedListOutlined />)}
-            style={linkStyle}
-          >
-            <Link to={route ?? ""} style={linkStyle}>
-              {label}
-            </Link>
-            {!siderCollapsed && isSelected && (
-              <div className="ant-menu-tree-arrow" />
-            )}
-          </Menu.Item>
-        </CanAccess>
-      );
-    });
-  };
 
   const { params } = useParsed<{ patient: string }>();
-  const infoUrl = resourceName ? showUrl(resourceName, params?.patient as string) : "/"
+
+  const infoUrl = resource ? showUrl(resource, params?.patient as string) : "/"
   const info = (  
     <Menu.Item key="info" icon={<InfoIcon />}>
       <Link to={infoUrl}>{translate("menu.info")}</Link>
@@ -162,7 +105,7 @@ export const SideBar: React.FC<{
         }}
       >
         {info}
-        {renderSubMenu()}
+        {resourceMenuList?.map((resrouceMenu) => <ResourceLink key={resrouceMenu} resrouceName={resrouceMenu} /> )}
       </Menu>
     );
   };

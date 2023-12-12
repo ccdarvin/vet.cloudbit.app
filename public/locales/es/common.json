@@ -113,7 +113,10 @@
     "title": "Dashboard"
   },
   "menu": {
-    "info": "Datos"
+    "info": "Datos",
+    "patients": "Pacientes",
+    "vaccines": "Vacunas",
+    "antiparasitics": "Antiparasitarios"
   },
   "blog_posts": {
     "blog_posts": "Blog Posts",

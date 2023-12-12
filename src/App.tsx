@@ -79,10 +79,7 @@ function App() {
                     tenant,
                     label: "Pacientes",
                     icon: <PatientIcon />,
-                    isMainMenu,
                   },
-                }, {
-                  name: "patientsMenu",
                 }, {
                   name: "vaccines",
                   list: "/:tenant/patient/:patient/vaccine",
@@ -94,7 +91,6 @@ function App() {
                     patient,
                     icon: <VaccineIcon />,
                     label: "Vacunas",
-                    parent: "patientsMenu",
                   },
                 }, {
                   name: "antiparasithics",
@@ -107,7 +103,6 @@ function App() {
                     patient,
                     icon: <AntiparasithicsIcon />,
                     label: "Antiparasitarios",
-                    parent: "patientsMenu",
                   },
                 }, {
                   name: "customers",
