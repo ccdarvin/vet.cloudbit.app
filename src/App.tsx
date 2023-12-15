@@ -1,4 +1,4 @@
-import { Authenticated, Refine, useParsed } from "@refinedev/core";
+import { Authenticated, Refine, useParsed, useTranslate } from "@refinedev/core";
 import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 
@@ -30,14 +30,14 @@ import { PatientsList, PacientShow, PatientLayout } from "./pages/patients";
 import { SpeciesList } from "./pages/species";
 import { CustomerList } from "./pages/customers";
 import { ItemList } from "./pages/items";
-import { ServiceList } from "./pages/services";
+import { ServiceList } from "./pages/services01";
 import { OrderEdit, OrderList, OrderShow } from "./pages/orders";
 import { AntiparasithicsIcon, PatientIcon, VaccineIcon } from "./components/icons";
-import { VaccinesList } from "./pages/vaccines";
+import { VaccinesList } from "./pages/services";
 import { AntiparasithicsList } from "./pages/antiparasithics";
 
 function App() {
-  const { t, i18n } = useTranslation(['common', 'models']);
+  const { t, i18n } = useTranslation(['common']);
 
   const i18nProvider = {
     translate: (key: string, params: object) => t(key, params),
@@ -46,10 +46,10 @@ function App() {
   };
 
   const { params } = useParsed<{ tenant: string, patient: string }>();
+  const translate = useTranslate();
 
   const tenant = params?.tenant;
   const patient = params?.patient;
-  const isMainMenu = undefined;
 
   return (
     <BrowserRouter>
@@ -81,7 +81,8 @@ function App() {
                     icon: <PatientIcon />,
                   },
                 }, {
-                  name: "vaccines",
+                  name: "services",
+                  identifier: "vaccines",
                   list: "/:tenant/patient/:patient/vaccine",
                   create: "/:tenant/patient/:patient/vaccine/create",
                   edit: "/:tenant/patient/:patient/vaccine/edit/:id",
@@ -93,7 +94,8 @@ function App() {
                     label: "Vacunas",
                   },
                 }, {
-                  name: "antiparasithics",
+                  name: "services",
+                  identifier: "antiparasithics",
                   list: "/:tenant/patient/:/antiparasithics",
                   create: "/:tenant/patient/:/antiparasithics/create",
                   edit: "/:tenant/patient/:/antiparasithics/edit/:id",

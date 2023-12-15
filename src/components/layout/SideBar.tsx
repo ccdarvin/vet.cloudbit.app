@@ -34,8 +34,12 @@ const ResourceLink: React.FC<{
         >
         <Menu.Item
           icon={resource?.meta?.icon}
+          style={{
+            paddingLeft: "24px",
+            paddingRight: "24px",
+          }}
         >
-          <Link to={listUrl(resource.name)}>{translate(`menu.${resource.name}`)}</Link>
+          <Link to={listUrl(resource?.identifier || resource.name)}>{resource?.meta?.label || resource.name}</Link>
         </Menu.Item>
     </CanAccess>
   )

@@ -1,21 +1,21 @@
+import React from "react";
 import { IResourceComponentsProps } from "@refinedev/core";
-import { Create, UseDrawerFormReturnType } from "@refinedev/antd";
-import { Drawer } from "antd";
-import { Tables } from "../../types/supabase";
-import { ServiceForm } from "./form";
+import { UseDrawerFormReturnType } from "@refinedev/antd";
 
-export const ServicesCreate: React.FC<IResourceComponentsProps 
-& { drawerFormProps: UseDrawerFormReturnType<Tables<'items'>> }> = ({
-    drawerFormProps,
-  }) => {
-  
-    const { formProps, drawerProps, saveButtonProps } = drawerFormProps;
-    
-    return (
-      <Drawer {...drawerProps}>
-        <Create saveButtonProps={saveButtonProps}>
-          <ServiceForm formProps={formProps} />
-        </Create>
-      </Drawer>
-    );
-  };
+import { Tables } from "../../types/supabase";
+import CreateDrawer from "../../components/crud/CreateDrawer";
+import { VaccineForm } from "./form";
+
+export const VaccioneCreate: React.FC<IResourceComponentsProps & 
+{ drawerFormProps: UseDrawerFormReturnType<Tables<'patients'>> }>  = ({
+  drawerFormProps,
+}) => {
+
+  const { formProps, drawerProps, saveButtonProps } = drawerFormProps;
+
+  return (
+      <CreateDrawer drawerProps={drawerProps} saveButtonProps={saveButtonProps}>
+        <VaccineForm formProps={formProps} />
+      </CreateDrawer>
+  );
+};
