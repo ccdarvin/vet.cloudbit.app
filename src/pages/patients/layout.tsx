@@ -2,13 +2,10 @@ import React from "react";
 import {
   useOne,
   IResourceComponentsProps,
-  useTranslate,
   useParsed
 } from "@refinedev/core";
-import { useDrawerForm } from "@refinedev/antd";
 import { Avatar, Layout, Space, Typography } from "antd";
 import SideBar from "../../components/layout/SideBar";
-import { Tables } from "../../types/supabase";
 
 const { Text } = Typography;
 
@@ -37,7 +34,7 @@ export const PatientLayout: React.FC<IResourceComponentsProps & {
     >
       <SideBar
         resource="patientsMenu"
-        resourceMenuList={["vaccines", "antiparasitics", "appointments"]}
+        resourceMenuList={["vaccines"]}
         header={
           <Space>
             <Avatar size={64}>{record?.name?.toUpperCase()[0]}</Avatar>

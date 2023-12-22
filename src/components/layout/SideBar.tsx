@@ -23,16 +23,15 @@ const ResourceLink: React.FC<{
 }> = ({resrouceName}) => {
 
   const { resource } = useResource(resrouceName);
-  const Link = useLink(); 
-  const translate = useTranslate();
+  const Link = useLink();
   const { listUrl } = useNavigation();
-  console.log(resource)
   return (
     <CanAccess
         resource={resource.name}
         action="list"
         >
         <Menu.Item
+          key={resource?.identifier || resource.name}
           icon={resource?.meta?.icon}
           style={{
             paddingLeft: "24px",
@@ -81,11 +80,14 @@ export const SideBar: React.FC<{
 
   const { showUrl } = useNavigation();
 
+  const { resource: currentResource } = useResource();
+
   const { params } = useParsed<{ patient: string }>();
 
   const infoUrl = resource ? showUrl(resource, params?.patient as string) : "/"
   const info = (  
-    <Menu.Item key="info" icon={<InfoIcon />}>
+    <Menu.Item
+      key="info" icon={<InfoIcon />}>
       <Link to={infoUrl}>{translate("menu.info")}</Link>
       {/*!siderCollapsed && selectedKey === "/" && (
         <div className="ant-menu-tree-arrow" />
@@ -98,6 +100,7 @@ export const SideBar: React.FC<{
     return (
       <Menu
         mode="inline"
+        selectedKeys={[currentResource?.identifier || currentResource?.name || "info"]}
         style={{
           paddingTop: "8px",
           border: "none",
@@ -123,9 +126,6 @@ export const SideBar: React.FC<{
           placement="left"
           closable={false}
           width={200}
-          bodyStyle={{
-            padding: 0,
-          }}
           maskClosable={true}
         >
           <Layout>
@@ -236,6 +236,7 @@ export const SideBar: React.FC<{
             backgroundColor: token.colorBgElevated,
             fontSize: "14px",
             paddingTop: "15px",
+            paddingBottom: "15px"
           }}
         >
           {/*<RenderToTitle collapsed={siderCollapsed} />*/}

@@ -90,6 +90,7 @@ function App() {
                   meta: {
                     tenant,
                     patient,
+                    hide: true,
                     icon: <VaccineIcon />,
                     label: "Vacunas",
                   },
