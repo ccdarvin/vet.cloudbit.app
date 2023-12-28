@@ -34,7 +34,7 @@ export const PatientLayout: React.FC<IResourceComponentsProps & {
     >
       <SideBar
         resource="patientsMenu"
-        resourceMenuList={["vaccines"]}
+        resourceMenuList={["appointmentsByPatient", 'visits']}
         header={
           <Space>
             <Avatar size={64}>{record?.name?.toUpperCase()[0]}</Avatar>

@@ -4,6 +4,7 @@ import { PiDog } from "react-icons/pi";
 import { TbVaccine } from "react-icons/tb";
 import { BsCardText } from "react-icons/bs";
 import { GiPillDrop } from "react-icons/gi";
+import { BsCalendarEvent } from "react-icons/bs";
 
 
 
@@ -30,5 +31,11 @@ export const InfoIcon = (props: Partial<CustomIconComponentProps>) => {
 export const AntiparasithicsIcon = (props: Partial<CustomIconComponentProps>) => {
   return (
     <Icon component={GiPillDrop} {...props} />
+  )
+}
+
+export const AppointmentIcon = (props: Partial<CustomIconComponentProps>) => {
+  return (
+    <Icon component={BsCalendarEvent} {...props} />
   )
 }

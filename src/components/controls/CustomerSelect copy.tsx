@@ -7,14 +7,14 @@ import { Tables } from "../../types/supabase";
 
 
 
-export default function CustomerSelect({
+export default function PatientSelect({
   ...props
 }: SelectProps) {
 
   const { params } = useParsed<{ tenant: string }>();
 
-  const { selectProps, queryResult } = useSelect<Tables<'customers'>>({
-    resource: "customers",
+  const { selectProps, queryResult } = useSelect<Tables<'patients'>>({
+    resource: "patients",
     filters: [{
       field: "tenant_id",
       operator: "eq",
@@ -28,7 +28,7 @@ export default function CustomerSelect({
         style={{
           width: "100%"
         }}
-        placeholder="Seleccione un cliente"
+        placeholder="Seleccione un paciente"
         {...props} {...selectProps}
         options={undefined}
         dropdownRender={(menu) => (<>

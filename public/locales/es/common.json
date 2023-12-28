@@ -204,5 +204,27 @@
       "has": "¿Tiene la vacuna?",
       "observations": "Observaciones"
     }
+  },
+  "appointments": {
+    "fields": {
+      "id": "Id",
+      "patient": "Paciente",
+      "patient_id": "Paciente",
+      "date": "Fecha",
+      "reason": "Motivo",
+      "created_at": "Creado en",
+      "updated_at": "Actualizado en",
+      "status": "Estado"
+    },
+    "enums": {
+      "status": {
+        "Pending": "Pendiente",
+        "Confirmed": "Confirmado",
+        "InProcess": "En progreso",
+        "Completed": "Completado",
+        "Cancelled": "Cancelado",
+        "NoShow": "No se presentó"
+      }
+    }
   }
 }

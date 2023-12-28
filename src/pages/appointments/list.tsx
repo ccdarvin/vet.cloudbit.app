@@ -1,0 +1,102 @@
+import React from "react";
+import {
+  IResourceComponentsProps,
+  BaseRecord,
+  useTranslate,
+  useParsed,
+} from "@refinedev/core";
+import {
+  useTable,
+  List,
+  EditButton,
+  ShowButton,
+  DateField,
+  useDrawerForm,
+} from "@refinedev/antd";
+import { Table, Space, App } from "antd";
+import { Tables } from "../../types/supabase";
+import { AppointmentsCreate } from "./create";
+import AppointmentStatusField from "../../components/fields/AppointmentStatusField";
+import { AppointmentsEdit } from "./edit";
+
+export const AppointmentsList: React.FC<IResourceComponentsProps> = () => {
+  const translate = useTranslate();
+  const { params } = useParsed<{ tenant: string; patient: string }>();
+
+  const { tableProps } = useTable({
+    syncWithLocation: true,
+    meta: {
+      select: "*, patient:patient_id(*)",
+    },
+    filters: {
+      permanent: [
+        {
+          field: "tenant_id",
+          operator: "eq",
+          value: params?.tenant,
+        },
+        {
+          field: "patient_id",
+          operator: "eq",
+          value: params?.patient,
+        },
+      ],
+    },
+  });
+
+  const drawerFormPropsCreate = useDrawerForm<Tables<"patients">>({
+    action: "create",
+    syncWithLocation: true,
+  });
+
+  const drawerFormPropsEdit = useDrawerForm<Tables<"patients">>({
+    action: "edit",
+    syncWithLocation: true,
+  });
+
+  return (
+    <List
+      createButtonProps={{
+        onClick: () => drawerFormPropsCreate.show(),
+      }}
+    >
+      <Table {...tableProps} rowKey="id">
+        <Table.Column
+          dataIndex={["patient", "name"]}
+          title={translate("appointments.fields.patient")}
+        />
+        <Table.Column
+          dataIndex={["date"]}
+          title={translate("appointments.fields.date")}
+          render={(value) => <DateField value={value} />}
+        />
+        <Table.Column
+          dataIndex="reason"
+          title={translate("appointments.fields.reason")}
+        />
+        <Table.Column
+          dataIndex="status"
+          title={translate("appointments.fields.status")}
+          render={(value) => <AppointmentStatusField value={value} />}
+        />
+        <Table.Column
+          title={translate("table.actions")}
+          dataIndex="actions"
+          render={(_, record: BaseRecord) => (
+            <Space>
+              <EditButton
+                hideText
+                size="small"
+                recordItemId={record.id}
+                onClick={() => drawerFormPropsEdit.show(record.id)}
+              />
+              <ShowButton hideText size="small" recordItemId={record.id} />
+            </Space>
+          )}
+        />
+      </Table>
+      <AppointmentsCreate drawerFormProps={drawerFormPropsCreate} />
+      <AppointmentsEdit drawerFormProps={drawerFormPropsEdit} />
+    </List>
+  );
+};

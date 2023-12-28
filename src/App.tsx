@@ -32,9 +32,10 @@ import { CustomerList } from "./pages/customers";
 import { ItemList } from "./pages/items";
 import { ServiceList } from "./pages/services01";
 import { OrderEdit, OrderList, OrderShow } from "./pages/orders";
-import { AntiparasithicsIcon, PatientIcon, VaccineIcon } from "./components/icons";
+import { AntiparasithicsIcon, AppointmentIcon, PatientIcon, VaccineIcon } from "./components/icons";
 import { VaccinesList } from "./pages/services";
 import { AntiparasithicsList } from "./pages/antiparasithics";
+import { AppointmentsCreate, AppointmentsList } from "./pages/appointments";
 
 function App() {
   const { t, i18n } = useTranslation(['common']);
@@ -72,6 +73,15 @@ function App() {
                   edit: "/tenant/edit/:id",
                   show: "/tenant/show/:id"
                 }, {
+                  name: "appointments",
+                  list: "/:tenant/appointments",
+                  meta: {
+                    icon: <AppointmentIcon />,
+                    tenant,
+                    label: "Citas"
+                  }
+                },
+                {
                   name: "patients",
                   list: "/:tenant/patient",
                   show: "/:tenant/patient/:id",
@@ -81,39 +91,32 @@ function App() {
                     icon: <PatientIcon />,
                   },
                 }, {
-                  name: "services",
-                  identifier: "vaccines",
-                  list: "/:tenant/patient/:patient/vaccine",
-                  create: "/:tenant/patient/:patient/vaccine/create",
-                  edit: "/:tenant/patient/:patient/vaccine/edit/:id",
-                  show: "/:tenant/patient/:patient/vaccine/show/:id",
-                  meta: {
-                    tenant,
-                    patient,
-                    hide: true,
-                    icon: <VaccineIcon />,
-                    label: "Vacunas",
-                  },
-                }, {
-                  name: "services",
-                  identifier: "antiparasithics",
-                  list: "/:tenant/patient/:/antiparasithics",
-                  create: "/:tenant/patient/:/antiparasithics/create",
-                  edit: "/:tenant/patient/:/antiparasithics/edit/:id",
-                  show: "/:tenant/patient/:/antiparasithics/show/:id",
-                  meta: {
-                    tenant,
-                    patient,
-                    icon: <AntiparasithicsIcon />,
-                    label: "Antiparasitarios",
-                  },
-                }, {
                   name: "customers",
                   list: "/:tenant/customers",
                   show: "/:tenant/customers/show/:id",
                   meta: {
                     tenant
                   },
+                }, {
+                  name: "appointments",
+                  identifier: "appointmentsByPatient",
+                  list: "/:tenant/patient/:patient/appointments",
+                  meta: {
+                    icon: <AppointmentIcon />,
+                    tenant,
+                    label: "Citas",
+                    hide: true,
+                  }
+                }, {
+                  name: "appointments",
+                  identifier: "visits",
+                  list: "/:tenant/patient/:patient/vists",
+                  meta: {
+                    icon: <AppointmentIcon />,
+                    tenant,
+                    label: "Visitas",
+                    hide: true,
+                  }
                 }, {
                   name: "items",
                   list: "/:tenant/services",
@@ -199,6 +202,9 @@ function App() {
                           </PatientLayout>}
                         >
                           <Route index element={<PacientShow />} />
+                          <Route path="appointments">
+                            <Route index element={<AppointmentsList />} />
+                          </Route>
                           <Route path="vaccine">
                             <Route index element={<VaccinesList />} />
                           </Route>
@@ -224,6 +230,9 @@ function App() {
                       </Route>
                       <Route path="species">
                         <Route index element={<SpeciesList />} />
+                      </Route>
+                      <Route path="appointments">
+                        <Route index element={<AppointmentsList />} />
                       </Route>
                     </Route>
                     <Route path="*" element={<ErrorComponent />} />

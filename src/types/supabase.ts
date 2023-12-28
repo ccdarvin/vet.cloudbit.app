@@ -45,6 +45,61 @@ export interface Database {
           }
         ]
       }
+      appointments: {
+        Row: {
+          created_at: string
+          date: string | null
+          doctor_id: number | null
+          id: string
+          patient_id: string | null
+          reason: string | null
+          status: Database["public"]["Enums"]["appointment_status"] | null
+          tenant_id: string
+        }
+        Insert: {
+          created_at?: string
+          date?: string | null
+          doctor_id?: number | null
+          id?: string
+          patient_id?: string | null
+          reason?: string | null
+          status?: Database["public"]["Enums"]["appointment_status"] | null
+          tenant_id: string
+        }
+        Update: {
+          created_at?: string
+          date?: string | null
+          doctor_id?: number | null
+          id?: string
+          patient_id?: string | null
+          reason?: string | null
+          status?: Database["public"]["Enums"]["appointment_status"] | null
+          tenant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "appointments_doctor_id_fkey"
+            columns: ["doctor_id"]
+            isOneToOne: false
+            referencedRelation: "staff "
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "appointments_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "appointments_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       breeds: {
         Row: {
           created_at: string
@@ -209,24 +264,10 @@ export interface Database {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "customers_doc_type_id_fkey"
-            columns: ["doc_type_id"]
-            isOneToOne: false
-            referencedRelation: "options"
-            referencedColumns: ["id"]
-          },
-          {
             foreignKeyName: "customers_tenant_id_fkey"
             columns: ["tenant_id"]
             isOneToOne: false
             referencedRelation: "tenants"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "customers_title_id_fkey"
-            columns: ["title_id"]
-            isOneToOne: false
-            referencedRelation: "options"
             referencedColumns: ["id"]
           },
           {
@@ -324,108 +365,7 @@ export interface Database {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "items_units_id_fkey"
-            columns: ["units_id"]
-            isOneToOne: false
-            referencedRelation: "options"
-            referencedColumns: ["id"]
-          },
-          {
             foreignKeyName: "items_updated_by_fkey"
-            columns: ["updated_by"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
-      numbers: {
-        Row: {
-          number: number | null
-          table_name: string
-          tenant_id: string
-        }
-        Insert: {
-          number?: number | null
-          table_name: string
-          tenant_id: string
-        }
-        Update: {
-          number?: number | null
-          table_name?: string
-          tenant_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "numbers_tenant_id_fkey"
-            columns: ["tenant_id"]
-            isOneToOne: false
-            referencedRelation: "tenants"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
-      options: {
-        Row: {
-          created_at: string
-          created_by: string | null
-          description: string | null
-          id: string
-          name: string
-          parent_id: string | null
-          tenant_id: string
-          type: string
-          updated_at: string | null
-          updated_by: string | null
-        }
-        Insert: {
-          created_at?: string
-          created_by?: string | null
-          description?: string | null
-          id?: string
-          name: string
-          parent_id?: string | null
-          tenant_id: string
-          type: string
-          updated_at?: string | null
-          updated_by?: string | null
-        }
-        Update: {
-          created_at?: string
-          created_by?: string | null
-          description?: string | null
-          id?: string
-          name?: string
-          parent_id?: string | null
-          tenant_id?: string
-          type?: string
-          updated_at?: string | null
-          updated_by?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "options_created_by_fkey"
-            columns: ["created_by"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "options_parent_id_fkey"
-            columns: ["parent_id"]
-            isOneToOne: false
-            referencedRelation: "options"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "options_tenant_id_fkey"
-            columns: ["tenant_id"]
-            isOneToOne: false
-            referencedRelation: "tenants"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "options_updated_by_fkey"
             columns: ["updated_by"]
             isOneToOne: false
             referencedRelation: "profiles"
@@ -441,7 +381,6 @@ export interface Database {
           id: string
           item_id: string | null
           order_id: string
-          patient_id: string | null
           quantity: number | null
           subtotal: number | null
           tenant_id: string | null
@@ -457,7 +396,6 @@ export interface Database {
           id?: string
           item_id?: string | null
           order_id: string
-          patient_id?: string | null
           quantity?: number | null
           subtotal?: number | null
           tenant_id?: string | null
@@ -473,7 +411,6 @@ export interface Database {
           id?: string
           item_id?: string | null
           order_id?: string
-          patient_id?: string | null
           quantity?: number | null
           subtotal?: number | null
           tenant_id?: string | null
@@ -502,13 +439,6 @@ export interface Database {
             columns: ["order_id"]
             isOneToOne: false
             referencedRelation: "orders"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "order_items_patient_id_fkey"
-            columns: ["patient_id"]
-            isOneToOne: false
-            referencedRelation: "patients"
             referencedColumns: ["id"]
           },
           {
@@ -600,12 +530,19 @@ export interface Database {
       }
       patients: {
         Row: {
+          aggressiveness: number | null
           birthday: string | null
           breed_id: string | null
           created_at: string
           created_by: string | null
+          customer_id: string | null
           id: string
+          is_castrated: boolean | null
+          is_dead: boolean | null
+          last_heat: string | null
+          meal: string | null
           name: string
+          observations: string | null
           sex: Database["public"]["Enums"]["patient_sex"] | null
           species_id: string | null
           tenant_id: string
@@ -613,12 +550,19 @@ export interface Database {
           updated_by: string | null
         }
         Insert: {
+          aggressiveness?: number | null
           birthday?: string | null
           breed_id?: string | null
           created_at?: string
           created_by?: string | null
+          customer_id?: string | null
           id?: string
+          is_castrated?: boolean | null
+          is_dead?: boolean | null
+          last_heat?: string | null
+          meal?: string | null
           name: string
+          observations?: string | null
           sex?: Database["public"]["Enums"]["patient_sex"] | null
           species_id?: string | null
           tenant_id: string
@@ -626,12 +570,19 @@ export interface Database {
           updated_by?: string | null
         }
         Update: {
+          aggressiveness?: number | null
           birthday?: string | null
           breed_id?: string | null
           created_at?: string
           created_by?: string | null
+          customer_id?: string | null
           id?: string
+          is_castrated?: boolean | null
+          is_dead?: boolean | null
+          last_heat?: string | null
+          meal?: string | null
           name?: string
+          observations?: string | null
           sex?: Database["public"]["Enums"]["patient_sex"] | null
           species_id?: string | null
           tenant_id?: string
@@ -643,7 +594,7 @@ export interface Database {
             foreignKeyName: "patients_breed_id_fkey"
             columns: ["breed_id"]
             isOneToOne: false
-            referencedRelation: "options"
+            referencedRelation: "breeds"
             referencedColumns: ["id"]
           },
           {
@@ -651,6 +602,13 @@ export interface Database {
             columns: ["created_by"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "patients_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
             referencedColumns: ["id"]
           },
           {
@@ -734,6 +692,54 @@ export interface Database {
           }
         ]
       }
+      services: {
+        Row: {
+          created_at: string
+          date: string | null
+          id: number
+          is_done: boolean | null
+          name: string | null
+          observations: string | null
+          patient_id: string
+          tenant_id: string
+        }
+        Insert: {
+          created_at?: string
+          date?: string | null
+          id?: number
+          is_done?: boolean | null
+          name?: string | null
+          observations?: string | null
+          patient_id: string
+          tenant_id: string
+        }
+        Update: {
+          created_at?: string
+          date?: string | null
+          id?: number
+          is_done?: boolean | null
+          name?: string | null
+          observations?: string | null
+          patient_id?: string
+          tenant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "services_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "services_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       species: {
         Row: {
           created_at: string
@@ -759,6 +765,44 @@ export interface Database {
         Relationships: [
           {
             foreignKeyName: "species_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      "staff ": {
+        Row: {
+          " email": string | null
+          created_at: string
+          first_name: string | null
+          id: number
+          last_name: string | null
+          phone: string | null
+          tenant_id: string
+        }
+        Insert: {
+          " email"?: string | null
+          created_at?: string
+          first_name?: string | null
+          id?: number
+          last_name?: string | null
+          phone?: string | null
+          tenant_id: string
+        }
+        Update: {
+          " email"?: string | null
+          created_at?: string
+          first_name?: string | null
+          id?: number
+          last_name?: string | null
+          phone?: string | null
+          tenant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "staff _tenant_id_fkey"
             columns: ["tenant_id"]
             isOneToOne: false
             referencedRelation: "tenants"
@@ -907,6 +951,13 @@ export interface Database {
       }
     }
     Enums: {
+      appointment_status:
+        | "Pending"
+        | "Confirmed"
+        | "InProcess"
+        | "Completed"
+        | "Cancelled"
+        | "NoShow"
       cashbox_status: "open" | "closed"
       patient_sex: "F" | "M"
     }
