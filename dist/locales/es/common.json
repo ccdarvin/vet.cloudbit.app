@@ -113,7 +113,10 @@
     "title": "Dashboard"
   },
   "menu": {
-    "info": "Datos"
+    "info": "Datos",
+    "patients": "Pacientes",
+    "vaccines": "Vacunas",
+    "antiparasitics": "Antiparasitarios"
   },
   "blog_posts": {
     "blog_posts": "Blog Posts",
@@ -200,6 +203,51 @@
       "date": "Fecha de vacunación",
       "has": "¿Tiene la vacuna?",
       "observations": "Observaciones"
+    }
+  },
+  "appointments": {
+    "fields": {
+      "id": "Id",
+      "patient": "Paciente",
+      "doctor": "Doctor",
+      "date": "Fecha",
+      "reason": "Motivo",
+      "created_at": "Creado en",
+      "updated_at": "Actualizado en",
+      "status": "Estado"
+    },
+    "enums": {
+      "status": {
+        "Pending": "Pendiente",
+        "Confirmed": "Confirmado",
+        "InProcess": "En progreso",
+        "Completed": "Completado",
+        "Cancelled": "Cancelado",
+        "NoShow": "No se presentó"
+      }
+    }
+  },
+  "staff": {
+    "fields": {
+      "id": "Id",
+      "created_at": "Creado en",
+      "updated_at": "Actualizado en",
+      "first_name": "Nombre",
+      "last_name": "Apellido",
+      "email": "Correo electrónico",
+      "phone": "Teléfono",
+      "is_doctor": "¿Es doctor?"
+    }
+  },
+  "medical_records": {
+    "fields": {
+      "id": "Id",
+      "appointment": "Cita o visita",
+      "patient": "Paciente",
+      "doctor": "Doctor",
+      "symptoms": "Síntomas",
+      "diagnosis": "Diagnóstico",
+      "treatment": "Tratamiento"
     }
   }
 }
