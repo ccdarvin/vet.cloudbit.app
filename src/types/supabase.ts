@@ -49,6 +49,7 @@ export interface Database {
         Row: {
           created_at: string
           date: string | null
+          doctor_id: string | null
           id: string
           is_visit: boolean | null
           patient_id: string | null
@@ -59,6 +60,7 @@ export interface Database {
         Insert: {
           created_at?: string
           date?: string | null
+          doctor_id?: string | null
           id?: string
           is_visit?: boolean | null
           patient_id?: string | null
@@ -69,6 +71,7 @@ export interface Database {
         Update: {
           created_at?: string
           date?: string | null
+          doctor_id?: string | null
           id?: string
           is_visit?: boolean | null
           patient_id?: string | null
@@ -77,6 +80,13 @@ export interface Database {
           tenant_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "appointments_doctor_id_fkey"
+            columns: ["doctor_id"]
+            isOneToOne: false
+            referencedRelation: "staff"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "appointments_patient_id_fkey"
             columns: ["patient_id"]
@@ -362,6 +372,71 @@ export interface Database {
             columns: ["updated_by"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      medical_records: {
+        Row: {
+          appointment_id: string | null
+          created_at: string
+          diagnosis: string | null
+          doctor_id: string | null
+          id: string
+          patient_id: string
+          symptoms: string | null
+          tenant_id: string
+          treatment: string | null
+        }
+        Insert: {
+          appointment_id?: string | null
+          created_at?: string
+          diagnosis?: string | null
+          doctor_id?: string | null
+          id?: string
+          patient_id: string
+          symptoms?: string | null
+          tenant_id: string
+          treatment?: string | null
+        }
+        Update: {
+          appointment_id?: string | null
+          created_at?: string
+          diagnosis?: string | null
+          doctor_id?: string | null
+          id?: string
+          patient_id?: string
+          symptoms?: string | null
+          tenant_id?: string
+          treatment?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "medical_records_appointment_id_fkey"
+            columns: ["appointment_id"]
+            isOneToOne: false
+            referencedRelation: "appointments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "medical_records_doctor_id_fkey"
+            columns: ["doctor_id"]
+            isOneToOne: false
+            referencedRelation: "staff"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "medical_records_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "medical_records_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
             referencedColumns: ["id"]
           }
         ]
@@ -767,8 +842,8 @@ export interface Database {
       }
       staff: {
         Row: {
-          " email": string | null
           created_at: string
+          email: string | null
           first_name: string | null
           id: string
           is_doctor: boolean | null
@@ -777,8 +852,8 @@ export interface Database {
           tenant_id: string
         }
         Insert: {
-          " email"?: string | null
           created_at?: string
+          email?: string | null
           first_name?: string | null
           id?: string
           is_doctor?: boolean | null
@@ -787,8 +862,8 @@ export interface Database {
           tenant_id: string
         }
         Update: {
-          " email"?: string | null
           created_at?: string
+          email?: string | null
           first_name?: string | null
           id?: string
           is_doctor?: boolean | null

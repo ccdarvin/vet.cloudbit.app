@@ -238,5 +238,16 @@
       "phone": "Teléfono",
       "is_doctor": "¿Es doctor?"
     }
+  },
+  "medical_records": {
+    "fields": {
+      "id": "Id",
+      "appointment": "Cita o visita",
+      "patient": "Paciente",
+      "doctor": "Doctor",
+      "symptoms": "Síntomas",
+      "diagnosis": "Diagnóstico",
+      "treatment": "Tratamiento"
+    }
   }
 }

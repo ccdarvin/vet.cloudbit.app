@@ -32,11 +32,10 @@ import { CustomerList } from "./pages/customers";
 import { ItemList } from "./pages/items";
 import { ServiceList } from "./pages/services01";
 import { OrderEdit, OrderList, OrderShow } from "./pages/orders";
-import { AppointmentIcon, PatientIcon, SettingsIcon, StaffIcon, VisitIcon } from "./components/icons";
-import { VaccinesList } from "./pages/services";
-import { AntiparasithicsList } from "./pages/antiparasithics";
+import { AppointmentIcon, MedicalRecordIcon, PatientIcon, SettingsIcon, StaffIcon, VisitIcon } from "./components/icons";
 import { AppointmentsList } from "./pages/appointments";
 import { StaffList } from "./pages/staff";
+import { MedicalRecordsList } from "./pages/medical_records";
 
 function App() {
   const { t, i18n } = useTranslation(['common']);
@@ -115,6 +114,17 @@ function App() {
                     label: "Visitas",
                     hide: true,
                   }
+                },{
+                  name: "medical_records",
+                  list: "/:tenant/patient/:patient/medical_records",
+                  create: "/:tenant/patient/:patient/medical_records/create",
+                  show: "/:tenant/patient/:patient/medical_records/show/:id",
+                  meta: {
+                    tenant,
+                    label: "Historia clínica",
+                    icon: <MedicalRecordIcon />,
+                    hide: true,
+                  },
                 }, {
                   name: "items",
                   list: "/:tenant/services",
@@ -225,11 +235,8 @@ function App() {
                           <Route path="vists">
                             <Route index element={<AppointmentsList />} />
                           </Route>
-                          <Route path="vaccine">
-                            <Route index element={<VaccinesList />} />
-                          </Route>
-                          <Route path="antiparasithics">
-                            <Route index element={<AntiparasithicsList />} />
+                          <Route path="medical_records">
+                            <Route index element={<MedicalRecordsList />} />
                           </Route>
                         </Route>
                       </Route>

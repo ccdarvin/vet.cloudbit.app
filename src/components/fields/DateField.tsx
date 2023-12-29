@@ -2,6 +2,7 @@ import { Typography } from "antd";
 import dayjs from "dayjs";
 import LocalizedFormat from "dayjs/plugin/localizedFormat";
 import type { DateFieldProps } from "@refinedev/antd";
+import { TextProps } from "antd/es/typography/Text";
 
 /**
  * This field is used to display dates. It uses {@link https://day.js.org/docs/en/display/format `Day.js`} to display date format.
@@ -13,7 +14,7 @@ export default function DateField ({
   locales,
   format: dateFormat = "L",
   ...rest
-}: DateFieldProps) {
+}: DateFieldProps & TextProps) {
   dayjs.extend(LocalizedFormat);
 
   const defaultLocale = dayjs.locale();
@@ -35,4 +36,4 @@ export default function DateField ({
       —
     </Text>
   )
-};
+}

@@ -8,6 +8,7 @@ import { BsCalendarEvent } from "react-icons/bs";
 import { AiOutlineMedicineBox } from "react-icons/ai";
 import { MdOutlineSettings } from "react-icons/md";
 import { BsPersonGear } from "react-icons/bs";
+import { CiMedicalClipboard } from "react-icons/ci";
 
 
 export const PatientIcon = (props: Partial<CustomIconComponentProps>) => {
@@ -43,4 +44,8 @@ export const SettingsIcon = (props: Partial<CustomIconComponentProps>) => {
 
 export const StaffIcon = (props: Partial<CustomIconComponentProps>) => {
   return <Icon component={BsPersonGear} {...props} />;
+}
+
+export const MedicalRecordIcon = (props: Partial<CustomIconComponentProps>) => {
+  return <Icon component={CiMedicalClipboard} {...props} />;
 }
