@@ -50,7 +50,7 @@ function App() {
   const { params } = useParsed<{ tenant: string, patient: string }>();
 
   const tenant = params?.tenant;
-
+  console.log(tenant);
   return (
     <BrowserRouter>
       {/*<GitHubBanner />*/}

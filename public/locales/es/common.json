@@ -209,7 +209,7 @@
     "fields": {
       "id": "Id",
       "patient": "Paciente",
-      "patient_id": "Paciente",
+      "doctor": "Doctor",
       "date": "Fecha",
       "reason": "Motivo",
       "created_at": "Creado en",

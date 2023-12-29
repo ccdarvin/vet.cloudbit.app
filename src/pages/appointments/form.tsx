@@ -1,9 +1,10 @@
 import { useParsed, useTranslate } from "@refinedev/core";
 import { DatePicker, Form, Input } from "antd";
 import { FormProps } from "antd/lib";
-import PatientSelect from "../../components/controls/CustomerSelect copy";
+import PatientSelect from "../../components/controls/PatientSelect";
 import dayjs from "dayjs";
 import AppointmentStatusSegmented from "../../components/controls/AppointmentStatus";
+import StaffSelect from "../../components/controls/StaffSelect";
 
 
 export const AppointmentForm: React.FC<{ formProps: FormProps }> = ({
@@ -24,7 +25,7 @@ export const AppointmentForm: React.FC<{ formProps: FormProps }> = ({
       }}
     >
       <Form.Item
-        label={translate("appointments.fields.patient_id")}
+        label={translate("appointments.fields.patient")}
         name={"patient_id"}
         rules={[
           {
@@ -33,6 +34,9 @@ export const AppointmentForm: React.FC<{ formProps: FormProps }> = ({
         ]}
       >
         <PatientSelect />
+      </Form.Item>
+      <Form.Item label={translate("appointments.fields.doctor")} name={"doctor_id"}>
+        <StaffSelect isDoctor />
       </Form.Item>
       <Form.Item
         label={translate("appointments.fields.date")}

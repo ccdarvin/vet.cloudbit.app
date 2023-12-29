@@ -29,7 +29,7 @@ export const AppointmentsList: React.FC<IResourceComponentsProps> = () => {
   const { tableProps } = useTable({
     syncWithLocation: true,
     meta: {
-      select: "*, patient:patient_id(*)",
+      select: "*, patient:patient_id(*), doctor:doctor_id(*)",
     },
     filters: {
       permanent: [
@@ -51,7 +51,7 @@ export const AppointmentsList: React.FC<IResourceComponentsProps> = () => {
       ],
     },
   });
-
+  console.log(tableProps);
   const drawerFormPropsCreate = useDrawerForm<Tables<"patients">>({
     action: "create",
     syncWithLocation: true,
@@ -72,6 +72,15 @@ export const AppointmentsList: React.FC<IResourceComponentsProps> = () => {
         <Table.Column
           dataIndex={["patient", "name"]}
           title={translate("appointments.fields.patient")}
+        />
+        <Table.Column
+          dataIndex={["doctor"]}
+          title={translate("appointments.fields.doctor")}
+          render={(value) => (
+            <>
+              {value?.first_name} {value?.last_name}
+            </>
+          )}
         />
         <Table.Column
           dataIndex={["date"]}
