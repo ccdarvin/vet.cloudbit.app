@@ -1,4 +1,4 @@
-import { Authenticated, Refine, useParsed, useTranslate } from "@refinedev/core";
+import { Authenticated, Refine, useParsed } from "@refinedev/core";
 import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 
@@ -32,10 +32,11 @@ import { CustomerList } from "./pages/customers";
 import { ItemList } from "./pages/items";
 import { ServiceList } from "./pages/services01";
 import { OrderEdit, OrderList, OrderShow } from "./pages/orders";
-import { AntiparasithicsIcon, AppointmentIcon, PatientIcon, VaccineIcon } from "./components/icons";
+import { AppointmentIcon, PatientIcon, SettingsIcon, StaffIcon, VisitIcon } from "./components/icons";
 import { VaccinesList } from "./pages/services";
 import { AntiparasithicsList } from "./pages/antiparasithics";
-import { AppointmentsCreate, AppointmentsList } from "./pages/appointments";
+import { AppointmentsList } from "./pages/appointments";
+import { StaffList } from "./pages/staff";
 
 function App() {
   const { t, i18n } = useTranslation(['common']);
@@ -47,10 +48,8 @@ function App() {
   };
 
   const { params } = useParsed<{ tenant: string, patient: string }>();
-  const translate = useTranslate();
 
   const tenant = params?.tenant;
-  const patient = params?.patient;
 
   return (
     <BrowserRouter>
@@ -80,8 +79,7 @@ function App() {
                     tenant,
                     label: "Citas"
                   }
-                },
-                {
+                }, {
                   name: "patients",
                   list: "/:tenant/patient",
                   show: "/:tenant/patient/:id",
@@ -112,7 +110,7 @@ function App() {
                   identifier: "visits",
                   list: "/:tenant/patient/:patient/vists",
                   meta: {
-                    icon: <AppointmentIcon />,
+                    icon: <VisitIcon />,
                     tenant,
                     label: "Visitas",
                     hide: true,
@@ -160,6 +158,25 @@ function App() {
                     tenant,
                     label: "Ordenes"
                   },
+                }, {
+                  name: "settings",
+                  meta: {
+                    tenant,
+                    label: "Configuración",
+                    icon: <SettingsIcon />,
+                  },
+                }, {
+                  name: "staff",
+                  list: "/:tenant/staff",
+                  create: "/:tenant/staff/create",
+                  edit: "/staff/edit/:id",
+                  show: "/staff/show/:id",
+                  meta: {
+                    tenant,
+                    parent: "settings",
+                    label: "Personal",
+                    icon: <StaffIcon />,
+                  },
                 }]}
                 options={{
                   syncWithLocation: true,
@@ -205,6 +222,9 @@ function App() {
                           <Route path="appointments">
                             <Route index element={<AppointmentsList />} />
                           </Route>
+                          <Route path="vists">
+                            <Route index element={<AppointmentsList />} />
+                          </Route>
                           <Route path="vaccine">
                             <Route index element={<VaccinesList />} />
                           </Route>
@@ -233,6 +253,9 @@ function App() {
                       </Route>
                       <Route path="appointments">
                         <Route index element={<AppointmentsList />} />
+                      </Route>
+                      <Route path="staff">
+                        <Route index element={<StaffList />} />
                       </Route>
                     </Route>
                     <Route path="*" element={<ErrorComponent />} />

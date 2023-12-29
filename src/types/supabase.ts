@@ -49,8 +49,8 @@ export interface Database {
         Row: {
           created_at: string
           date: string | null
-          doctor_id: number | null
           id: string
+          is_visit: boolean | null
           patient_id: string | null
           reason: string | null
           status: Database["public"]["Enums"]["appointment_status"] | null
@@ -59,8 +59,8 @@ export interface Database {
         Insert: {
           created_at?: string
           date?: string | null
-          doctor_id?: number | null
           id?: string
+          is_visit?: boolean | null
           patient_id?: string | null
           reason?: string | null
           status?: Database["public"]["Enums"]["appointment_status"] | null
@@ -69,21 +69,14 @@ export interface Database {
         Update: {
           created_at?: string
           date?: string | null
-          doctor_id?: number | null
           id?: string
+          is_visit?: boolean | null
           patient_id?: string | null
           reason?: string | null
           status?: Database["public"]["Enums"]["appointment_status"] | null
           tenant_id?: string
         }
         Relationships: [
-          {
-            foreignKeyName: "appointments_doctor_id_fkey"
-            columns: ["doctor_id"]
-            isOneToOne: false
-            referencedRelation: "staff "
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "appointments_patient_id_fkey"
             columns: ["patient_id"]
@@ -772,12 +765,13 @@ export interface Database {
           }
         ]
       }
-      "staff ": {
+      staff: {
         Row: {
           " email": string | null
           created_at: string
           first_name: string | null
-          id: number
+          id: string
+          is_doctor: boolean | null
           last_name: string | null
           phone: string | null
           tenant_id: string
@@ -786,7 +780,8 @@ export interface Database {
           " email"?: string | null
           created_at?: string
           first_name?: string | null
-          id?: number
+          id?: string
+          is_doctor?: boolean | null
           last_name?: string | null
           phone?: string | null
           tenant_id: string
@@ -795,14 +790,15 @@ export interface Database {
           " email"?: string | null
           created_at?: string
           first_name?: string | null
-          id?: number
+          id?: string
+          is_doctor?: boolean | null
           last_name?: string | null
           phone?: string | null
           tenant_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "staff _tenant_id_fkey"
+            foreignKeyName: "staff_tenant_id_fkey"
             columns: ["tenant_id"]
             isOneToOne: false
             referencedRelation: "tenants"

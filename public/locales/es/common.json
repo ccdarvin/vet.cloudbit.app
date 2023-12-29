@@ -226,5 +226,17 @@
         "NoShow": "No se presentó"
       }
     }
+  },
+  "staff": {
+    "fields": {
+      "id": "Id",
+      "created_at": "Creado en",
+      "updated_at": "Actualizado en",
+      "first_name": "Nombre",
+      "last_name": "Apellido",
+      "email": "Correo electrónico",
+      "phone": "Teléfono",
+      "is_doctor": "¿Es doctor?"
+    }
   }
 }

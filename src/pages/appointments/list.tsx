@@ -4,6 +4,7 @@ import {
   BaseRecord,
   useTranslate,
   useParsed,
+  useResource,
 } from "@refinedev/core";
 import {
   useTable,
@@ -13,7 +14,7 @@ import {
   DateField,
   useDrawerForm,
 } from "@refinedev/antd";
-import { Table, Space, App } from "antd";
+import { Table, Space } from "antd";
 import { Tables } from "../../types/supabase";
 import { AppointmentsCreate } from "./create";
 import AppointmentStatusField from "../../components/fields/AppointmentStatusField";
@@ -22,6 +23,8 @@ import { AppointmentsEdit } from "./edit";
 export const AppointmentsList: React.FC<IResourceComponentsProps> = () => {
   const translate = useTranslate();
   const { params } = useParsed<{ tenant: string; patient: string }>();
+  const { resource } = useResource();
+  console.log(resource);
 
   const { tableProps } = useTable({
     syncWithLocation: true,
@@ -40,6 +43,11 @@ export const AppointmentsList: React.FC<IResourceComponentsProps> = () => {
           operator: "eq",
           value: params?.patient,
         },
+        {
+          field: "is_visit",
+          operator: "eq",
+          value: resource?.identifier === "visits",
+        }
       ],
     },
   });
