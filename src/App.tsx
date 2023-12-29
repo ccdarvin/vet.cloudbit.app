@@ -32,10 +32,11 @@ import { CustomerList } from "./pages/customers";
 import { ItemList } from "./pages/items";
 import { ServiceList } from "./pages/services01";
 import { OrderEdit, OrderList, OrderShow } from "./pages/orders";
-import { AppointmentIcon, MedicalRecordIcon, PatientIcon, SettingsIcon, StaffIcon, VisitIcon } from "./components/icons";
+import { AppointmentIcon, MedicalRecordIcon, PatientIcon, SettingsIcon, StaffIcon, TreatmentTypeIcon, VisitIcon } from "./components/icons";
 import { AppointmentsList } from "./pages/appointments";
 import { StaffList } from "./pages/staff";
 import { MedicalRecordsList } from "./pages/medical_records";
+import { TreatmentTypesList } from "./pages/treatment_types";
 
 function App() {
   const { t, i18n } = useTranslation(['common']);
@@ -114,7 +115,7 @@ function App() {
                     label: "Visitas",
                     hide: true,
                   }
-                },{
+                }, {
                   name: "medical_records",
                   list: "/:tenant/patient/:patient/medical_records",
                   create: "/:tenant/patient/:patient/medical_records/create",
@@ -186,6 +187,16 @@ function App() {
                     parent: "settings",
                     label: "Personal",
                     icon: <StaffIcon />,
+                  },
+                }, {
+                  name: "treatment_types",
+                  list: "/:tenant/treatment_types",
+                  create: "/:tenant/treatment_types/create",
+                  meta: {
+                    tenant,
+                    parent: "settings",
+                    label: "Tipos de tratamiento",
+                    icon: <TreatmentTypeIcon />,
                   },
                 }]}
                 options={{
@@ -263,6 +274,9 @@ function App() {
                       </Route>
                       <Route path="staff">
                         <Route index element={<StaffList />} />
+                      </Route>
+                      <Route path="treatment_types">
+                        <Route index element={<TreatmentTypesList />} />
                       </Route>
                     </Route>
                     <Route path="*" element={<ErrorComponent />} />

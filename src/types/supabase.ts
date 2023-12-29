@@ -387,6 +387,7 @@ export interface Database {
           symptoms: string | null
           tenant_id: string
           treatment: string | null
+          treatment_type_id: string | null
         }
         Insert: {
           appointment_id?: string | null
@@ -398,6 +399,7 @@ export interface Database {
           symptoms?: string | null
           tenant_id: string
           treatment?: string | null
+          treatment_type_id?: string | null
         }
         Update: {
           appointment_id?: string | null
@@ -409,6 +411,7 @@ export interface Database {
           symptoms?: string | null
           tenant_id?: string
           treatment?: string | null
+          treatment_type_id?: string | null
         }
         Relationships: [
           {
@@ -437,6 +440,13 @@ export interface Database {
             columns: ["tenant_id"]
             isOneToOne: false
             referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "medical_records_treatment_type_id_fkey"
+            columns: ["treatment_type_id"]
+            isOneToOne: false
+            referencedRelation: "treatment_types"
             referencedColumns: ["id"]
           }
         ]
@@ -1004,6 +1014,38 @@ export interface Database {
             columns: ["updated_by"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      treatment_types: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          name: string | null
+          tenant_id: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string | null
+          tenant_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string | null
+          tenant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "treatment_types_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
             referencedColumns: ["id"]
           }
         ]

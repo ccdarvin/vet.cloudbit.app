@@ -4,7 +4,7 @@ import {
   useTranslate,
 } from "@refinedev/core";
 import { Tables } from "../../types/supabase";
-import { Card, Flex, Space, Timeline, Typography } from "antd";
+import { Card, Flex,Timeline, Typography } from "antd";
 import { EditButton, useDrawerForm } from "@refinedev/antd";
 import { MedicalRecordsEdit } from "./edit";
 import DateField from "../../components/fields/DateField";
