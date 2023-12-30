@@ -464,6 +464,41 @@ export interface Database {
           }
         ]
       }
+      notes: {
+        Row: {
+          created_at: string
+          id: string
+          note: string
+          object_id: string
+          object_type: Database["public"]["Enums"]["object_type"]
+          tenant_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          note: string
+          object_id: string
+          object_type: Database["public"]["Enums"]["object_type"]
+          tenant_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          note?: string
+          object_id?: string
+          object_type?: Database["public"]["Enums"]["object_type"]
+          tenant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notes_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       order_items: {
         Row: {
           created_at: string
@@ -1085,6 +1120,7 @@ export interface Database {
         | "Cancelled"
         | "NoShow"
       cashbox_status: "open" | "closed"
+      object_type: "patients"
       patient_sex: "F" | "M"
     }
     CompositeTypes: {

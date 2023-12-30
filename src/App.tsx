@@ -32,11 +32,12 @@ import { CustomerList } from "./pages/customers";
 import { ItemList } from "./pages/items";
 import { ServiceList } from "./pages/services01";
 import { OrderEdit, OrderList, OrderShow } from "./pages/orders";
-import { AppointmentIcon, MedicalRecordIcon, PatientIcon, SettingsIcon, StaffIcon, TreatmentTypeIcon, VisitIcon } from "./components/icons";
+import { AppointmentIcon, MedicalRecordIcon, NoteIcon, PatientIcon, SettingsIcon, StaffIcon, TreatmentTypeIcon, VisitIcon } from "./components/icons";
 import { AppointmentsList } from "./pages/appointments";
 import { StaffList } from "./pages/staff";
 import { MedicalRecordsList } from "./pages/medical_records";
 import { TreatmentTypesList } from "./pages/treatment_types";
+import { PatientsNotesList } from "./pages/patients/notes";
 
 function App() {
   const { t, i18n } = useTranslation(['common']);
@@ -125,6 +126,16 @@ function App() {
                     label: "Historia clínica",
                     icon: <MedicalRecordIcon />,
                     hide: true,
+                  },
+                },  {
+                  name: "notes",
+                  list: "/:tenant/patient/:patient/notes",
+                  create: "/:tenant/patient/:patient/notes/create",
+                  meta: {
+                    hide: true,
+                    tenant,
+                    label: "Notas",
+                    icon: <NoteIcon />,
                   },
                 }, {
                   name: "items",
@@ -248,6 +259,9 @@ function App() {
                           </Route>
                           <Route path="medical_records">
                             <Route index element={<MedicalRecordsList />} />
+                          </Route>
+                          <Route path="notes">
+                            <Route index element={<PatientsNotesList />} />
                           </Route>
                         </Route>
                       </Route>

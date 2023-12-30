@@ -10,7 +10,7 @@ import { MdOutlineSettings } from "react-icons/md";
 import { BsPersonGear } from "react-icons/bs";
 import { CiMedicalClipboard } from "react-icons/ci";
 import { IoMedicalOutline } from "react-icons/io5";
-
+import { GoNote } from "react-icons/go";
 
 export const PatientIcon = (props: Partial<CustomIconComponentProps>) => {
   return <Icon component={PiDog} {...props} />;
@@ -38,19 +38,22 @@ export const VisitIcon = (props: Partial<CustomIconComponentProps>) => {
   return <Icon component={AiOutlineMedicineBox} {...props} />;
 };
 
-
 export const SettingsIcon = (props: Partial<CustomIconComponentProps>) => {
   return <Icon component={MdOutlineSettings} {...props} />;
-}
+};
 
 export const StaffIcon = (props: Partial<CustomIconComponentProps>) => {
   return <Icon component={BsPersonGear} {...props} />;
-}
+};
 
 export const MedicalRecordIcon = (props: Partial<CustomIconComponentProps>) => {
   return <Icon component={CiMedicalClipboard} {...props} />;
-}
+};
 
 export const TreatmentTypeIcon = (props: Partial<CustomIconComponentProps>) => {
   return <Icon component={IoMedicalOutline} {...props} />;
-}
+};
+
+export const NoteIcon = (props: Partial<CustomIconComponentProps>) => {
+  return <Icon component={GoNote} {...props} />;
+};
