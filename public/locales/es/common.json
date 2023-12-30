@@ -247,7 +247,8 @@
       "doctor": "Doctor",
       "symptoms": "Síntomas",
       "diagnosis": "Diagnóstico",
-      "treatment": "Tratamiento"
+      "treatment": "Tratamiento",
+      "treatment_type": "Tipo de tratamiento"
     }
   }
 }

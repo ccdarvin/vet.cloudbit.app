@@ -4,6 +4,7 @@ import { FormProps } from "antd/lib";
 import PatientSelect from "../../components/controls/PatientSelect";
 import StaffSelect from "../../components/controls/StaffSelect";
 import AppointmentSelect from "../../components/controls/AppointmentSelect";
+import TreatmentTypeSelect from "../../components/controls/TreatmentTypeSelect";
 
 export const MedicalRecordForm: React.FC<{ formProps: FormProps }> = ({
   formProps,
@@ -48,24 +49,22 @@ export const MedicalRecordForm: React.FC<{ formProps: FormProps }> = ({
           <Form.Item
             label={translate("medical_records.fields.doctor")}
             name={"doctor_id"}
-            rules={[
-              {
-                required: true,
-              },
-            ]}
           >
             <StaffSelect isDoctor />
+          </Form.Item>
+        </Col>
+        <Col xs={{ span: 24 }} sm={{ span: 12 }}>
+          <Form.Item
+            label={translate("medical_records.fields.treatment_type")}
+            name={"treatment_type_id"}
+          >
+            <TreatmentTypeSelect />
           </Form.Item>
         </Col>
         <Col xs={{ span: 24 }}>
           <Form.Item
             label={translate("medical_records.fields.symptoms")}
             name={["symptoms"]}
-            rules={[
-              {
-                required: true,
-              },
-            ]}
           >
             <Input.TextArea autoSize={{ minRows: 3 }} />
           </Form.Item>
