@@ -1,10 +1,11 @@
 import { useParsed, useTranslate } from "@refinedev/core";
-import { Col, Form, Input, Row } from "antd";
+import { Col, DatePicker, Form, Input, Row } from "antd";
 import { FormProps } from "antd/lib";
 import PatientSelect from "../../components/controls/PatientSelect";
 import StaffSelect from "../../components/controls/StaffSelect";
 import AppointmentSelect from "../../components/controls/AppointmentSelect";
 import TreatmentTypeSelect from "../../components/controls/TreatmentTypeSelect";
+import dayjs from "dayjs";
 
 export const MedicalRecordForm: React.FC<{ formProps: FormProps }> = ({
   formProps,
@@ -30,6 +31,26 @@ export const MedicalRecordForm: React.FC<{ formProps: FormProps }> = ({
             name={"appointment_id"}
           >
             <AppointmentSelect isAvailable />
+          </Form.Item>
+        </Col>
+        <Col xs={{ span: 24 }} sm={{ span: 12 }}>
+          <Form.Item
+            label={translate("medical_records.fields.date")}
+            name={"date"}
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+            getValueProps={(value) => ({
+              value: value ? dayjs(value) : undefined,
+            })}
+          >
+            <DatePicker
+              showTime
+              showSecond={false}
+              format={"YYYY-MM-DD HH:mm"}
+            />
           </Form.Item>
         </Col>
         <Col xs={{ span: 24 }} sm={{ span: 12 }}>

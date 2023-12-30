@@ -248,7 +248,8 @@
       "symptoms": "Síntomas",
       "diagnosis": "Diagnóstico",
       "treatment": "Tratamiento",
-      "treatment_type": "Tipo de tratamiento"
+      "treatment_type": "Tipo de tratamiento",
+      "date": "Fecha"
     }
   }
 }

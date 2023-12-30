@@ -56,6 +56,7 @@ export interface Database {
           reason: string | null
           status: Database["public"]["Enums"]["appointment_status"] | null
           tenant_id: string
+          treatment_type_id: string | null
         }
         Insert: {
           created_at?: string
@@ -67,6 +68,7 @@ export interface Database {
           reason?: string | null
           status?: Database["public"]["Enums"]["appointment_status"] | null
           tenant_id: string
+          treatment_type_id?: string | null
         }
         Update: {
           created_at?: string
@@ -78,6 +80,7 @@ export interface Database {
           reason?: string | null
           status?: Database["public"]["Enums"]["appointment_status"] | null
           tenant_id?: string
+          treatment_type_id?: string | null
         }
         Relationships: [
           {
@@ -99,6 +102,13 @@ export interface Database {
             columns: ["tenant_id"]
             isOneToOne: false
             referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "appointments_treatment_type_id_fkey"
+            columns: ["treatment_type_id"]
+            isOneToOne: false
+            referencedRelation: "treatment_types"
             referencedColumns: ["id"]
           }
         ]
@@ -380,6 +390,7 @@ export interface Database {
         Row: {
           appointment_id: string | null
           created_at: string
+          date: string | null
           diagnosis: string | null
           doctor_id: string | null
           id: string
@@ -392,6 +403,7 @@ export interface Database {
         Insert: {
           appointment_id?: string | null
           created_at?: string
+          date?: string | null
           diagnosis?: string | null
           doctor_id?: string | null
           id?: string
@@ -404,6 +416,7 @@ export interface Database {
         Update: {
           appointment_id?: string | null
           created_at?: string
+          date?: string | null
           diagnosis?: string | null
           doctor_id?: string | null
           id?: string

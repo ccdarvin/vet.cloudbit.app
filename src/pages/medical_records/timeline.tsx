@@ -4,7 +4,7 @@ import {
   useTranslate,
 } from "@refinedev/core";
 import { Tables } from "../../types/supabase";
-import { Card, Flex,Timeline, Typography } from "antd";
+import { Card, Flex, Timeline, Typography } from "antd";
 import { EditButton, useDrawerForm } from "@refinedev/antd";
 import { MedicalRecordsEdit } from "./edit";
 import DateField from "../../components/fields/DateField";
@@ -12,6 +12,7 @@ import DateField from "../../components/fields/DateField";
 interface IMedicalRecords extends Tables<"medical_records"> {
   patient: Tables<"patients">;
   doctor: Tables<"staff">;
+  treatment_type: Tables<"treatment_types">;
 }
 
 export const MedicalRecordsTimeLine: React.FC<
@@ -21,11 +22,12 @@ export const MedicalRecordsTimeLine: React.FC<
   const { data: medicalRecords } = useList<IMedicalRecords>({
     resource: "medical_records",
     meta: {
-      select: "*, patient:patient_id(*), doctor:doctor_id(*)",
+      select:
+        "*, patient:patient_id(*), doctor:doctor_id(*), treatment_type:treatment_type_id(*)",
     },
     sorters: [
       {
-        field: "created_at",
+        field: "date",
         order: "desc",
       },
     ],
@@ -43,7 +45,14 @@ export const MedicalRecordsTimeLine: React.FC<
             <Timeline.Item key={record.id}>
               <Flex vertical gap={10}>
                 <Flex align="center" gap={20}>
-                  <DateField type="secondary" value={record.created_at} />
+                  <Typography.Text>
+                    {record?.treatment_type?.name}
+                  </Typography.Text>
+                  <DateField
+                    format="L LT"
+                    type="secondary"
+                    value={record.date}
+                  />
                   <EditButton
                     hideText
                     recordItemId={record.id}
@@ -56,37 +65,49 @@ export const MedicalRecordsTimeLine: React.FC<
                   </Typography.Text>
                   <Typography.Text>{record.patient.name}</Typography.Text>
                 </Flex>
-                <Flex gap={20}>
-                  <Card
-                    style={{ minWidth: 400 }}
-                    title={
-                      <Typography.Text type="secondary">
-                        {translate("medical_records.fields.symptoms")}
-                      </Typography.Text>
-                    }
-                  >
-                    {record.symptoms || '-'}
-                  </Card>
-                  <Card
-                    style={{ minWidth: 400 }}
-                    title={
-                      <Typography.Text type="secondary">
-                        {translate("medical_records.fields.diagnosis")}
-                      </Typography.Text>
-                    }
-                  >
-                    {record.diagnosis || '-'}
-                  </Card>
-                  <Card
-                    style={{ minWidth: 400 }}
-                    title={
-                      <Typography.Text type="secondary">
-                        {translate("medical_records.fields.treatment")}
-                      </Typography.Text>
-                    }
-                  >
-                    {record.treatment || '-'}
-                  </Card>
+                <Flex gap={20} wrap="wrap">
+                  {record.symptoms && (
+                    <Card
+                      size="small"
+                      bordered={false}
+                      style={{ minWidth: 400 }}
+                      title={
+                        <Typography.Text type="secondary">
+                          {translate("medical_records.fields.symptoms")}
+                        </Typography.Text>
+                      }
+                    >
+                      {record.symptoms}
+                    </Card>
+                  )}
+                  {record.diagnosis && (
+                    <Card
+                      size="small"
+                      bordered={false}
+                      style={{ minWidth: 400 }}
+                      title={
+                        <Typography.Text type="secondary">
+                          {translate("medical_records.fields.diagnosis")}
+                        </Typography.Text>
+                      }
+                    >
+                      {record.diagnosis}
+                    </Card>
+                  )}
+                  {record.treatment && (
+                    <Card
+                      size="small"
+                      bordered={false}
+                      style={{ minWidth: 400 }}
+                      title={
+                        <Typography.Text type="secondary">
+                          {translate("medical_records.fields.treatment")}
+                        </Typography.Text>
+                      }
+                    >
+                      {record.treatment}
+                    </Card>
+                  )}
                 </Flex>
               </Flex>
             </Timeline.Item>

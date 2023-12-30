@@ -1,11 +1,10 @@
-import React from "react";
-import { IResourceComponentsProps, useGo } from "@refinedev/core";
+import React, { useEffect } from "react";
+import { IResourceComponentsProps } from "@refinedev/core";
 import { List, useDrawerForm } from "@refinedev/antd";
 import { Tables } from "../../types/supabase";
 import { MedicalRecordsCreate } from "./create";
 import { MedicalRecordsTable } from "./table";
 import { Segmented, Space } from "antd";
-import { useSearchParams } from "react-router-dom";
 import { MedicalRecordsTimeLine } from "./timeline";
 
 export const MedicalRecordsList: React.FC<IResourceComponentsProps> = () => {
@@ -13,8 +12,20 @@ export const MedicalRecordsList: React.FC<IResourceComponentsProps> = () => {
     action: "create",
     syncWithLocation: true,
   });
-  const [searchParams] = useSearchParams();
-  const go = useGo();
+
+  const [view, setView] = React.useState<string>("timeline");
+
+  const handlerViewChange = (value: string) => {
+    // save the view in local storage
+    localStorage.setItem("medical_records_view", value);
+    setView(value);
+  };
+
+  useEffect(() => {
+    const view = localStorage.getItem("medical_records_view");
+    setView(view || "timeline");
+  }, []);
+
   return (
     <List
       createButtonProps={{
@@ -23,7 +34,7 @@ export const MedicalRecordsList: React.FC<IResourceComponentsProps> = () => {
       headerButtons={({ defaultButtons }) => (
         <Space>
           <Segmented
-            value={searchParams.get("view") || "timeline"}
+            value={view}
             options={[
               {
                 label: "Tabla",
@@ -35,19 +46,15 @@ export const MedicalRecordsList: React.FC<IResourceComponentsProps> = () => {
               },
             ]}
             onChange={(value) => {
-              go({ query: { view: value } });
+              handlerViewChange(value as string);
             }}
           />
           {defaultButtons}
         </Space>
       )}
     >
-      {searchParams.get("view") === "timeline" && (
-        <MedicalRecordsTimeLine />
-      )}
-      {searchParams.get("view") === "table" && (
-        <MedicalRecordsTable />
-      )}
+      {view === "timeline" && <MedicalRecordsTimeLine />}
+      {view === "table" && <MedicalRecordsTable />}
       <MedicalRecordsCreate drawerFormProps={drawerFormPropsCreate} />
     </List>
   );
