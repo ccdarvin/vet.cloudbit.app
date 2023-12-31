@@ -44,6 +44,7 @@ import {
   NoteIcon,
   OrderIcon,
   PatientIcon,
+  PaymentTypeIcon,
   SalesIcon,
   SettingsIcon,
   SpeciesIcon,
@@ -57,6 +58,7 @@ import { MedicalRecordsList } from "./pages/medical_records";
 import { TreatmentTypesList } from "./pages/treatment_types";
 import { PatientsNotesList } from "./pages/patients/notes";
 import { CustomerLayout } from "./pages/customers/layout";
+import { PaymentTypesList } from "./pages/payment_types";
 
 function App() {
   const { t, i18n } = useTranslation(["common"]);
@@ -261,12 +263,21 @@ function App() {
                   {
                     name: "treatment_types",
                     list: "/:tenant/treatment_types",
-                    create: "/:tenant/treatment_types/create",
                     meta: {
                       tenant,
                       parent: "settings",
                       label: "Tipos de tratamiento",
                       icon: <TreatmentTypeIcon />,
+                    },
+                  },
+                  {
+                    name: "payment_types",
+                    list: "/:tenant/payment_types",
+                    meta: {
+                      tenant,
+                      parent: "settings",
+                      label: "Tipos de pago",
+                      icon: <PaymentTypeIcon  />,
                     },
                   },
                 ]}
@@ -366,6 +377,7 @@ function App() {
                       <Route path="treatment_types">
                         <Route index element={<TreatmentTypesList />} />
                       </Route>
+                      <Route path="payment_types" element={<PaymentTypesList />} />
                     </Route>
                     <Route path="*" element={<ErrorComponent />} />
                   </Route>

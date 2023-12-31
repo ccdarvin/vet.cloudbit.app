@@ -17,8 +17,9 @@ import {
 import { Table, Space } from "antd";
 import { Tables } from "../../types/supabase";
 import { AppointmentsCreate } from "./create";
-import AppointmentStatusField from "../../components/fields/AppointmentStatusField";
+import BadgeField from "../../components/fields/BadgeField";
 import { AppointmentsEdit } from "./edit";
+import { appointmentStatusOptions } from "../../constants";
 
 export const AppointmentsList: React.FC<IResourceComponentsProps> = () => {
   const translate = useTranslate();
@@ -47,11 +48,10 @@ export const AppointmentsList: React.FC<IResourceComponentsProps> = () => {
           field: "is_visit",
           operator: "eq",
           value: resource?.identifier === "visits",
-        }
+        },
       ],
     },
   });
-  console.log(tableProps);
   const drawerFormPropsCreate = useDrawerForm<Tables<"patients">>({
     action: "create",
     syncWithLocation: true,
@@ -94,7 +94,15 @@ export const AppointmentsList: React.FC<IResourceComponentsProps> = () => {
         <Table.Column
           dataIndex="status"
           title={translate("appointments.fields.status")}
-          render={(value) => <AppointmentStatusField value={value} />}
+          render={(value) => (
+            <BadgeField
+              value={value}
+              color={
+                appointmentStatusOptions.find((item) => item.value === value)
+                  ?.color
+              }
+            />
+          )}
         />
         <Table.Column
           title={translate("table.actions")}

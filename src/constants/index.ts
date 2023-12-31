@@ -30,6 +30,37 @@ export const appointmentStatusOptions: AppointmentStatusOption[] = [
   },
 ];
 
+/**
+ * :
+Cash: Pagos en efectivo.
+Card: Pagos con tarjeta.
+App: Pagos a través de aplicaciones.
+Wire: Transferencias bancarias.
+other: Pagos con cheques.
+ */
+export const paymentMethodOptions: { value: string, color: string }[] = [
+  {
+    value: "Cash",
+    color: "#808080",
+  },
+  {
+    value: "Card",
+    color: "#ADD8E6",
+  },
+  {
+    value: "App",
+    color: "#0000FF",
+  },
+  {
+    value: "Wire",
+    color: "#006400",
+  },
+  {
+    value: "other",
+    color: "#FF0000",
+  },
+];
+
 export const OrderStatusOptions: { value: string, step: number }[] = [
   {
     value: "Pend",

@@ -197,14 +197,6 @@
       "F": "Hembra"
     }
   },
-  "vaccines": {
-    "fields": {
-      "name": "Nombre",
-      "date": "Fecha de vacunación",
-      "has": "¿Tiene la vacuna?",
-      "observations": "Observaciones"
-    }
-  },
   "appointments": {
     "fields": {
       "id": "Id",
@@ -306,6 +298,28 @@
         "Paid": "Pagado",
         "Canc": "Cancelado"
       }
+    }
+  },
+  "payment_types": {
+    "fields": {
+      "name": "Nombre",
+      "description": "Descripción",
+      "payment_method": "Método de pago"
+    },
+    "enums": {
+      "payment_method": {
+        "Cash": "Efectivo",
+        "Card": "Tarjeta de crédito",
+        "App": "Aplicación",
+        "Wire": "Transferencia bancaria",
+        "other": "Otros"
+      }
+    }
+  },
+  "treatment_types": {
+    "fields": {
+      "name": "Nombre",
+      "description": "Descripción"
     }
   }
 }

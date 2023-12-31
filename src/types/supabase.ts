@@ -808,6 +808,38 @@ export interface Database {
           }
         ]
       }
+      payment_types: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          name: string | null
+          tenant_id: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string | null
+          tenant_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string | null
+          tenant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payment_types_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -1124,6 +1156,7 @@ export interface Database {
       object_type: "patients"
       order_status: "Pend" | "Comp" | "Paid" | "Canc"
       patient_sex: "F" | "M"
+      payment_method: "Cash" | "Card" | "App" | "Wire" | "Check"
     }
     CompositeTypes: {
       [_ in never]: never
