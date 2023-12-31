@@ -263,5 +263,18 @@
       "address": "Dirección",
       "address_ref": "Referencia de dirección"
     }
+  },
+  "items": {
+    "fields": {
+      "name": "Nombre",
+      "is_service": "¿Es un servicio?",
+      "description": "Descripción",
+      "price": "Precio",
+      "cost": "Costo",
+      "stock": "Stock",
+      "sku": "Código o SKU",
+      "ean": "Código de barras",
+      "category": "Categoría"
+    }
   }
 }

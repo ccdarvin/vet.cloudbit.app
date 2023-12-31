@@ -35,11 +35,11 @@ import { PatientsList, PacientShow, PatientLayout } from "./pages/patients";
 import { SpeciesList } from "./pages/species";
 import { CustomerList, CustomersShow } from "./pages/customers";
 import { ItemList } from "./pages/items";
-import { ServiceList } from "./pages/services01";
 import { OrderEdit, OrderList, OrderShow } from "./pages/orders";
 import {
   AppointmentIcon,
   CustomerIcon,
+  ItemIcon,
   MedicalRecordIcon,
   NoteIcon,
   PatientIcon,
@@ -184,24 +184,14 @@ function App() {
                   },
                   {
                     name: "items",
-                    list: "/:tenant/services",
-                    create: "/:tenant/services/create",
-                    edit: "/:tenant/services/edit/:id",
-                    show: "/:tenant/services/show/:id",
-                    meta: {
-                      tenant,
-                      label: "Servicios",
-                    },
-                  },
-                  {
-                    name: "items",
                     list: "/:tenant/items",
                     create: "/:tenant/items/create",
                     edit: "/:tenant/items/edit/:id",
                     show: "/:tenant/items/show/:id",
                     meta: {
                       tenant,
-                      label: "Productos",
+                      icon: <ItemIcon />,
+                      label: "Productos y Servicios",
                     },
                   },
                   {
@@ -337,9 +327,6 @@ function App() {
                           </Route>
                           <Route index element={<CustomersShow />} />
                         </Route>
-                      </Route>
-                      <Route path="services">
-                        <Route index element={<ServiceList />} />
                       </Route>
                       <Route path="items">
                         <Route index element={<ItemList />} />

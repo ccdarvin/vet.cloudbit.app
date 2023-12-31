@@ -12,6 +12,7 @@ import { CiMedicalClipboard } from "react-icons/ci";
 import { IoMedicalOutline } from "react-icons/io5";
 import { GoNote } from "react-icons/go";
 import { BsFilePerson } from "react-icons/bs";
+import { IoIosCheckboxOutline } from "react-icons/io";
 
 
 export const PatientIcon = (props: Partial<CustomIconComponentProps>) => {
@@ -63,3 +64,7 @@ export const NoteIcon = (props: Partial<CustomIconComponentProps>) => {
 export const CustomerIcon = (props: Partial<CustomIconComponentProps>) => {
   return <Icon component={BsFilePerson} {...props} />;
 };
+
+export const ItemIcon = (props: Partial<CustomIconComponentProps>) => {
+  return <Icon component={IoIosCheckboxOutline} {...props} />;
+}
