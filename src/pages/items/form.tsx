@@ -5,7 +5,8 @@ import { FormProps } from "antd/lib";
 export const ItemForm: React.FC<{ formProps: FormProps }> = ({ formProps }) => {
   const translate = useTranslate();
   const { params } = useParsed<{ tenant: string }>();
-
+  const { form } = formProps;
+  const isService = Form.useWatch("is_service", form);
   return (
     <Form
       {...formProps}
@@ -14,7 +15,7 @@ export const ItemForm: React.FC<{ formProps: FormProps }> = ({ formProps }) => {
         return formProps.onFinish?.({
           ...values,
           tenant_id: params?.tenant as string,
-          is_service: false,
+          stock: isService ? null : values.stock,
         });
       }}
     >
@@ -61,9 +62,12 @@ export const ItemForm: React.FC<{ formProps: FormProps }> = ({ formProps }) => {
             <InputNumber />
           </Form.Item>
         </Col>
-        <Col xs={{ span: 24 }} sm={{ span: 12 }}>
-          <Form.Item label={translate("items.fields.stock")} name={["stock"]}>
-            <InputNumber />
+        <Col xs={{ span: 24 }} sm={{ span: 12 }} >
+          <Form.Item 
+            label={translate("items.fields.stock")} 
+            name={["stock"]}
+          >
+            <InputNumber disabled={isService} />
           </Form.Item>
         </Col>
         <Col xs={{ span: 24 }}>

@@ -9,7 +9,9 @@ import {
   List,
   EditButton,
   ShowButton,
-  useDrawerForm
+  useDrawerForm,
+  BooleanField,
+  getDefaultSortOrder,
 } from "@refinedev/antd";
 import { Table, Space } from "antd";
 import { Tables } from "../../types/supabase";
@@ -20,7 +22,7 @@ export const ItemList: React.FC<IResourceComponentsProps> = () => {
   const translate = useTranslate();
   const { params } = useParsed<{ tenant: string }>();
 
-  const { tableProps } = useTable({
+  const { tableProps, sorters } = useTable({
     syncWithLocation: true,
     filters: {
       permanent: [
@@ -28,21 +30,25 @@ export const ItemList: React.FC<IResourceComponentsProps> = () => {
           field: "tenant_id",
           operator: "eq",
           value: params?.tenant,
-        }, {
-          field: "is_service",
-          operator: "eq",
-          value: false,
         }
       ],
-    }
+    },
+    sorters: {
+      initial: [
+        {
+          field: "created_at",
+          order: "desc",
+        },
+      ],
+    },
   });
 
-  const drawerFormPropsCreate = useDrawerForm<Tables<'items'>>({
+  const drawerFormPropsCreate = useDrawerForm<Tables<"items">>({
     action: "create",
     syncWithLocation: true,
   });
 
-  const drawerFormPropsEdit = useDrawerForm<Tables<'items'>>({
+  const drawerFormPropsEdit = useDrawerForm<Tables<"items">>({
     action: "edit",
     syncWithLocation: true,
   });
@@ -50,30 +56,54 @@ export const ItemList: React.FC<IResourceComponentsProps> = () => {
   return (
     <List
       createButtonProps={{
-        onClick: () => drawerFormPropsCreate.show()
+        onClick: () => drawerFormPropsCreate.show(),
       }}
     >
-      <Table {...tableProps} rowKey="id">
-        <Table.Column dataIndex="name" title={translate("items.fields.name")} />
+      <Table 
+        
+        {...tableProps} rowKey="id"
+      >
+        <Table.Column 
+          dataIndex="sku" 
+          title={translate("items.fields.sku")}
+          sorter
+          defaultSortOrder={getDefaultSortOrder("sku", sorters)}
+        />
+        <Table.Column 
+        dataIndex="name" 
+        title={translate("items.fields.name")} 
+        sorter
+        defaultSortOrder={getDefaultSortOrder("name", sorters)}
+        />
+        <Table.Column dataIndex="is_service" 
+          title={translate("items.fields.is_service")} 
+          sorter
+          defaultSortOrder={getDefaultSortOrder("is_service", sorters)}
+          render={(value) => <BooleanField value={value} />}
+        />
         <Table.Column
           dataIndex="price"
           title={translate("items.fields.price")}
+          sorter
+          defaultSortOrder={getDefaultSortOrder("price", sorters)}
+        />
+        <Table.Column
+          dataIndex="stock"
+          title={translate("items.fields.stock")}
+          sorter
+          defaultSortOrder={getDefaultSortOrder("stock", sorters)}
         />
         <Table.Column
           title={translate("table.actions")}
           dataIndex="actions"
+          fixed="right"
           render={(_, record: BaseRecord) => (
             <Space>
-              <EditButton 
-                hideText 
-                size="small" 
-                recordItemId={record.id} 
-                onClick={() => drawerFormPropsEdit.show(record.id)}
-              />
-              <ShowButton 
-                hideText 
-                size="small" 
+              <EditButton
+                hideText
+                size="small"
                 recordItemId={record.id}
+                onClick={() => drawerFormPropsEdit.show(record.id)}
               />
             </Space>
           )}
