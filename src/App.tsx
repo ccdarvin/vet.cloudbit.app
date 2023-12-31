@@ -90,10 +90,10 @@ function App() {
                 resources={[
                   {
                     name: "tenants",
-                    list: "/tenant",
-                    create: "/tenant/create",
-                    edit: "/tenant/edit/:id",
-                    show: "/tenant/show/:id",
+                    list: "/tenants",
+                    create: "/tenants/create",
+                    edit: "/tenants/edit/:id",
+                    show: "/tenants/show/:id",
                   },
                   {
                     name: "appointments",
@@ -106,8 +106,8 @@ function App() {
                   },
                   {
                     name: "patients",
-                    list: "/:tenant/patient",
-                    show: "/:tenant/patient/:id",
+                    list: "/:tenant/patients",
+                    show: "/:tenant/patients/:id",
                     meta: {
                       tenant,
                       param: "patient",
@@ -118,7 +118,7 @@ function App() {
                   {
                     name: "appointments",
                     identifier: "appointmentsByPatient",
-                    list: "/:tenant/patient/:patient/appointments",
+                    list: "/:tenant/patients/:patient/appointments",
                     meta: {
                       icon: <AppointmentIcon />,
                       tenant,
@@ -129,7 +129,7 @@ function App() {
                   {
                     name: "appointments",
                     identifier: "visits",
-                    list: "/:tenant/patient/:patient/vists",
+                    list: "/:tenant/patients/:patient/visits",
                     meta: {
                       icon: <VisitIcon />,
                       tenant,
@@ -139,9 +139,9 @@ function App() {
                   },
                   {
                     name: "medical_records",
-                    list: "/:tenant/patient/:patient/medical_records",
-                    create: "/:tenant/patient/:patient/medical_records/create",
-                    show: "/:tenant/patient/:patient/medical_records/show/:id",
+                    list: "/:tenant/patients/:patient/medical_records",
+                    create: "/:tenant/patients/:patient/medical_records/create",
+                    show: "/:tenant/patients/:patient/medical_records/show/:id",
                     meta: {
                       tenant,
                       label: "Historia clínica",
@@ -151,8 +151,8 @@ function App() {
                   },
                   {
                     name: "notes",
-                    list: "/:tenant/patient/:patient/notes",
-                    create: "/:tenant/patient/:patient/notes/create",
+                    list: "/:tenant/patients/:patient/notes",
+                    create: "/:tenant/patients/:patient/notes/create",
                     meta: {
                       hide: true,
                       tenant,
@@ -162,8 +162,8 @@ function App() {
                   },
                   {
                     name: "customers",
-                    list: "/:tenant/customer",
-                    show: "/:tenant/customer/:id",
+                    list: "/:tenant/customers",
+                    show: "/:tenant/customers/:id",
                     meta: {
                       param: "customer",
                       tenant,
@@ -174,8 +174,8 @@ function App() {
                   {
                     name: "patients",
                     identifier: "pets",
-                    list: "/:tenant/customer/:customer/patient",
-                    show: "/:tenant/patient/:id",
+                    list: "/:tenant/customers/:customer/patients",
+                    show: "/:tenant/patients/:id",
                     meta: {
                       tenant,
                       hide: true,
@@ -248,8 +248,8 @@ function App() {
                   },
                   {
                     name: "treatment_types",
-                    list: "/:tenant/treatment_type",
-                    create: "/:tenant/treatment_type/create",
+                    list: "/:tenant/treatment_types",
+                    create: "/:tenant/treatment_types/create",
                     meta: {
                       tenant,
                       parent: "settings",
@@ -285,14 +285,14 @@ function App() {
                       index
                       element={<NavigateToResource resource="blog_posts" />}
                     />
-                    <Route path="/tenant">
+                    <Route path="/tenants">
                       <Route index element={<TenantList />} />
                       <Route path="create" element={<TenantCreate />} />
                       <Route path="edit/:id" element={<TenantEdit />} />
                       <Route path="show/:id" element={<TenantShow />} />
                     </Route>
                     <Route path="/:tenant">
-                      <Route path="patient">
+                      <Route path="patients">
                         <Route index element={<PatientsList />} />
                         <Route
                           path=":patient"
@@ -303,21 +303,21 @@ function App() {
                           }
                         >
                           <Route index element={<PacientShow />} />
-                          <Route path="appointment">
+                          <Route path="appointments">
                             <Route index element={<AppointmentsList />} />
                           </Route>
-                          <Route path="vist">
+                          <Route path="visits">
                             <Route index element={<AppointmentsList />} />
                           </Route>
-                          <Route path="medical_record">
+                          <Route path="medical_records">
                             <Route index element={<MedicalRecordsList />} />
                           </Route>
-                          <Route path="note">
+                          <Route path="notes">
                             <Route index element={<PatientsNotesList />} />
                           </Route>
                         </Route>
                       </Route>
-                      <Route path="customer">
+                      <Route path="customers">
                         <Route index element={<CustomerList />} />
                         <Route
                           path=":customer"
@@ -327,7 +327,7 @@ function App() {
                             </CustomerLayout>
                           }
                         >
-                          <Route path="patient">
+                          <Route path="patients">
                             <Route index element={<PatientsList />} />
                           </Route>
                           <Route index element={<CustomersShow />} />
@@ -345,13 +345,13 @@ function App() {
                       <Route path="species">
                         <Route index element={<SpeciesList />} />
                       </Route>
-                      <Route path="appointment">
+                      <Route path="appointments">
                         <Route index element={<AppointmentsList />} />
                       </Route>
                       <Route path="staff">
                         <Route index element={<StaffList />} />
                       </Route>
-                      <Route path="treatment_type">
+                      <Route path="treatment_types">
                         <Route index element={<TreatmentTypesList />} />
                       </Route>
                     </Route>
