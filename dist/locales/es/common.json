@@ -197,14 +197,6 @@
       "F": "Hembra"
     }
   },
-  "vaccines": {
-    "fields": {
-      "name": "Nombre",
-      "date": "Fecha de vacunación",
-      "has": "¿Tiene la vacuna?",
-      "observations": "Observaciones"
-    }
-  },
   "appointments": {
     "fields": {
       "id": "Id",
@@ -247,7 +239,97 @@
       "doctor": "Doctor",
       "symptoms": "Síntomas",
       "diagnosis": "Diagnóstico",
-      "treatment": "Tratamiento"
+      "treatment": "Tratamiento",
+      "treatment_type": "Tipo de tratamiento",
+      "date": "Fecha"
+    }
+  },
+  "notes": {
+  },
+  "customers": {
+    "fields": {
+      "name": "Nombre",
+      "email": "Correo electrónico",
+      "doc_number": "Número de documento",
+      "phone": "Teléfono",
+      "address": "Dirección",
+      "address_ref": "Referencia de dirección"
+    }
+  },
+  "items": {
+    "fields": {
+      "name": "Nombre",
+      "is_service": "¿Es un servicio?",
+      "description": "Descripción",
+      "price": "Precio",
+      "cost": "Costo",
+      "stock": "Stock",
+      "sku": "Código o SKU",
+      "ean": "Código de barras",
+      "category": "Categoría"
+    }
+  },
+  "breeds": {
+    "fields": {
+      "name": "Nombre",
+      "species": "Especie",
+      "description": "Descripción"
+    }
+  },
+  "species": {
+    "fields": {
+      "name": "Nombre",
+      "description": "Descripción"
+    }
+  },
+  "orders": {
+    "fields": {
+      "customer": "Cliente",
+      "number": "Número",
+      "subtotal_base": "Subtotal",
+      "discount": "Descuento",
+      "total": "Total",
+      "status": "Estado"
+    },
+    "enums": {
+      "status": {
+        "Pend": "Pendiente",
+        "Comp": "Pagado parcialmente",
+        "Paid": "Pagado",
+        "Canc": "Cancelado"
+      }
+    }
+  },
+  "payment_types": {
+    "fields": {
+      "name": "Nombre",
+      "description": "Descripción",
+      "payment_method": "Método de pago"
+    },
+    "enums": {
+      "payment_method": {
+        "Cash": "Efectivo",
+        "Card": "Tarjeta de crédito",
+        "App": "Aplicación",
+        "Wire": "Transferencia bancaria",
+        "other": "Otros"
+      }
+    }
+  },
+  "treatment_types": {
+    "fields": {
+      "name": "Nombre",
+      "description": "Descripción"
+    }
+  },
+  "cash_registers": {
+    "fields": {
+      "nnumber": "Número",
+      "open_at": "Abierto en",
+      "close_at": "Cerrado en",
+      "status": "Estado",
+      "is_balanced": "¿Está balanceado?",
+      "initial_balance": "Balance inicial"
     }
   }
 }
