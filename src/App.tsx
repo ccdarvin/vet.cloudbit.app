@@ -44,6 +44,7 @@ import {
   NoteIcon,
   PatientIcon,
   SettingsIcon,
+  SpeciesIcon,
   StaffIcon,
   TreatmentTypeIcon,
   VisitIcon,
@@ -195,21 +196,6 @@ function App() {
                     },
                   },
                   {
-                    name: "species",
-                    list: "/:tenant/species",
-                    meta: {
-                      tenant,
-                    },
-                  },
-                  {
-                    name: "breeds",
-                    list: "/:tenant/breeds",
-                    meta: {
-                      hide: true,
-                      tenant,
-                    },
-                  },
-                  {
                     name: "orders",
                     list: "/:tenant/orders",
                     create: "/:tenant/orders/create",
@@ -242,9 +228,28 @@ function App() {
                     },
                   },
                   {
+                    name: "species",
+                    list: "/:tenant/species",
+                    meta: {
+                      tenant,
+                      parent: "settings",
+                      label: "Especies",
+                      icon: <SpeciesIcon  />,
+                    },
+                  },
+                  {
+                    name: "breeds",
+                    list: "/:tenant/breeds",
+                    meta: {
+                      hide: true,
+                      parent: "settings",
+                      tenant,
+                    },
+                  },
+                  {
                     name: "treatment_types",
-                    list: "/:tenant/treatment_types",
-                    create: "/:tenant/treatment_types/create",
+                    list: "/:tenant/treatment_type",
+                    create: "/:tenant/treatment_type/create",
                     meta: {
                       tenant,
                       parent: "settings",
@@ -337,7 +342,7 @@ function App() {
                         <Route path="edit/:id" element={<OrderEdit />} />
                         <Route path="show/:id" element={<OrderShow />} />
                       </Route>
-                      <Route path="specie">
+                      <Route path="species">
                         <Route index element={<SpeciesList />} />
                       </Route>
                       <Route path="appointment">

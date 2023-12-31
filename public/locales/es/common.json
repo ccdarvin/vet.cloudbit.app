@@ -276,5 +276,18 @@
       "ean": "Código de barras",
       "category": "Categoría"
     }
+  },
+  "breeds": {
+    "fields": {
+      "name": "Nombre",
+      "species": "Especie",
+      "description": "Descripción"
+    }
+  },
+  "species": {
+    "fields": {
+      "name": "Nombre",
+      "description": "Descripción"
+    }
   }
 }

@@ -1,19 +1,19 @@
 import { UseDrawerFormReturnType } from "@refinedev/antd";
 import { IResourceComponentsProps } from "@refinedev/core";
 import { Tables } from "../../types/supabase";
-import { ItemForm } from "./form";
 import CreateDrawer from "../../components/crud/CreateDrawer";
+import { BreedForm } from "./form";
 
-export const ItemsCreate: React.FC<
+export const BreedsCreate: React.FC<
   IResourceComponentsProps & {
-    drawerFormProps: UseDrawerFormReturnType<Tables<"items">>;
+    drawerFormProps: UseDrawerFormReturnType<Tables<"breeds">>;
   }
 > = ({ drawerFormProps }) => {
   const { formProps, drawerProps, saveButtonProps } = drawerFormProps;
 
   return (
-    <CreateDrawer drawerProps={drawerProps} saveButtonProps={saveButtonProps}>
-      <ItemForm formProps={formProps} />
+    <CreateDrawer resource="breeds" drawerProps={drawerProps} saveButtonProps={saveButtonProps}>
+      <BreedForm formProps={formProps} />
     </CreateDrawer>
   );
 };

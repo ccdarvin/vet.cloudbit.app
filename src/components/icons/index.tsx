@@ -13,7 +13,7 @@ import { IoMedicalOutline } from "react-icons/io5";
 import { GoNote } from "react-icons/go";
 import { BsFilePerson } from "react-icons/bs";
 import { IoIosCheckboxOutline } from "react-icons/io";
-
+import { GiBalloonDog } from "react-icons/gi";
 
 export const PatientIcon = (props: Partial<CustomIconComponentProps>) => {
   return <Icon component={PiDog} {...props} />;
@@ -67,4 +67,8 @@ export const CustomerIcon = (props: Partial<CustomIconComponentProps>) => {
 
 export const ItemIcon = (props: Partial<CustomIconComponentProps>) => {
   return <Icon component={IoIosCheckboxOutline} {...props} />;
+}
+
+export const SpeciesIcon = (props: Partial<CustomIconComponentProps>) => {
+  return <Icon component={GiBalloonDog} {...props} />;
 }

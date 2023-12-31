@@ -1,22 +1,18 @@
-import { IResourceComponentsProps, useTranslate, useParsed } from "@refinedev/core";
-import { Create, UseDrawerFormReturnType } from "@refinedev/antd";
-import { Drawer } from "antd";
+import { IResourceComponentsProps } from "@refinedev/core";
+import { UseDrawerFormReturnType } from "@refinedev/antd";
 import { Tables } from "../../types/supabase";
 import { SpeciesForm } from "./form";
+import CreateDrawer from "../../components/crud/CreateDrawer";
 
 export const SpeciesCreate: React.FC<IResourceComponentsProps & 
 { drawerFormProps: UseDrawerFormReturnType<Tables<'species'>> }> = ({
   drawerFormProps,
 }) => {
-  const translate = useTranslate();
-
   const { formProps, drawerProps, saveButtonProps } = drawerFormProps;
 
   return (
-    <Drawer {...drawerProps} title={translate("species.create.title")}>
-      <Create saveButtonProps={saveButtonProps}>
+    <CreateDrawer resource="species" drawerProps={drawerProps} saveButtonProps={saveButtonProps}>
         <SpeciesForm formProps={formProps} />
-      </Create>
-    </Drawer>
+    </CreateDrawer>
   );
 };

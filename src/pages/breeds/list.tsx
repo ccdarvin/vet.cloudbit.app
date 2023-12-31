@@ -6,7 +6,8 @@ import {
 import { useTable, List, useDrawerForm, EditButton } from "@refinedev/antd";
 import { Space, Table } from "antd";
 import { Tables } from "../../types/supabase";
-import { BreedsCreateOrEdit } from "./CreateOrEdit";
+import { BreedsCreate } from "./create";
+import { BreedsEdit } from "./edit";
 
 export const BreedList: React.FC<
   IResourceComponentsProps & { species_id: string }
@@ -41,6 +42,8 @@ export const BreedList: React.FC<
 
   return (
     <List
+      resource="breeds"
+      breadcrumb={[]}
       createButtonProps={{
         onClick: () => {
           drawerFormPropsCreate.show();
@@ -66,8 +69,8 @@ export const BreedList: React.FC<
           )}
         />
       </Table>
-      <BreedsCreateOrEdit drawerFormProps={drawerFormPropsCreate} />
-      <BreedsCreateOrEdit drawerFormProps={drawerFormPropsEdit} />
+      <BreedsCreate drawerFormProps={drawerFormPropsCreate} />
+      <BreedsEdit drawerFormProps={drawerFormPropsEdit} />
     </List>
   );
 };
