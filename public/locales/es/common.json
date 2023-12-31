@@ -321,5 +321,15 @@
       "name": "Nombre",
       "description": "Descripción"
     }
+  },
+  "cash_registers": {
+    "fields": {
+      "nnumber": "Número",
+      "open_at": "Abierto en",
+      "close_at": "Cerrado en",
+      "status": "Estado",
+      "is_balanced": "¿Está balanceado?",
+      "initial_balance": "Balance inicial"
+    }
   }
 }

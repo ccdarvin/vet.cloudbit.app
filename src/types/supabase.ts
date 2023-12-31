@@ -155,66 +155,52 @@ export interface Database {
           }
         ]
       }
-      cashboxes: {
+      cash_registers: {
         Row: {
           closed_at: string | null
           created_at: string
-          created_by: string | null
+          final_balance: number | null
           id: string
           initial_balance: number | null
+          is_balanced: boolean | null
           number: number | null
           open_at: string
           status: Database["public"]["Enums"]["cashbox_status"]
           tenant_id: string
-          updated_at: string | null
-          updated_by: string | null
+          total: number | null
         }
         Insert: {
           closed_at?: string | null
           created_at?: string
-          created_by?: string | null
+          final_balance?: number | null
           id?: string
           initial_balance?: number | null
+          is_balanced?: boolean | null
           number?: number | null
           open_at: string
           status?: Database["public"]["Enums"]["cashbox_status"]
           tenant_id: string
-          updated_at?: string | null
-          updated_by?: string | null
+          total?: number | null
         }
         Update: {
           closed_at?: string | null
           created_at?: string
-          created_by?: string | null
+          final_balance?: number | null
           id?: string
           initial_balance?: number | null
+          is_balanced?: boolean | null
           number?: number | null
           open_at?: string
           status?: Database["public"]["Enums"]["cashbox_status"]
           tenant_id?: string
-          updated_at?: string | null
-          updated_by?: string | null
+          total?: number | null
         }
         Relationships: [
           {
-            foreignKeyName: "cashboxes_created_by_fkey"
-            columns: ["created_by"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "cashboxes_tenant_id_fkey"
+            foreignKeyName: "cash_registers_tenant_id_fkey"
             columns: ["tenant_id"]
             isOneToOne: false
             referencedRelation: "tenants"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "cashboxes_updated_by_fkey"
-            columns: ["updated_by"]
-            isOneToOne: false
-            referencedRelation: "profiles"
             referencedColumns: ["id"]
           }
         ]
@@ -814,6 +800,7 @@ export interface Database {
           description: string | null
           id: string
           name: string | null
+          payment_method: Database["public"]["Enums"]["payment_method"] | null
           tenant_id: string
         }
         Insert: {
@@ -821,6 +808,7 @@ export interface Database {
           description?: string | null
           id?: string
           name?: string | null
+          payment_method?: Database["public"]["Enums"]["payment_method"] | null
           tenant_id: string
         }
         Update: {
@@ -828,6 +816,7 @@ export interface Database {
           description?: string | null
           id?: string
           name?: string | null
+          payment_method?: Database["public"]["Enums"]["payment_method"] | null
           tenant_id?: string
         }
         Relationships: [

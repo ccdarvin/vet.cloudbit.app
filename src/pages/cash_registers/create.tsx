@@ -3,10 +3,10 @@ import { UseDrawerFormReturnType } from "@refinedev/antd";
 
 import { Tables } from "../../types/supabase";
 import CreateDrawer from "../../components/crud/CreateDrawer";
-import { TreatmentTypeForm } from "./form";
+import { CashRegisterForm } from "./form";
 
-export const TreatmentTypesCreate: React.FC<IResourceComponentsProps & 
-{ drawerFormProps: UseDrawerFormReturnType<Tables<'treatment_types'>> }>  = ({
+export const CashRegisterCreate: React.FC<IResourceComponentsProps & 
+{ drawerFormProps: UseDrawerFormReturnType<Tables<'cash_registers'>> }>  = ({
   drawerFormProps,
 }) => {
 
@@ -14,7 +14,7 @@ export const TreatmentTypesCreate: React.FC<IResourceComponentsProps &
 
   return (
       <CreateDrawer drawerProps={drawerProps} saveButtonProps={saveButtonProps}>
-        <TreatmentTypeForm formProps={formProps} />
+        <CashRegisterForm formProps={formProps} />
       </CreateDrawer>
   );
 };

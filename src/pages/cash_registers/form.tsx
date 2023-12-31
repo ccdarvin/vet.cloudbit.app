@@ -1,5 +1,5 @@
 import { useParsed, useTranslate } from "@refinedev/core";
-import { Form, DatePicker } from "antd";
+import { Form, DatePicker, InputNumber } from "antd";
 import { FormProps } from "antd/lib";
 
 export const CashRegisterForm: React.FC<{ formProps: FormProps }> = ({
@@ -31,7 +31,7 @@ export const CashRegisterForm: React.FC<{ formProps: FormProps }> = ({
         name="initial_balance"
         rules={[{ required: true }]}
       >
-        <Number />
+        <InputNumber />
       </Form.Item>
     </Form>
   );

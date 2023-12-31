@@ -17,6 +17,8 @@ import { GiBalloonDog } from "react-icons/gi";
 import { VscGraphLine } from "react-icons/vsc";
 import { FaListOl } from "react-icons/fa6";
 import { MdOutlinePayments } from "react-icons/md";
+import { FaCashRegister } from "react-icons/fa6";
+
 
 
 export const PatientIcon = (props: Partial<CustomIconComponentProps>) => {
@@ -87,4 +89,8 @@ export const OrderIcon = (props: Partial<CustomIconComponentProps>) => {
 
 export const PaymentTypeIcon = (props: Partial<CustomIconComponentProps>) => {
   return <Icon component={MdOutlinePayments} {...props} />;
+}
+
+export const CashRegisterIcon = (props: Partial<CustomIconComponentProps>) => {
+  return <Icon component={FaCashRegister} {...props} />;
 }

@@ -1,7 +1,6 @@
 import { UseDrawerFormReturnType } from "@refinedev/antd";
 import { IResourceComponentsProps } from "@refinedev/core";
 import { Tables } from "../../types/supabase";
-import { TreatmentTypeForm } from "./form";
 import EditDrawer from "../../components/crud/EditDrawer";
 
 export const TreatmentTypesEdit: React.FC<
@@ -13,7 +12,6 @@ export const TreatmentTypesEdit: React.FC<
 
   return (
     <EditDrawer drawerProps={drawerProps} saveButtonProps={saveButtonProps}>
-      <TreatmentTypeForm formProps={formProps} />
     </EditDrawer>
   );
 };

@@ -33,7 +33,6 @@ export default function DateField ({
 
   return (
     <Text {...rest}>
-      —
     </Text>
   )
 }
