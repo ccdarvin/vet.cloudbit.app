@@ -382,6 +382,7 @@ function App() {
                       </Route>
                       <Route path="cash_registers">
                         <Route index element={<CashRegistersList />} />
+                        <Route path="edit/:id" element={<OrderEdit />} />
                       </Route>
                       <Route path="species">
                         <Route index element={<SpeciesList />} />
