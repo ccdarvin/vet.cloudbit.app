@@ -14,7 +14,7 @@ import AgeField from "../../components/fields/AgeField";
 
 export const PatientsList: React.FC<IResourceComponentsProps> = () => {
   const translate = useTranslate();
-  const { params } = useParsed<{ tenant: string }>();
+  const { params } = useParsed<{ tenant: string, customer:string }>();
 
   const { tableProps } = useTable({
     syncWithLocation: true,
@@ -28,6 +28,11 @@ export const PatientsList: React.FC<IResourceComponentsProps> = () => {
           operator: "eq",
           value: params?.tenant,
         },
+        {
+          field: "customer_id",
+          operator: "eq",
+          value: params?.customer,
+        }
       ],
     },
   })
@@ -53,10 +58,10 @@ export const PatientsList: React.FC<IResourceComponentsProps> = () => {
           dataIndex="name"
           title={translate("patients.fields.name")}
         />
-        <Table.Column
+        {!params?.customer && <Table.Column
           dataIndex={["customer", "name"]}
           title={translate("patients.fields.customer")}
-        />
+        />}
         <Table.Column
           dataIndex={["species", "name"]}
           title={translate("patients.fields.species")}

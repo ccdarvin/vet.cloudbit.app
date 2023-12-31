@@ -251,5 +251,17 @@
       "treatment_type": "Tipo de tratamiento",
       "date": "Fecha"
     }
+  },
+  "notes": {
+  },
+  "customers": {
+    "fields": {
+      "name": "Nombre",
+      "email": "Correo electrónico",
+      "doc_number": "Número de documento",
+      "phone": "Teléfono",
+      "address": "Dirección",
+      "address_ref": "Referencia de dirección"
+    }
   }
 }

@@ -25,22 +25,38 @@ import authProvider from "./authProvider";
 import { Header } from "./components/header";
 import { ColorModeContextProvider } from "./contexts/color-mode";
 import { supabaseClient } from "./utility";
-import { TenantCreate, TenantEdit, TenantList, TenantShow } from "./pages/tenants";
+import {
+  TenantCreate,
+  TenantEdit,
+  TenantList,
+  TenantShow,
+} from "./pages/tenants";
 import { PatientsList, PacientShow, PatientLayout } from "./pages/patients";
 import { SpeciesList } from "./pages/species";
-import { CustomerList } from "./pages/customers";
+import { CustomerList, CustomersShow } from "./pages/customers";
 import { ItemList } from "./pages/items";
 import { ServiceList } from "./pages/services01";
 import { OrderEdit, OrderList, OrderShow } from "./pages/orders";
-import { AppointmentIcon, MedicalRecordIcon, NoteIcon, PatientIcon, SettingsIcon, StaffIcon, TreatmentTypeIcon, VisitIcon } from "./components/icons";
+import {
+  AppointmentIcon,
+  CustomerIcon,
+  MedicalRecordIcon,
+  NoteIcon,
+  PatientIcon,
+  SettingsIcon,
+  StaffIcon,
+  TreatmentTypeIcon,
+  VisitIcon,
+} from "./components/icons";
 import { AppointmentsList } from "./pages/appointments";
 import { StaffList } from "./pages/staff";
 import { MedicalRecordsList } from "./pages/medical_records";
 import { TreatmentTypesList } from "./pages/treatment_types";
 import { PatientsNotesList } from "./pages/patients/notes";
+import { CustomerLayout } from "./pages/customers/layout";
 
 function App() {
-  const { t, i18n } = useTranslation(['common']);
+  const { t, i18n } = useTranslation(["common"]);
 
   const i18nProvider = {
     translate: (key: string, params: object) => t(key, params),
@@ -48,10 +64,14 @@ function App() {
     getLocale: () => i18n.language,
   };
 
-  const { params } = useParsed<{ tenant: string, patient: string }>();
+  const { params } = useParsed<{
+    tenant: string;
+    patient: string;
+    customer: string;
+  }>();
 
   const tenant = params?.tenant;
-  console.log(tenant);
+  const customer = params?.customer;
   return (
     <BrowserRouter>
       {/*<GitHubBanner />*/}
@@ -66,150 +86,183 @@ function App() {
                 routerProvider={routerBindings}
                 notificationProvider={useNotificationProvider}
                 i18nProvider={i18nProvider}
-                resources={[{
-                  name: "tenants",
-                  list: "/tenant",
-                  create: "/tenant/create",
-                  edit: "/tenant/edit/:id",
-                  show: "/tenant/show/:id"
-                }, {
-                  name: "appointments",
-                  list: "/:tenant/appointments",
-                  meta: {
-                    icon: <AppointmentIcon />,
-                    tenant,
-                    label: "Citas"
-                  }
-                }, {
-                  name: "patients",
-                  list: "/:tenant/patient",
-                  show: "/:tenant/patient/:id",
-                  meta: {
-                    tenant,
-                    label: "Pacientes",
-                    icon: <PatientIcon />,
+                resources={[
+                  {
+                    name: "tenants",
+                    list: "/tenant",
+                    create: "/tenant/create",
+                    edit: "/tenant/edit/:id",
+                    show: "/tenant/show/:id",
                   },
-                }, {
-                  name: "customers",
-                  list: "/:tenant/customers",
-                  show: "/:tenant/customers/show/:id",
-                  meta: {
-                    tenant
+                  {
+                    name: "appointments",
+                    list: "/:tenant/appointments",
+                    meta: {
+                      icon: <AppointmentIcon />,
+                      tenant,
+                      label: "Citas",
+                    },
                   },
-                }, {
-                  name: "appointments",
-                  identifier: "appointmentsByPatient",
-                  list: "/:tenant/patient/:patient/appointments",
-                  meta: {
-                    icon: <AppointmentIcon />,
-                    tenant,
-                    label: "Citas",
-                    hide: true,
-                  }
-                }, {
-                  name: "appointments",
-                  identifier: "visits",
-                  list: "/:tenant/patient/:patient/vists",
-                  meta: {
-                    icon: <VisitIcon />,
-                    tenant,
-                    label: "Visitas",
-                    hide: true,
-                  }
-                }, {
-                  name: "medical_records",
-                  list: "/:tenant/patient/:patient/medical_records",
-                  create: "/:tenant/patient/:patient/medical_records/create",
-                  show: "/:tenant/patient/:patient/medical_records/show/:id",
-                  meta: {
-                    tenant,
-                    label: "Historia clínica",
-                    icon: <MedicalRecordIcon />,
-                    hide: true,
+                  {
+                    name: "patients",
+                    list: "/:tenant/patient",
+                    show: "/:tenant/patient/:id",
+                    meta: {
+                      tenant,
+                      param: "patient",
+                      label: "Pacientes",
+                      icon: <PatientIcon />,
+                    },
                   },
-                },  {
-                  name: "notes",
-                  list: "/:tenant/patient/:patient/notes",
-                  create: "/:tenant/patient/:patient/notes/create",
-                  meta: {
-                    hide: true,
-                    tenant,
-                    label: "Notas",
-                    icon: <NoteIcon />,
+                  {
+                    name: "appointments",
+                    identifier: "appointmentsByPatient",
+                    list: "/:tenant/patient/:patient/appointments",
+                    meta: {
+                      icon: <AppointmentIcon />,
+                      tenant,
+                      label: "Citas",
+                      hide: true,
+                    },
                   },
-                }, {
-                  name: "items",
-                  list: "/:tenant/services",
-                  create: "/:tenant/services/create",
-                  edit: "/:tenant/services/edit/:id",
-                  show: "/:tenant/services/show/:id",
-                  meta: {
-                    tenant,
-                    label: "Servicios"
+                  {
+                    name: "appointments",
+                    identifier: "visits",
+                    list: "/:tenant/patient/:patient/vists",
+                    meta: {
+                      icon: <VisitIcon />,
+                      tenant,
+                      label: "Visitas",
+                      hide: true,
+                    },
                   },
-                }, {
-                  name: "items",
-                  list: "/:tenant/items",
-                  create: "/:tenant/items/create",
-                  edit: "/:tenant/items/edit/:id",
-                  show: "/:tenant/items/show/:id",
-                  meta: {
-                    tenant,
-                    label: "Productos"
+                  {
+                    name: "medical_records",
+                    list: "/:tenant/patient/:patient/medical_records",
+                    create: "/:tenant/patient/:patient/medical_records/create",
+                    show: "/:tenant/patient/:patient/medical_records/show/:id",
+                    meta: {
+                      tenant,
+                      label: "Historia clínica",
+                      icon: <MedicalRecordIcon />,
+                      hide: true,
+                    },
                   },
-                }, {
-                  name: "species",
-                  list: "/:tenant/species",
-                  meta: {
-                    tenant
+                  {
+                    name: "notes",
+                    list: "/:tenant/patient/:patient/notes",
+                    create: "/:tenant/patient/:patient/notes/create",
+                    meta: {
+                      hide: true,
+                      tenant,
+                      label: "Notas",
+                      icon: <NoteIcon />,
+                    },
                   },
-                }, {
-                  name: "breeds",
-                  list: "/:tenant/breeds",
-                  meta: {
-                    hide: true,
-                    tenant
+                  {
+                    name: "customers",
+                    list: "/:tenant/customer",
+                    show: "/:tenant/customer/:id",
+                    meta: {
+                      param: "customer",
+                      tenant,
+                      label: "Clientes",
+                      icon: <CustomerIcon />,
+                    },
                   },
-                }, {
-                  name: "orders",
-                  list: "/:tenant/orders",
-                  create: "/:tenant/orders/create",
-                  edit: "/:tenant/orders/edit/:id",
-                  show: "/:tenant/orders/show/:id",
-                  meta: {
-                    tenant,
-                    label: "Ordenes"
+                  {
+                    name: "patients",
+                    identifier: "pets",
+                    list: "/:tenant/customer/:customer/patient",
+                    show: "/:tenant/patient/:id",
+                    meta: {
+                      tenant,
+                      hide: true,
+                      label: "Mascotas",
+                      icon: <PatientIcon />,
+                    },
                   },
-                }, {
-                  name: "settings",
-                  meta: {
-                    tenant,
-                    label: "Configuración",
-                    icon: <SettingsIcon />,
+                  {
+                    name: "items",
+                    list: "/:tenant/services",
+                    create: "/:tenant/services/create",
+                    edit: "/:tenant/services/edit/:id",
+                    show: "/:tenant/services/show/:id",
+                    meta: {
+                      tenant,
+                      label: "Servicios",
+                    },
                   },
-                }, {
-                  name: "staff",
-                  list: "/:tenant/staff",
-                  create: "/:tenant/staff/create",
-                  edit: "/staff/edit/:id",
-                  show: "/staff/show/:id",
-                  meta: {
-                    tenant,
-                    parent: "settings",
-                    label: "Personal",
-                    icon: <StaffIcon />,
+                  {
+                    name: "items",
+                    list: "/:tenant/items",
+                    create: "/:tenant/items/create",
+                    edit: "/:tenant/items/edit/:id",
+                    show: "/:tenant/items/show/:id",
+                    meta: {
+                      tenant,
+                      label: "Productos",
+                    },
                   },
-                }, {
-                  name: "treatment_types",
-                  list: "/:tenant/treatment_types",
-                  create: "/:tenant/treatment_types/create",
-                  meta: {
-                    tenant,
-                    parent: "settings",
-                    label: "Tipos de tratamiento",
-                    icon: <TreatmentTypeIcon />,
+                  {
+                    name: "species",
+                    list: "/:tenant/species",
+                    meta: {
+                      tenant,
+                    },
                   },
-                }]}
+                  {
+                    name: "breeds",
+                    list: "/:tenant/breeds",
+                    meta: {
+                      hide: true,
+                      tenant,
+                    },
+                  },
+                  {
+                    name: "orders",
+                    list: "/:tenant/orders",
+                    create: "/:tenant/orders/create",
+                    edit: "/:tenant/orders/edit/:id",
+                    show: "/:tenant/orders/show/:id",
+                    meta: {
+                      tenant,
+                      label: "Ordenes",
+                    },
+                  },
+                  {
+                    name: "settings",
+                    meta: {
+                      tenant,
+                      label: "Configuración",
+                      icon: <SettingsIcon />,
+                    },
+                  },
+                  {
+                    name: "staff",
+                    list: "/:tenant/staff",
+                    create: "/:tenant/staff/create",
+                    edit: "/staff/edit/:id",
+                    show: "/staff/show/:id",
+                    meta: {
+                      tenant,
+                      parent: "settings",
+                      label: "Personal",
+                      icon: <StaffIcon />,
+                    },
+                  },
+                  {
+                    name: "treatment_types",
+                    list: "/:tenant/treatment_types",
+                    create: "/:tenant/treatment_types/create",
+                    meta: {
+                      tenant,
+                      parent: "settings",
+                      label: "Tipos de tratamiento",
+                      icon: <TreatmentTypeIcon />,
+                    },
+                  },
+                ]}
                 options={{
                   syncWithLocation: true,
                   warnWhenUnsavedChanges: true,
@@ -246,27 +299,44 @@ function App() {
                     <Route path="/:tenant">
                       <Route path="patient">
                         <Route index element={<PatientsList />} />
-                        <Route path=":patient" element={<PatientLayout>
-                            <Outlet />
-                          </PatientLayout>}
+                        <Route
+                          path=":patient"
+                          element={
+                            <PatientLayout>
+                              <Outlet />
+                            </PatientLayout>
+                          }
                         >
                           <Route index element={<PacientShow />} />
-                          <Route path="appointments">
+                          <Route path="appointment">
                             <Route index element={<AppointmentsList />} />
                           </Route>
-                          <Route path="vists">
+                          <Route path="vist">
                             <Route index element={<AppointmentsList />} />
                           </Route>
-                          <Route path="medical_records">
+                          <Route path="medical_record">
                             <Route index element={<MedicalRecordsList />} />
                           </Route>
-                          <Route path="notes">
+                          <Route path="note">
                             <Route index element={<PatientsNotesList />} />
                           </Route>
                         </Route>
                       </Route>
-                      <Route path="customers">
+                      <Route path="customer">
                         <Route index element={<CustomerList />} />
+                        <Route
+                          path=":customer"
+                          element={
+                            <CustomerLayout>
+                              <Outlet />
+                            </CustomerLayout>
+                          }
+                        >
+                          <Route path="patient">
+                            <Route index element={<PatientsList />} />
+                          </Route>
+                          <Route index element={<CustomersShow />} />
+                        </Route>
                       </Route>
                       <Route path="services">
                         <Route index element={<ServiceList />} />
@@ -280,16 +350,16 @@ function App() {
                         <Route path="edit/:id" element={<OrderEdit />} />
                         <Route path="show/:id" element={<OrderShow />} />
                       </Route>
-                      <Route path="species">
+                      <Route path="specie">
                         <Route index element={<SpeciesList />} />
                       </Route>
-                      <Route path="appointments">
+                      <Route path="appointment">
                         <Route index element={<AppointmentsList />} />
                       </Route>
                       <Route path="staff">
                         <Route index element={<StaffList />} />
                       </Route>
-                      <Route path="treatment_types">
+                      <Route path="treatment_type">
                         <Route index element={<TreatmentTypesList />} />
                       </Route>
                     </Route>
@@ -307,13 +377,7 @@ function App() {
                   >
                     <Route
                       path="/login"
-                      element={
-                        <AuthPage
-                          type="login"
-                          formProps={{
-                          }}
-                        />
-                      }
+                      element={<AuthPage type="login" formProps={{}} />}
                     />
                     <Route
                       path="/register"

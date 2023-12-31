@@ -9,18 +9,18 @@ import SideBar from "../../components/layout/SideBar";
 
 const { Text } = Typography;
 
-export const PatientLayout: React.FC<IResourceComponentsProps & {
+export const CustomerLayout: React.FC<IResourceComponentsProps & {
   children: React.ReactNode;
 }> = ({
   children,
 }) => {
-  const { params } = useParsed<{ patient: string }>();
+  const { params } = useParsed<{ customer: string }>();
   const { data } = useOne({
-    resource: "patients",
-    id: params?.patient,
+    resource: "customers",
+    id: params?.customer,
     meta: {
       select:
-        "*, species:species_id(*), breed:breed_id(*), customer:customer_id(*)",
+        "*",
     },
   });
 
@@ -33,7 +33,7 @@ export const PatientLayout: React.FC<IResourceComponentsProps & {
       }}
     >
       <SideBar
-        resourceMenuList={["appointmentsByPatient", 'visits', 'medical_records', 'notes']}
+        resourceMenuList={['pets']}
         header={
           <Space>
             <Avatar size={64}>{record?.name?.toUpperCase()[0]}</Avatar>

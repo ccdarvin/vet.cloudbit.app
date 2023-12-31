@@ -38,7 +38,7 @@ export const PacientShow: React.FC<IResourceComponentsProps> = () => {
     <Show isLoading={isLoading}>
       <Descriptions
         title="Información"
-        bordered
+        layout="vertical"
         extra={
           <EditButton
             recordItemId={record?.id}

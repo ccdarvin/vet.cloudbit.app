@@ -1,48 +1,40 @@
 import { CSSProperties } from "react";
-import {  useThemedLayoutContext } from "@refinedev/antd";
+import { useThemedLayoutContext } from "@refinedev/antd";
+import { BarsOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 import {
-  BarsOutlined,
-  LeftOutlined,
-  RightOutlined
-} from "@ant-design/icons";
-import { 
-  CanAccess,  
-  useLink, 
+  CanAccess,
+  useLink,
   useTranslate,
   useNavigation,
   useParsed,
-  useResource
+  useResource,
 } from "@refinedev/core";
 import { Layout, Menu, Grid, Drawer, Button, theme } from "antd";
 import { InfoIcon } from "../icons";
 
-
-
 const ResourceLink: React.FC<{
-  resrouceName: string,
-}> = ({resrouceName}) => {
-
+  resrouceName: string;
+}> = ({ resrouceName }) => {
   const { resource } = useResource(resrouceName);
   const Link = useLink();
   const { listUrl } = useNavigation();
   return (
-    <CanAccess
-        resource={resource.name}
-        action="list"
-        >
-        <Menu.Item
-          key={resource?.identifier || resource.name}
-          icon={resource?.meta?.icon}
-          style={{
-            paddingLeft: "24px",
-            paddingRight: "24px",
-          }}
-        >
-          <Link to={listUrl(resource?.identifier || resource.name)}>{resource?.meta?.label || resource.name}</Link>
-        </Menu.Item>
+    <CanAccess resource={resource.name} action="list">
+      <Menu.Item
+        key={resource?.identifier || resource.name}
+        icon={resource?.meta?.icon}
+        style={{
+          paddingLeft: "24px",
+          paddingRight: "24px",
+        }}
+      >
+        <Link to={listUrl(resource?.identifier || resource.name)}>
+          {resource?.meta?.label || resource.name}
+        </Link>
+      </Menu.Item>
     </CanAccess>
-  )
-} 
+  );
+};
 
 const drawerButtonStyles: CSSProperties = {
   borderTopLeftRadius: 0,
@@ -57,14 +49,8 @@ const { useToken } = theme;
 export const SideBar: React.FC<{
   fixed?: boolean;
   header?: React.ReactNode;
-  resourceMenuList?: string[],
-  resource?: string,
-}> = ({
-  fixed,
-  header,
-  resourceMenuList,
-  resource,
-}) => {
+  resourceMenuList?: string[];
+}> = ({ fixed, header, resourceMenuList }) => {
   const { token } = useToken();
   const {
     siderCollapsed,
@@ -82,25 +68,26 @@ export const SideBar: React.FC<{
 
   const { resource: currentResource } = useResource();
 
-  const { params } = useParsed<{ patient: string }>();
-
-  const infoUrl = resource ? showUrl(resource, params?.patient as string) : "/"
-  const info = (  
-    <Menu.Item
-      key="info" icon={<InfoIcon />}>
+  const { params } = useParsed();
+  const infoUrl = currentResource
+    ? showUrl(currentResource?.meta?.param || "", params?.id as string)
+    : "/";
+  const info = (
+    <Menu.Item key="info" icon={<InfoIcon />}>
       <Link to={infoUrl}>{translate("menu.info")}</Link>
       {/*!siderCollapsed && selectedKey === "/" && (
         <div className="ant-menu-tree-arrow" />
       )*/}
     </Menu.Item>
-  )
-
+  );
 
   const renderMenu = () => {
     return (
       <Menu
         mode="inline"
-        selectedKeys={[currentResource?.identifier || currentResource?.name || "info"]}
+        selectedKeys={[
+          currentResource?.identifier || currentResource?.name || "info",
+        ]}
         style={{
           paddingTop: "8px",
           border: "none",
@@ -112,7 +99,9 @@ export const SideBar: React.FC<{
         }}
       >
         {info}
-        {resourceMenuList?.map((resrouceMenu) => <ResourceLink key={resrouceMenu} resrouceName={resrouceMenu} /> )}
+        {resourceMenuList?.map((resrouceMenu) => (
+          <ResourceLink key={resrouceMenu} resrouceName={resrouceMenu} />
+        ))}
       </Menu>
     );
   };
@@ -236,7 +225,7 @@ export const SideBar: React.FC<{
             backgroundColor: token.colorBgElevated,
             fontSize: "14px",
             paddingTop: "15px",
-            paddingBottom: "15px"
+            paddingBottom: "15px",
           }}
         >
           {/*<RenderToTitle collapsed={siderCollapsed} />*/}
@@ -247,6 +236,5 @@ export const SideBar: React.FC<{
     </>
   );
 };
-
 
 export default SideBar;

@@ -11,6 +11,8 @@ import { BsPersonGear } from "react-icons/bs";
 import { CiMedicalClipboard } from "react-icons/ci";
 import { IoMedicalOutline } from "react-icons/io5";
 import { GoNote } from "react-icons/go";
+import { BsFilePerson } from "react-icons/bs";
+
 
 export const PatientIcon = (props: Partial<CustomIconComponentProps>) => {
   return <Icon component={PiDog} {...props} />;
@@ -56,4 +58,8 @@ export const TreatmentTypeIcon = (props: Partial<CustomIconComponentProps>) => {
 
 export const NoteIcon = (props: Partial<CustomIconComponentProps>) => {
   return <Icon component={GoNote} {...props} />;
+};
+
+export const CustomerIcon = (props: Partial<CustomIconComponentProps>) => {
+  return <Icon component={BsFilePerson} {...props} />;
 };
