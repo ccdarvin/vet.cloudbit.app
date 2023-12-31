@@ -292,13 +292,56 @@ export interface Database {
           }
         ]
       }
+      item_movements: {
+        Row: {
+          created_at: string
+          id: string
+          item_id: string
+          movement_type: Database["public"]["Enums"]["movement_type"]
+          quantity: number
+          reason: string | null
+          tenant_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          item_id: string
+          movement_type: Database["public"]["Enums"]["movement_type"]
+          quantity: number
+          reason?: string | null
+          tenant_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          item_id?: string
+          movement_type?: Database["public"]["Enums"]["movement_type"]
+          quantity?: number
+          reason?: string | null
+          tenant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "item_movements_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: false
+            referencedRelation: "items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "item_movements_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       items: {
         Row: {
           cost: number | null
           created_at: string
-          created_by: string | null
           description: string | null
-          duration: number | null
           ean: string | null
           id: string
           image_url: string | null
@@ -306,22 +349,14 @@ export interface Database {
           is_service: boolean | null
           name: string
           price: number | null
-          price_without_taxes: number | null
           sku: string | null
           stock: number | null
-          tax_rate: number | null
           tenant_id: string | null
-          type: string | null
-          units_id: string | null
-          updated_at: string | null
-          updated_by: string | null
         }
         Insert: {
           cost?: number | null
           created_at?: string
-          created_by?: string | null
           description?: string | null
-          duration?: number | null
           ean?: string | null
           id?: string
           image_url?: string | null
@@ -329,22 +364,14 @@ export interface Database {
           is_service?: boolean | null
           name: string
           price?: number | null
-          price_without_taxes?: number | null
           sku?: string | null
           stock?: number | null
-          tax_rate?: number | null
           tenant_id?: string | null
-          type?: string | null
-          units_id?: string | null
-          updated_at?: string | null
-          updated_by?: string | null
         }
         Update: {
           cost?: number | null
           created_at?: string
-          created_by?: string | null
           description?: string | null
-          duration?: number | null
           ean?: string | null
           id?: string
           image_url?: string | null
@@ -352,36 +379,16 @@ export interface Database {
           is_service?: boolean | null
           name?: string
           price?: number | null
-          price_without_taxes?: number | null
           sku?: string | null
           stock?: number | null
-          tax_rate?: number | null
           tenant_id?: string | null
-          type?: string | null
-          units_id?: string | null
-          updated_at?: string | null
-          updated_by?: string | null
         }
         Relationships: [
-          {
-            foreignKeyName: "items_created_by_fkey"
-            columns: ["created_by"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "items_tenant_id_fkey"
             columns: ["tenant_id"]
             isOneToOne: false
             referencedRelation: "tenants"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "items_updated_by_fkey"
-            columns: ["updated_by"]
-            isOneToOne: false
-            referencedRelation: "profiles"
             referencedColumns: ["id"]
           }
         ]
@@ -502,57 +509,41 @@ export interface Database {
       order_items: {
         Row: {
           created_at: string
-          created_by: string | null
-          discount: number | null
+          discount: number
           id: string
-          item_id: string | null
+          item_id: string
           order_id: string
-          quantity: number | null
-          subtotal: number | null
-          tenant_id: string | null
-          unit_price: number | null
-          unit_price_base: number | null
-          updated_at: string | null
-          updated_by: string | null
+          price: number
+          price_base: number
+          quantity: number
+          subtotal: number
+          tenant_id: string
         }
         Insert: {
           created_at?: string
-          created_by?: string | null
-          discount?: number | null
+          discount: number
           id?: string
-          item_id?: string | null
+          item_id: string
           order_id: string
-          quantity?: number | null
-          subtotal?: number | null
-          tenant_id?: string | null
-          unit_price?: number | null
-          unit_price_base?: number | null
-          updated_at?: string | null
-          updated_by?: string | null
+          price: number
+          price_base: number
+          quantity: number
+          subtotal: number
+          tenant_id: string
         }
         Update: {
           created_at?: string
-          created_by?: string | null
-          discount?: number | null
+          discount?: number
           id?: string
-          item_id?: string | null
+          item_id?: string
           order_id?: string
-          quantity?: number | null
-          subtotal?: number | null
-          tenant_id?: string | null
-          unit_price?: number | null
-          unit_price_base?: number | null
-          updated_at?: string | null
-          updated_by?: string | null
+          price?: number
+          price_base?: number
+          quantity?: number
+          subtotal?: number
+          tenant_id?: string
         }
         Relationships: [
-          {
-            foreignKeyName: "order_items_created_by_fkey"
-            columns: ["created_by"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "order_items_item_id_fkey"
             columns: ["item_id"]
@@ -573,12 +564,66 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "tenants"
             referencedColumns: ["id"]
+          }
+        ]
+      }
+      order_items01: {
+        Row: {
+          created_at: string
+          discount: number | null
+          id: string
+          item_id: string | null
+          order_id: string
+          quantity: number | null
+          subtotal: number | null
+          tenant_id: string | null
+          unit_price: number | null
+          unit_price_base: number | null
+        }
+        Insert: {
+          created_at?: string
+          discount?: number | null
+          id?: string
+          item_id?: string | null
+          order_id: string
+          quantity?: number | null
+          subtotal?: number | null
+          tenant_id?: string | null
+          unit_price?: number | null
+          unit_price_base?: number | null
+        }
+        Update: {
+          created_at?: string
+          discount?: number | null
+          id?: string
+          item_id?: string | null
+          order_id?: string
+          quantity?: number | null
+          subtotal?: number | null
+          tenant_id?: string | null
+          unit_price?: number | null
+          unit_price_base?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_items01_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: false
+            referencedRelation: "items"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "order_items_updated_by_fkey"
-            columns: ["updated_by"]
+            foreignKeyName: "order_items01_order_id_fkey"
+            columns: ["order_id"]
             isOneToOne: false
-            referencedRelation: "profiles"
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "order_items01_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
             referencedColumns: ["id"]
           }
         ]
@@ -591,6 +636,7 @@ export interface Database {
           discount: number | null
           id: string
           number: number
+          status: Database["public"]["Enums"]["order_status"]
           subtotal_base: number | null
           tenant_id: string | null
           total: number | null
@@ -604,6 +650,7 @@ export interface Database {
           discount?: number | null
           id?: string
           number: number
+          status?: Database["public"]["Enums"]["order_status"]
           subtotal_base?: number | null
           tenant_id?: string | null
           total?: number | null
@@ -617,6 +664,7 @@ export interface Database {
           discount?: number | null
           id?: string
           number?: number
+          status?: Database["public"]["Enums"]["order_status"]
           subtotal_base?: number | null
           tenant_id?: string | null
           total?: number | null
@@ -814,54 +862,6 @@ export interface Database {
             columns: ["updated_by"]
             isOneToOne: false
             referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
-      services: {
-        Row: {
-          created_at: string
-          date: string | null
-          id: number
-          is_done: boolean | null
-          name: string | null
-          observations: string | null
-          patient_id: string
-          tenant_id: string
-        }
-        Insert: {
-          created_at?: string
-          date?: string | null
-          id?: number
-          is_done?: boolean | null
-          name?: string | null
-          observations?: string | null
-          patient_id: string
-          tenant_id: string
-        }
-        Update: {
-          created_at?: string
-          date?: string | null
-          id?: number
-          is_done?: boolean | null
-          name?: string | null
-          observations?: string | null
-          patient_id?: string
-          tenant_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "services_patient_id_fkey"
-            columns: ["patient_id"]
-            isOneToOne: false
-            referencedRelation: "patients"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "services_tenant_id_fkey"
-            columns: ["tenant_id"]
-            isOneToOne: false
-            referencedRelation: "tenants"
             referencedColumns: ["id"]
           }
         ]
@@ -1120,7 +1120,9 @@ export interface Database {
         | "Cancelled"
         | "NoShow"
       cashbox_status: "open" | "closed"
+      movement_type: "+" | "-"
       object_type: "patients"
+      order_status: "Pend" | "Comp" | "Paid" | "Canc"
       patient_sex: "F" | "M"
     }
     CompositeTypes: {

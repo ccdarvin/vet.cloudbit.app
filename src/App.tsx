@@ -42,7 +42,9 @@ import {
   ItemIcon,
   MedicalRecordIcon,
   NoteIcon,
+  OrderIcon,
   PatientIcon,
+  SalesIcon,
   SettingsIcon,
   SpeciesIcon,
   StaffIcon,
@@ -196,6 +198,14 @@ function App() {
                     },
                   },
                   {
+                    name: "sales",
+                    meta: {
+                      tenant,
+                      label: "Ventas",
+                      icon: <SalesIcon />,
+                    },
+                  },
+                  {
                     name: "orders",
                     list: "/:tenant/orders",
                     create: "/:tenant/orders/create",
@@ -204,6 +214,8 @@ function App() {
                     meta: {
                       tenant,
                       label: "Ordenes",
+                      parent: "sales",
+                      icon: <OrderIcon />,
                     },
                   },
                   {

@@ -29,3 +29,22 @@ export const appointmentStatusOptions: AppointmentStatusOption[] = [
     color: "#800080",
   },
 ];
+
+export const OrderStatusOptions: { value: string, step: number }[] = [
+  {
+    value: "Pend",
+    step: 0,
+  },
+  {
+    value: "Comp",
+    step: 1,
+  },
+  {
+    value: "Paid",
+    step: 2,
+  },
+  {
+    value: "Canc",
+    step: 3,
+  },
+];

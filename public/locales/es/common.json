@@ -289,5 +289,23 @@
       "name": "Nombre",
       "description": "Descripción"
     }
+  },
+  "orders": {
+    "fields": {
+      "customer": "Cliente",
+      "number": "Número",
+      "subtotal_base": "Subtotal",
+      "discount": "Descuento",
+      "total": "Total",
+      "status": "Estado"
+    },
+    "enums": {
+      "status": {
+        "Pend": "Pendiente",
+        "Comp": "Pagado parcialmente",
+        "Paid": "Pagado",
+        "Canc": "Cancelado"
+      }
+    }
   }
 }

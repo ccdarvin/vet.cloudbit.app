@@ -14,6 +14,9 @@ import { GoNote } from "react-icons/go";
 import { BsFilePerson } from "react-icons/bs";
 import { IoIosCheckboxOutline } from "react-icons/io";
 import { GiBalloonDog } from "react-icons/gi";
+import { VscGraphLine } from "react-icons/vsc";
+import { FaListOl } from "react-icons/fa6";
+
 
 export const PatientIcon = (props: Partial<CustomIconComponentProps>) => {
   return <Icon component={PiDog} {...props} />;
@@ -71,4 +74,12 @@ export const ItemIcon = (props: Partial<CustomIconComponentProps>) => {
 
 export const SpeciesIcon = (props: Partial<CustomIconComponentProps>) => {
   return <Icon component={GiBalloonDog} {...props} />;
+}
+
+export const SalesIcon = (props: Partial<CustomIconComponentProps>) => {
+  return <Icon component={VscGraphLine} {...props} />;
+}
+
+export const OrderIcon = (props: Partial<CustomIconComponentProps>) => {
+  return <Icon component={FaListOl} {...props} />;
 }
