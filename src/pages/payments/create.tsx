@@ -13,10 +13,7 @@ export const PaymentsCreate: React.FC<
   const { formProps, drawerProps, saveButtonProps } = drawerFormProps;
 
   const getBalance = () => {
-    if (!order.total || !order.total_paid) {
-      return 0;
-    }
-    return order.total - order.total_paid;
+    return order.total as number - (order.total_paid as number);
   }
 
   formProps.initialValues = {

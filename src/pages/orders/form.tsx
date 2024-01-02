@@ -277,7 +277,6 @@ export const OrderForm: React.FC<{ formProps: FormProps, isReadonly?: boolean }>
                       icon={<DeleteOutlined />}
                       size="small"
                       onClick={() => {
-                        console.log(item);
                         if (item.id) {
                           mutate({
                             resource: "order_items",

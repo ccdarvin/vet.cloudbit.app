@@ -3,6 +3,7 @@ import {
   useParsed,
   HttpError,
   useNotification,
+  useInvalidate,
 } from "@refinedev/core";
 import { Button, Flex, Space } from "antd";
 import { Edit, useDrawerForm, useForm } from "@refinedev/antd";
@@ -16,20 +17,21 @@ import OrderStatusField from "../../components/fields/OrderStatusField";
 export const OrderEdit: React.FC<IResourceComponentsProps> = () => {
   const { params } = useParsed<{ tenant: string, id: string }>();
   const { open } = useNotification();
+  const invalidate = useInvalidate();
   const { formProps, saveButtonProps, queryResult } = useForm<
     Tables<"orders">,
     HttpError,
     any
   >({
+    mutationMode: "optimistic",
     meta: {
       select: "*, items:order_items(*)",
     },
     onMutationSuccess: (data, variables, context) => {
       handlerSaveItems(data?.data?.id);
     },
-    redirect: false,
+    redirect: 'list',
   });
-
   const saveItems = async (items: any[]) => {
     const { data, error } = await supabaseClient
       .from("order_items")
@@ -78,7 +80,7 @@ export const OrderEdit: React.FC<IResourceComponentsProps> = () => {
         headerButtons={({ defaultButtons }) => (
           <Space>
             {defaultButtons}
-            {formProps.initialValues?.status in ["Pend", "Part"] && (
+            {["Pend", "Part"].includes(formProps.initialValues?.status) && (
             <Button
               icon={<PaymentIcon />}
               onClick={() => drawerFormPropsCreate.show()}

@@ -25,7 +25,6 @@ export const AppointmentsList: React.FC<IResourceComponentsProps> = () => {
   const translate = useTranslate();
   const { params } = useParsed<{ tenant: string; patient: string }>();
   const { resource } = useResource();
-  console.log(resource);
 
   const { tableProps } = useTable({
     syncWithLocation: true,

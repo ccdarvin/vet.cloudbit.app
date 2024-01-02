@@ -34,16 +34,12 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
           title={translate("orders.fields.customer")}
         />
         <Table.Column
-          dataIndex="subtotal_base"
-          title={translate("orders.fields.subtotal_base")}
-        />
-        <Table.Column
-          dataIndex="discount"
-          title={translate("orders.fields.discount")}
-        />
-        <Table.Column
           dataIndex="total"
           title={translate("orders.fields.total")}
+        />
+        <Table.Column
+          dataIndex="total_paid"
+          title={translate("orders.fields.total_paid")}
         />
         <Table.Column
           title={translate("table.actions")}

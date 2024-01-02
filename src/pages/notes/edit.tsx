@@ -22,7 +22,7 @@ export const NotesEdit = ({
       onSucess?.();
     },
   });
-  console.log(queryResult);
+  
   return (
     <div
       style={{

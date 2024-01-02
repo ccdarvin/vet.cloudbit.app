@@ -10,7 +10,6 @@ export const PaymentForm: React.FC<{
 }> = ({ formProps, order }) => {
   const translate = useTranslate();
   const { params } = useParsed<{ tenant: string }>();
-  console.log(order);
   return (
     <Form
       {...formProps}
@@ -35,7 +34,7 @@ export const PaymentForm: React.FC<{
         <Col xs={{ span: 24 }} sm={{ span: 12 }}>
           <Form.Item
             label={translate("payments.fields.payment_type")}
-            name={["payment_type"]}
+            name={["payment_type_id"]}
             rules={[
               {
                 required: true,
