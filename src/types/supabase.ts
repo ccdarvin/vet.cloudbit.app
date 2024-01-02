@@ -553,67 +553,6 @@ export interface Database {
           }
         ]
       }
-      order_items01: {
-        Row: {
-          created_at: string
-          discount: number | null
-          id: string
-          item_id: string | null
-          order_id: string
-          quantity: number | null
-          subtotal: number | null
-          tenant_id: string | null
-          unit_price: number | null
-          unit_price_base: number | null
-        }
-        Insert: {
-          created_at?: string
-          discount?: number | null
-          id?: string
-          item_id?: string | null
-          order_id: string
-          quantity?: number | null
-          subtotal?: number | null
-          tenant_id?: string | null
-          unit_price?: number | null
-          unit_price_base?: number | null
-        }
-        Update: {
-          created_at?: string
-          discount?: number | null
-          id?: string
-          item_id?: string | null
-          order_id?: string
-          quantity?: number | null
-          subtotal?: number | null
-          tenant_id?: string | null
-          unit_price?: number | null
-          unit_price_base?: number | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "order_items01_item_id_fkey"
-            columns: ["item_id"]
-            isOneToOne: false
-            referencedRelation: "items"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "order_items01_order_id_fkey"
-            columns: ["order_id"]
-            isOneToOne: false
-            referencedRelation: "orders"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "order_items01_tenant_id_fkey"
-            columns: ["tenant_id"]
-            isOneToOne: false
-            referencedRelation: "tenants"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
       orders: {
         Row: {
           created_at: string
@@ -626,6 +565,7 @@ export interface Database {
           subtotal_base: number | null
           tenant_id: string | null
           total: number | null
+          total_paid: number | null
           updated_at: string | null
           updated_by: string | null
         }
@@ -640,6 +580,7 @@ export interface Database {
           subtotal_base?: number | null
           tenant_id?: string | null
           total?: number | null
+          total_paid?: number | null
           updated_at?: string | null
           updated_by?: string | null
         }
@@ -654,6 +595,7 @@ export interface Database {
           subtotal_base?: number | null
           tenant_id?: string | null
           total?: number | null
+          total_paid?: number | null
           updated_at?: string | null
           updated_by?: string | null
         }
@@ -822,6 +764,65 @@ export interface Database {
         Relationships: [
           {
             foreignKeyName: "payment_types_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      payments: {
+        Row: {
+          amount: number | null
+          cash_registers: string | null
+          created_at: string | null
+          id: string
+          order_id: string | null
+          payment_type: string | null
+          tenant_id: string | null
+        }
+        Insert: {
+          amount?: number | null
+          cash_registers?: string | null
+          created_at?: string | null
+          id?: string
+          order_id?: string | null
+          payment_type?: string | null
+          tenant_id?: string | null
+        }
+        Update: {
+          amount?: number | null
+          cash_registers?: string | null
+          created_at?: string | null
+          id?: string
+          order_id?: string | null
+          payment_type?: string | null
+          tenant_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_cash_registers_fkey"
+            columns: ["cash_registers"]
+            isOneToOne: false
+            referencedRelation: "cash_registers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_payment_type_fkey"
+            columns: ["payment_type"]
+            isOneToOne: false
+            referencedRelation: "payment_types"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_tenant_id_fkey"
             columns: ["tenant_id"]
             isOneToOne: false
             referencedRelation: "tenants"
@@ -1143,7 +1144,7 @@ export interface Database {
       cashbox_status: "open" | "closed"
       movement_type: "+" | "-"
       object_type: "patients"
-      order_status: "Pend" | "Comp" | "Paid" | "Canc"
+      order_status: "Pend" | "Part" | "Paid" | "Canc"
       patient_sex: "F" | "M"
       payment_method: "Cash" | "Card" | "App" | "Wire" | "Check"
     }

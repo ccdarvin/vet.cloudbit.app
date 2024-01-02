@@ -289,12 +289,13 @@
       "subtotal_base": "Subtotal",
       "discount": "Descuento",
       "total": "Total",
-      "status": "Estado"
+      "status": "Estado",
+      "total_paid": "Total pagado"
     },
     "enums": {
       "status": {
         "Pend": "Pendiente",
-        "Comp": "Pagado parcialmente",
+        "Part": "Pago parcial",
         "Paid": "Pagado",
         "Canc": "Cancelado"
       }
@@ -324,12 +325,30 @@
   },
   "cash_registers": {
     "fields": {
-      "nnumber": "Número",
+      "number": "Número",
       "open_at": "Abierto en",
       "close_at": "Cerrado en",
       "status": "Estado",
       "is_balanced": "¿Está balanceado?",
       "initial_balance": "Balance inicial"
+    }
+  },
+  "payments": {
+    "fields": {
+      "order": "Orden",
+      "payment_type": "Tipo de pago",
+      "payment_method": "Método de pago",
+      "amount": "Monto",
+      "created_at": "Creado en"
+    },
+    "enums": {
+      "payment_method": {
+        "Cash": "Efectivo",
+        "Card": "Tarjeta de crédito",
+        "App": "Aplicación",
+        "Wire": "Transferencia bancaria",
+        "other": "Otros"
+      }
     }
   }
 }

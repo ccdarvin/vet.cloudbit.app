@@ -61,21 +61,21 @@ export const paymentMethodOptions: { value: string, color: string }[] = [
   },
 ];
 
-export const OrderStatusOptions: { value: string, step: number }[] = [
+export const orderStatusOptions: { value: string, color: string }[] = [
   {
     value: "Pend",
-    step: 0,
+    color: "#808080",
   },
   {
-    value: "Comp",
-    step: 1,
+    value: "Part",
+    color: "#ADD8E6",
   },
   {
     value: "Paid",
-    step: 2,
+    color: "#0000FF",
   },
   {
     value: "Canc",
-    step: 3,
+    color: "#006400",
   },
 ];

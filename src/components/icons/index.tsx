@@ -18,7 +18,7 @@ import { VscGraphLine } from "react-icons/vsc";
 import { FaListOl } from "react-icons/fa6";
 import { MdOutlinePayments } from "react-icons/md";
 import { FaCashRegister } from "react-icons/fa6";
-
+import { MdOutlinePaid } from "react-icons/md";
 
 
 export const PatientIcon = (props: Partial<CustomIconComponentProps>) => {
@@ -93,4 +93,8 @@ export const PaymentTypeIcon = (props: Partial<CustomIconComponentProps>) => {
 
 export const CashRegisterIcon = (props: Partial<CustomIconComponentProps>) => {
   return <Icon component={FaCashRegister} {...props} />;
+}
+
+export const PaymentIcon = (props: Partial<CustomIconComponentProps>) => {
+  return <Icon component={MdOutlinePaid} {...props} />;
 }

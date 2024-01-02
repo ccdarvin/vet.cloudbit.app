@@ -45,6 +45,7 @@ import {
   NoteIcon,
   OrderIcon,
   PatientIcon,
+  PaymentIcon,
   PaymentTypeIcon,
   SalesIcon,
   SettingsIcon,
@@ -61,6 +62,7 @@ import { PatientsNotesList } from "./pages/patients/notes";
 import { CustomerLayout } from "./pages/customers/layout";
 import { PaymentTypesList } from "./pages/payment_types";
 import { CashRegistersList } from "./pages/cash_registers";
+import { PaymentsList } from "./pages/payments";
 
 function App() {
   const { t, i18n } = useTranslation(["common"]);
@@ -236,6 +238,19 @@ function App() {
                     },
                   },
                   {
+                    name: "payments",
+                    list: "/:tenant/payments",
+                    create: "/:tenant/payments/create",
+                    edit: "/:tenant/payments/edit/:id",
+                    show: "/:tenant/payments/show/:id",
+                    meta: {
+                      tenant,
+                      label: "Pagos",
+                      parent: "sales",
+                      icon: <PaymentIcon />,
+                    },
+                  },
+                  {
                     name: "settings",
                     meta: {
                       tenant,
@@ -383,6 +398,9 @@ function App() {
                       <Route path="cash_registers">
                         <Route index element={<CashRegistersList />} />
                         <Route path="edit/:id" element={<OrderEdit />} />
+                      </Route>
+                      <Route path="payments">
+                        <Route index element={<PaymentsList />} />
                       </Route>
                       <Route path="species">
                         <Route index element={<SpeciesList />} />

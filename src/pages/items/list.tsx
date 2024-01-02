@@ -8,7 +8,6 @@ import {
   useTable,
   List,
   EditButton,
-  ShowButton,
   useDrawerForm,
   BooleanField,
   getDefaultSortOrder,

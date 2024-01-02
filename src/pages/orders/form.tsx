@@ -1,20 +1,20 @@
 import { FormProps } from "antd/lib";
 import { useTranslate, useParsed, useDelete } from "@refinedev/core";
-import { Form, Input, Table, Button, InputNumber, Space } from "antd";
+import { Form, Input, Table, Button, InputNumber, Space, Row, Col } from "antd";
 import ItemSelect from "../../components/controls/ItemSelect";
 import { Tables } from "../../types/supabase";
 import CustomerSelect from "../../components/controls/CustomerSelect";
 import { DeleteOutlined } from "@ant-design/icons";
-import OrderStatusSteps from "../../components/controls/OrderStatusSteps";
 
-export const OrderForm: React.FC<{ formProps: FormProps }> = ({
+export const OrderForm: React.FC<{ formProps: FormProps, isReadonly?: boolean }> = ({
   formProps,
+  isReadonly
 }) => {
   const translate = useTranslate();
   const { params } = useParsed<{ tenant: string }>();
   const { form } = formProps;
   const { mutate } = useDelete();
-
+  
   const handleTotals = () => {
     // create totals, fields are: subtotal_base, discount, subtotal, total
 
@@ -28,7 +28,6 @@ export const OrderForm: React.FC<{ formProps: FormProps }> = ({
     // set values
     form?.setFieldValue("subtotal_base", subtotal_base);
     form?.setFieldValue("total", total);
-    console.log(items);
   };
 
   return (
@@ -46,25 +45,23 @@ export const OrderForm: React.FC<{ formProps: FormProps }> = ({
         handleTotals();
       }}
       layout="vertical"
+      disabled={isReadonly}
     >
-      <Form.Item
-        label={translate("orders.fields.status")}
-        name={["status"]}
-        >
-          <OrderStatusSteps />
-        </Form.Item>
-      <Form.Item
-        label={translate("orders.fields.customer")}
-        name={"customer_id"}
-        rules={[
-          {
-            required: true,
-          },
-        ]}
-      >
-        <CustomerSelect />
-      </Form.Item>
-
+      <Row gutter={16}>
+        <Col xs={{ span: 24 }} sm={{ span: 12 }}>
+          <Form.Item
+            label={translate("orders.fields.customer")}
+            name={"customer_id"}
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <CustomerSelect />
+          </Form.Item>
+        </Col>
+      </Row>
       <Form.List name="items">
         {(fields, { add, remove, ...props }) => (
           <>
@@ -285,7 +282,7 @@ export const OrderForm: React.FC<{ formProps: FormProps }> = ({
                           mutate({
                             resource: "order_items",
                             id: item?.id,
-                          })
+                          });
                         }
                         remove(index);
                       }}
@@ -315,6 +312,9 @@ export const OrderForm: React.FC<{ formProps: FormProps }> = ({
             <Input readOnly bordered={false} />
           </Form.Item>
           <Form.Item label={translate("orders.fields.total")} name={["total"]}>
+            <Input readOnly bordered={false} />
+          </Form.Item>
+          <Form.Item label={translate("orders.fields.total_paid")} name={["total_paid"]}>
             <Input readOnly bordered={false} />
           </Form.Item>
         </Space.Compact>
