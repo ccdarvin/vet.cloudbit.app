@@ -1,14 +1,21 @@
 import { useSelect } from "@refinedev/antd";
-import { useGetToPath, useGo, useParsed } from "@refinedev/core";
+import { useGetIdentity, useGetToPath, useGo, useParsed } from "@refinedev/core";
 import { Select } from "antd";
 import { Tables } from "../../types/supabase";
 import { useEffect } from "react";
 
 
+type IIdentity = {
+  id: number;
+  fullName: string;
+};
+
 export default function TenantSelect() {
   const getToPath = useGetToPath();
   const go = useGo();
-  const { resource, action, params } = useParsed<{ tenant: string }>();
+  const { data: identity } = useGetIdentity<IIdentity>();
+
+  const { resource, action, params, pathname } = useParsed<{ tenant: string }>();
 
   const { selectProps: storeSelectProps, queryResult } = useSelect<Tables<'tenants'>>({
     resource: "tenants",

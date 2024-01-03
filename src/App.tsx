@@ -63,6 +63,8 @@ import { CustomerLayout } from "./pages/customers/layout";
 import { PaymentTypesList } from "./pages/payment_types";
 import { CashRegistersList } from "./pages/cash_registers";
 import { PaymentsList } from "./pages/payments";
+import { TenantProvider } from "./contexts/TenantProvider";
+import { IndexPage } from "./pages";
 
 function App() {
   const { t, i18n } = useTranslation(["common"]);
@@ -78,7 +80,7 @@ function App() {
     patient: string;
     customer: string;
   }>();
-
+  console.log(params);
   const tenant = params?.tenant;
   const customer = params?.customer;
   return (
@@ -278,7 +280,7 @@ function App() {
                       tenant,
                       parent: "settings",
                       label: "Especies",
-                      icon: <SpeciesIcon  />,
+                      icon: <SpeciesIcon />,
                     },
                   },
                   {
@@ -307,7 +309,7 @@ function App() {
                       tenant,
                       parent: "settings",
                       label: "Tipos de pago",
-                      icon: <PaymentTypeIcon  />,
+                      icon: <PaymentTypeIcon />,
                     },
                   },
                 ]}
@@ -318,131 +320,138 @@ function App() {
                   projectId: "vzPetm-SdXQTk-4w8dzT",
                 }}
               >
-                <Routes>
-                  <Route
-                    element={
-                      <Authenticated
-                        key="authenticated-inner"
-                        fallback={<CatchAllNavigate to="/login" />}
-                      >
-                        <ThemedLayoutV2
-                          Header={() => <Header sticky />}
-                          Sider={(props) => <ThemedSiderV2 {...props} fixed />}
-                        >
-                          <Outlet />
-                        </ThemedLayoutV2>
-                      </Authenticated>
-                    }
-                  >
+                <TenantProvider>
+                  <Routes>
                     <Route
-                      index
-                      element={<NavigateToResource resource="blog_posts" />}
-                    />
-                    <Route path="/tenants">
-                      <Route index element={<TenantList />} />
-                      <Route path="create" element={<TenantCreate />} />
-                      <Route path="edit/:id" element={<TenantEdit />} />
-                      <Route path="show/:id" element={<TenantShow />} />
-                    </Route>
-                    <Route path="/:tenant">
-                      <Route path="patients">
-                        <Route index element={<PatientsList />} />
-                        <Route
-                          path=":patient"
-                          element={
-                            <PatientLayout>
-                              <Outlet />
-                            </PatientLayout>
-                          }
+                      element={
+                        <Authenticated
+                          key="authenticated-inner"
+                          fallback={<CatchAllNavigate to="/login" />}
                         >
-                          <Route index element={<PacientShow />} />
-                          <Route path="appointments">
-                            <Route index element={<AppointmentsList />} />
-                          </Route>
-                          <Route path="visits">
-                            <Route index element={<AppointmentsList />} />
-                          </Route>
-                          <Route path="medical_records">
-                            <Route index element={<MedicalRecordsList />} />
-                          </Route>
-                          <Route path="notes">
-                            <Route index element={<PatientsNotesList />} />
+                          <ThemedLayoutV2
+                            Header={() => <Header sticky />}
+                            Sider={(props) => (
+                              <ThemedSiderV2 {...props} fixed />
+                            )}
+                          >
+                            <Outlet />
+                          </ThemedLayoutV2>
+                        </Authenticated>
+                      }
+                    >
+                      <Route
+                        index
+                        element={<IndexPage />}
+                      />
+                      <Route path="/tenants">
+                        <Route index element={<TenantList />} />
+                        <Route path="create" element={<TenantCreate />} />
+                        <Route path="edit/:id" element={<TenantEdit />} />
+                        <Route path="show/:id" element={<TenantShow />} />
+                      </Route>
+                      <Route path="/:tenant">
+                        <Route index element={<div >hello </div>} />
+                        <Route path="patients">
+                          <Route index element={<PatientsList />} />
+                          <Route
+                            path=":patient"
+                            element={
+                              <PatientLayout>
+                                <Outlet />
+                              </PatientLayout>
+                            }
+                          >
+                            <Route index element={<PacientShow />} />
+                            <Route path="appointments">
+                              <Route index element={<AppointmentsList />} />
+                            </Route>
+                            <Route path="visits">
+                              <Route index element={<AppointmentsList />} />
+                            </Route>
+                            <Route path="medical_records">
+                              <Route index element={<MedicalRecordsList />} />
+                            </Route>
+                            <Route path="notes">
+                              <Route index element={<PatientsNotesList />} />
+                            </Route>
                           </Route>
                         </Route>
-                      </Route>
-                      <Route path="customers">
-                        <Route index element={<CustomerList />} />
-                        <Route
-                          path=":customer"
-                          element={
-                            <CustomerLayout>
-                              <Outlet />
-                            </CustomerLayout>
-                          }
-                        >
-                          <Route path="patients">
-                            <Route index element={<PatientsList />} />
+                        <Route path="customers">
+                          <Route index element={<CustomerList />} />
+                          <Route
+                            path=":customer"
+                            element={
+                              <CustomerLayout>
+                                <Outlet />
+                              </CustomerLayout>
+                            }
+                          >
+                            <Route path="patients">
+                              <Route index element={<PatientsList />} />
+                            </Route>
+                            <Route index element={<CustomersShow />} />
                           </Route>
-                          <Route index element={<CustomersShow />} />
                         </Route>
+                        <Route path="items">
+                          <Route index element={<ItemList />} />
+                        </Route>
+                        <Route path="orders">
+                          <Route index element={<OrderList />} />
+                          <Route path="create" element={<OrderEdit />} />
+                          <Route path="edit/:id" element={<OrderEdit />} />
+                          <Route path="show/:id" element={<OrderShow />} />
+                        </Route>
+                        <Route path="cash_registers">
+                          <Route index element={<CashRegistersList />} />
+                          <Route path="edit/:id" element={<OrderEdit />} />
+                        </Route>
+                        <Route path="payments">
+                          <Route index element={<PaymentsList />} />
+                        </Route>
+                        <Route path="species">
+                          <Route index element={<SpeciesList />} />
+                        </Route>
+                        <Route path="appointments">
+                          <Route index element={<AppointmentsList />} />
+                        </Route>
+                        <Route path="staff">
+                          <Route index element={<StaffList />} />
+                        </Route>
+                        <Route path="treatment_types">
+                          <Route index element={<TreatmentTypesList />} />
+                        </Route>
+                        <Route
+                          path="payment_types"
+                          element={<PaymentTypesList />}
+                        />
                       </Route>
-                      <Route path="items">
-                        <Route index element={<ItemList />} />
-                      </Route>
-                      <Route path="orders">
-                        <Route index element={<OrderList />} />
-                        <Route path="create" element={<OrderEdit />} />
-                        <Route path="edit/:id" element={<OrderEdit />} />
-                        <Route path="show/:id" element={<OrderShow />} />
-                      </Route>
-                      <Route path="cash_registers">
-                        <Route index element={<CashRegistersList />} />
-                        <Route path="edit/:id" element={<OrderEdit />} />
-                      </Route>
-                      <Route path="payments">
-                        <Route index element={<PaymentsList />} />
-                      </Route>
-                      <Route path="species">
-                        <Route index element={<SpeciesList />} />
-                      </Route>
-                      <Route path="appointments">
-                        <Route index element={<AppointmentsList />} />
-                      </Route>
-                      <Route path="staff">
-                        <Route index element={<StaffList />} />
-                      </Route>
-                      <Route path="treatment_types">
-                        <Route index element={<TreatmentTypesList />} />
-                      </Route>
-                      <Route path="payment_types" element={<PaymentTypesList />} />
+                      <Route path="*" element={<ErrorComponent />} />
                     </Route>
-                    <Route path="*" element={<ErrorComponent />} />
-                  </Route>
-                  <Route
-                    element={
-                      <Authenticated
-                        key="authenticated-outer"
-                        fallback={<Outlet />}
-                      >
-                        <NavigateToResource />
-                      </Authenticated>
-                    }
-                  >
                     <Route
-                      path="/login"
-                      element={<AuthPage type="login" formProps={{}} />}
-                    />
-                    <Route
-                      path="/register"
-                      element={<AuthPage type="register" />}
-                    />
-                    <Route
-                      path="/forgot-password"
-                      element={<AuthPage type="forgotPassword" />}
-                    />
-                  </Route>
-                </Routes>
-
+                      element={
+                        <Authenticated
+                          key="authenticated-outer"
+                          fallback={<Outlet />}
+                        >
+                          <NavigateToResource />
+                        </Authenticated>
+                      }
+                    >
+                      <Route
+                        path="/login"
+                        element={<AuthPage type="login" formProps={{}} />}
+                      />
+                      <Route
+                        path="/register"
+                        element={<AuthPage type="register" />}
+                      />
+                      <Route
+                        path="/forgot-password"
+                        element={<AuthPage type="forgotPassword" />}
+                      />
+                    </Route>
+                  </Routes>
+                </TenantProvider>
                 <RefineKbar />
                 <UnsavedChangesNotifier />
                 <DocumentTitleHandler />
