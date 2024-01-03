@@ -1,35 +1,24 @@
-import React from "react";
-import {
-  IResourceComponentsProps,
-  BaseRecord,
-  useTranslate,
-  useParsed,
-  useResource,
-} from "@refinedev/core";
-import {
-  useTable,
-  List,
-  EditButton,
-  ShowButton,
-  DateField,
-  useDrawerForm,
-  getDefaultSortOrder,
-  FilterDropdown,
-} from "@refinedev/antd";
-import { Table, Space } from "antd";
-import { Tables } from "../../types/supabase";
-import { AppointmentsCreate } from "./create";
-import BadgeField from "../../components/fields/BadgeField";
-import { AppointmentsEdit } from "./edit";
-import { appointmentStatusOptions } from "../../constants";
-import AppointmentSelect from "../../components/controls/AppointmentSelect";
-import AppointmentStatusSegmented from "../../components/controls/AppointmentStatus";
-import AppointmentStatusSelect from "../../components/controls/AppointmentStatusSelect";
+import { EditButton, FilterDropdown, ShowButton, getDefaultSortOrder, useDrawerForm, useTable } from "@refinedev/antd";
+import { IResourceComponentsProps, useParsed, useTranslate } from "@refinedev/core";
+import { Space, Table } from "antd";
+import { Tables } from "../../../types/supabase";
+import DateField from "../../../components/fields/DateField";
+import AppointmentStatusSelect from "../../../components/controls/AppointmentStatusSelect";
+import BadgeField from "../../../components/fields/BadgeField";
+import { appointmentStatusOptions } from "../../../constants";
+import { AppointmentsEdit } from "../edit";
 
-export const AppointmentsList: React.FC<IResourceComponentsProps> = () => {
+
+interface IAppointment extends Tables<"appointments"> {
+  doctor: Tables<"staff">;
+  patient: Tables<"patients">;
+}
+
+
+export const AppointmentsTable: React.FC<IResourceComponentsProps> = () => {
+  
   const translate = useTranslate();
   const { params } = useParsed<{ tenant: string; patient: string }>();
-  const { resource } = useResource();
 
   const { tableProps, sorters } = useTable({
     syncWithLocation: true,
@@ -48,11 +37,6 @@ export const AppointmentsList: React.FC<IResourceComponentsProps> = () => {
           operator: "eq",
           value: params?.patient,
         },
-        {
-          field: "is_visit",
-          operator: "eq",
-          value: resource?.identifier === "visits",
-        },
       ],
     },
     sorters: {
@@ -64,10 +48,6 @@ export const AppointmentsList: React.FC<IResourceComponentsProps> = () => {
       ],
     },
   });
-  const drawerFormPropsCreate = useDrawerForm<Tables<"patients">>({
-    action: "create",
-    syncWithLocation: true,
-  });
 
   const drawerFormPropsEdit = useDrawerForm<Tables<"patients">>({
     action: "edit",
@@ -75,11 +55,7 @@ export const AppointmentsList: React.FC<IResourceComponentsProps> = () => {
   });
 
   return (
-    <List
-      createButtonProps={{
-        onClick: () => drawerFormPropsCreate.show(),
-      }}
-    >
+    <>
       <Table {...tableProps} rowKey="id">
         <Table.Column
           dataIndex={["patient", "name"]}
@@ -89,7 +65,7 @@ export const AppointmentsList: React.FC<IResourceComponentsProps> = () => {
           dataIndex={["doctor", "first_name"]}
           title={translate("appointments.fields.doctor")}
           sorter
-          render={(value, record: any) => (
+          render={(value, record: IAppointment) => (
             <>
               {record?.doctor?.first_name} {record?.doctor?.last_name}
             </>
@@ -114,9 +90,11 @@ export const AppointmentsList: React.FC<IResourceComponentsProps> = () => {
           sorter
           defaultSortOrder={getDefaultSortOrder("status", sorters)}
           filterDropdown={(props) => {
-            return <FilterDropdown {...props}>
-              <AppointmentStatusSelect />
-             </FilterDropdown> 
+            return (
+              <FilterDropdown {...props}>
+                <AppointmentStatusSelect />
+              </FilterDropdown>
+            );
           }}
           render={(value) => (
             <BadgeField
@@ -132,7 +110,7 @@ export const AppointmentsList: React.FC<IResourceComponentsProps> = () => {
           title={translate("table.actions")}
           dataIndex="actions"
           fixed="right"
-          render={(_, record: BaseRecord) => (
+          render={(_, record: IAppointment) => (
             <Space>
               <EditButton
                 hideText
@@ -145,8 +123,7 @@ export const AppointmentsList: React.FC<IResourceComponentsProps> = () => {
           )}
         />
       </Table>
-      <AppointmentsCreate drawerFormProps={drawerFormPropsCreate} />
       <AppointmentsEdit drawerFormProps={drawerFormPropsEdit} />
-    </List>
+    </>
   );
 };
