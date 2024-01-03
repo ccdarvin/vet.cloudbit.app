@@ -5,8 +5,6 @@ import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 import {
   AuthPage,
   ErrorComponent,
-  ThemedLayoutV2,
-  ThemedSiderV2,
   useNotificationProvider,
 } from "@refinedev/antd";
 import "@refinedev/antd/dist/reset.css";
@@ -22,7 +20,6 @@ import { App as AntdApp } from "antd";
 import { useTranslation } from "react-i18next";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import authProvider from "./authProvider";
-import { Header } from "./components/header";
 import { ColorModeContextProvider } from "./contexts/color-mode";
 import { supabaseClient } from "./utility";
 import {
@@ -65,6 +62,10 @@ import { CashRegistersList } from "./pages/cash_registers";
 import { PaymentsList } from "./pages/payments";
 import { TenantProvider } from "./contexts/TenantProvider";
 import { IndexPage } from "./pages";
+import { ThemedLayoutV2Custom } from "./components/layout";
+import { ThemedSiderV2Custom } from "./components/layout/sider";
+import { LoginPage } from "./components/pages/auth/components";
+import { Header } from "./components";
 
 function App() {
   const { t, i18n } = useTranslation(["common"]);
@@ -75,14 +76,13 @@ function App() {
     getLocale: () => i18n.language,
   };
 
-  const { params } = useParsed<{
+  const { params, ...others } = useParsed<{
     tenant: string;
     patient: string;
     customer: string;
   }>();
-  console.log(params);
   const tenant = params?.tenant;
-  const customer = params?.customer;
+  console.log("tenant", params, others);
   return (
     <BrowserRouter>
       {/*<GitHubBanner />*/}
@@ -103,7 +103,7 @@ function App() {
                     list: "/tenants",
                     create: "/tenants/create",
                     edit: "/tenants/edit/:id",
-                    show: "/tenants/show/:id",
+                    show: "/:tenant",
                   },
                   {
                     name: "appointments",
@@ -119,7 +119,6 @@ function App() {
                     list: "/:tenant/patients",
                     show: "/:tenant/patients/:id",
                     meta: {
-                      tenant,
                       param: "patient",
                       label: "Pacientes",
                       icon: <PatientIcon />,
@@ -328,14 +327,14 @@ function App() {
                           key="authenticated-inner"
                           fallback={<CatchAllNavigate to="/login" />}
                         >
-                          <ThemedLayoutV2
+                          <ThemedLayoutV2Custom
                             Header={() => <Header sticky />}
                             Sider={(props) => (
-                              <ThemedSiderV2 {...props} fixed />
+                              <ThemedSiderV2Custom {...props} fixed />
                             )}
                           >
                             <Outlet />
-                          </ThemedLayoutV2>
+                          </ThemedLayoutV2Custom>
                         </Authenticated>
                       }
                     >
@@ -439,11 +438,11 @@ function App() {
                     >
                       <Route
                         path="/login"
-                        element={<AuthPage type="login" formProps={{}} />}
+                        element={<LoginPage />}
                       />
                       <Route
                         path="/register"
-                        element={<AuthPage type="register" />}
+                        element={<AuthPage type="register" title />}
                       />
                       <Route
                         path="/forgot-password"

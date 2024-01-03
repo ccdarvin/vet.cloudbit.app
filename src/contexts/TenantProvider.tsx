@@ -1,7 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { Tables } from "../types/supabase";
 import { useGetIdentity, useList } from "@refinedev/core";
-import { supabaseClient } from "../utility";
 
 export const TenantContext = createContext({});
 
@@ -26,9 +25,6 @@ export const TenantProvider = ({ children }: { children: React.ReactNode }) => {
       enabled: !!identity?.id,
     }
   });
-  useEffect(() => {
-
-  }, []);
 
   return (
     <TenantContext.Provider value={{ tenant, setTenant }}>

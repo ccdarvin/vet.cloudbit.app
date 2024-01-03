@@ -14,6 +14,7 @@ import {
   useActiveAuthProvider,
   pickNotDeprecated,
   useWarnAboutChange,
+  useGetIdentity,
 } from "@refinedev/core";
 import { ThemedTitleV2, useThemedLayoutContext } from "@refinedev/antd";
 import {
@@ -27,6 +28,16 @@ import {
 import { Layout, Menu, Grid, Drawer, Button, theme } from "antd";
 import type { RefineThemedLayoutV2SiderProps } from "@refinedev/antd";
 
+
+type IIdentity = {
+  id: number;
+  fullName: string;
+  user_metadata: {
+    tenant_id: string;
+  }
+};
+
+
 const drawerButtonStyles: CSSProperties = {
   borderTopLeftRadius: 0,
   borderBottomLeftRadius: 0,
@@ -38,7 +49,7 @@ const drawerButtonStyles: CSSProperties = {
 const { SubMenu } = Menu;
 const { useToken } = theme;
 
-export const ThemedSiderV2: React.FC<RefineThemedLayoutV2SiderProps> = ({
+export const ThemedSiderV2Custom: React.FC<RefineThemedLayoutV2SiderProps> = ({
   Title: TitleFromProps,
   render,
   meta,
@@ -52,7 +63,6 @@ export const ThemedSiderV2: React.FC<RefineThemedLayoutV2SiderProps> = ({
     mobileSiderOpen,
     setMobileSiderOpen,
   } = useThemedLayoutContext();
-
   const isExistAuthentication = useIsExistAuthentication();
   const routerType = useRouterType();
   const NewLink = useLink();
@@ -61,7 +71,8 @@ export const ThemedSiderV2: React.FC<RefineThemedLayoutV2SiderProps> = ({
   const Link = routerType === "legacy" ? LegacyLink : NewLink;
   const TitleFromContext = useTitle();
   const translate = useTranslate();
-  const { menuItems, selectedKey, defaultOpenKeys } = useMenu({ meta });
+  const { data: identity } = useGetIdentity<IIdentity>();
+  const { menuItems, selectedKey, defaultOpenKeys } = useMenu({ meta: { ...meta, tenant: identity?.user_metadata.tenant_id } });
   const breakpoint = Grid.useBreakpoint();
   const { hasDashboard } = useRefineContext();
   const authProvider = useActiveAuthProvider();
@@ -123,7 +134,7 @@ export const ThemedSiderV2: React.FC<RefineThemedLayoutV2SiderProps> = ({
           resource={name.toLowerCase()}
           action="list"
           params={{
-            resource: item,
+            resource: item
           }}
         >
           <Menu.Item

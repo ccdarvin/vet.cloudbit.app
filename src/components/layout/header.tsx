@@ -10,7 +10,7 @@ import type { RefineThemedLayoutV2HeaderProps } from "@refinedev/antd";
 const { Text } = Typography;
 const { useToken } = theme;
 
-export const ThemedHeaderV2: React.FC<RefineThemedLayoutV2HeaderProps> = ({
+export const ThemedHeaderV2Custom: React.FC<RefineThemedLayoutV2HeaderProps> = ({
   isSticky,
   sticky,
 }) => {
