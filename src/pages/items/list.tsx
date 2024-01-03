@@ -29,7 +29,7 @@ export const ItemList: React.FC<IResourceComponentsProps> = () => {
           field: "tenant_id",
           operator: "eq",
           value: params?.tenant,
-        }
+        },
       ],
     },
     sorters: {
@@ -58,24 +58,22 @@ export const ItemList: React.FC<IResourceComponentsProps> = () => {
         onClick: () => drawerFormPropsCreate.show(),
       }}
     >
-      <Table 
-        
-        {...tableProps} rowKey="id"
-      >
-        <Table.Column 
-          dataIndex="sku" 
+      <Table {...tableProps} rowKey="id">
+        <Table.Column
+          dataIndex="sku"
           title={translate("items.fields.sku")}
           sorter
           defaultSortOrder={getDefaultSortOrder("sku", sorters)}
         />
-        <Table.Column 
-        dataIndex="name" 
-        title={translate("items.fields.name")} 
-        sorter
-        defaultSortOrder={getDefaultSortOrder("name", sorters)}
+        <Table.Column
+          dataIndex="name"
+          title={translate("items.fields.name")}
+          sorter
+          defaultSortOrder={getDefaultSortOrder("name", sorters)}
         />
-        <Table.Column dataIndex="is_service" 
-          title={translate("items.fields.is_service")} 
+        <Table.Column
+          dataIndex="is_service"
+          title={translate("items.fields.is_service")}
           sorter
           defaultSortOrder={getDefaultSortOrder("is_service", sorters)}
           render={(value) => <BooleanField value={value} />}

@@ -13,6 +13,8 @@ import {
   ShowButton,
   DateField,
   useDrawerForm,
+  getDefaultSortOrder,
+  FilterDropdown,
 } from "@refinedev/antd";
 import { Table, Space } from "antd";
 import { Tables } from "../../types/supabase";
@@ -20,13 +22,16 @@ import { AppointmentsCreate } from "./create";
 import BadgeField from "../../components/fields/BadgeField";
 import { AppointmentsEdit } from "./edit";
 import { appointmentStatusOptions } from "../../constants";
+import AppointmentSelect from "../../components/controls/AppointmentSelect";
+import AppointmentStatusSegmented from "../../components/controls/AppointmentStatus";
+import AppointmentStatusSelect from "../../components/controls/AppointmentStatusSelect";
 
 export const AppointmentsList: React.FC<IResourceComponentsProps> = () => {
   const translate = useTranslate();
   const { params } = useParsed<{ tenant: string; patient: string }>();
   const { resource } = useResource();
 
-  const { tableProps } = useTable({
+  const { tableProps, sorters } = useTable({
     syncWithLocation: true,
     meta: {
       select: "*, patient:patient_id(*), doctor:doctor_id(*)",
@@ -47,6 +52,14 @@ export const AppointmentsList: React.FC<IResourceComponentsProps> = () => {
           field: "is_visit",
           operator: "eq",
           value: resource?.identifier === "visits",
+        },
+      ],
+    },
+    sorters: {
+      initial: [
+        {
+          field: "created_at",
+          order: "desc",
         },
       ],
     },
@@ -73,26 +86,38 @@ export const AppointmentsList: React.FC<IResourceComponentsProps> = () => {
           title={translate("appointments.fields.patient")}
         />
         <Table.Column
-          dataIndex={["doctor"]}
+          dataIndex={["doctor", "first_name"]}
           title={translate("appointments.fields.doctor")}
-          render={(value) => (
+          sorter
+          render={(value, record: any) => (
             <>
-              {value?.first_name} {value?.last_name}
+              {record?.doctor?.first_name} {record?.doctor?.last_name}
             </>
           )}
         />
         <Table.Column
           dataIndex={["date"]}
+          sorter
+          defaultSortOrder={getDefaultSortOrder("date", sorters)}
           title={translate("appointments.fields.date")}
           render={(value) => <DateField value={value} />}
         />
         <Table.Column
           dataIndex="reason"
           title={translate("appointments.fields.reason")}
+          sorter
+          defaultSortOrder={getDefaultSortOrder("reason", sorters)}
         />
         <Table.Column
           dataIndex="status"
           title={translate("appointments.fields.status")}
+          sorter
+          defaultSortOrder={getDefaultSortOrder("status", sorters)}
+          filterDropdown={(props) => {
+            return <FilterDropdown {...props}>
+              <AppointmentStatusSelect />
+             </FilterDropdown> 
+          }}
           render={(value) => (
             <BadgeField
               value={value}
@@ -106,6 +131,7 @@ export const AppointmentsList: React.FC<IResourceComponentsProps> = () => {
         <Table.Column
           title={translate("table.actions")}
           dataIndex="actions"
+          fixed="right"
           render={(_, record: BaseRecord) => (
             <Space>
               <EditButton

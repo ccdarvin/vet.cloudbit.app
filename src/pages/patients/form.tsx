@@ -1,5 +1,5 @@
 import { useParsed, useTranslate } from "@refinedev/core";
-import { Col, DatePicker, Flex, Form, Input, Row, Select, Slider, Switch } from "antd";
+import { Col, DatePicker, Form, Input, Row, Select, Slider, Switch } from "antd";
 import { FormProps } from "antd/lib";
 import dayjs from "dayjs";
 import SpeciesSelect from "../../components/controls/SpeciesSelect";
@@ -115,7 +115,7 @@ export const PatientForm: React.FC<{ formProps: FormProps }> = ({
         <Col xs={{ span: 24 }} sm={{ span: 12 }}>
           <Form.Item 
             label={translate("patients.fields.last_heat")} 
-            name={["lastHeat"]}
+            name={["last_heat"]}
           >
             <DatePicker />
           </Form.Item>
@@ -123,7 +123,7 @@ export const PatientForm: React.FC<{ formProps: FormProps }> = ({
         <Col xs={{ span: 24 }}>
           <Form.Item
             label={translate("patients.fields.aggressiveness")}
-            name={["aggressive"]}
+            name={["aggressiveness"]}
           >
             <Slider max={10} />
           </Form.Item>
