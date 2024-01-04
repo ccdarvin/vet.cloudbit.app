@@ -1,6 +1,7 @@
 import {
   IResourceComponentsProps,
   useList,
+  useParsed,
   useTranslate,
 } from "@refinedev/core";
 import { Tables } from "../../types/supabase";
@@ -19,12 +20,22 @@ export const MedicalRecordsTimeLine: React.FC<
   IResourceComponentsProps
 > = () => {
   const translate = useTranslate();
+  const { params } = useParsed<{ patient: string; tenant: string }>();
   const { data: medicalRecords } = useList<IMedicalRecords>({
     resource: "medical_records",
     meta: {
       select:
         "*, patient:patient_id(*), doctor:doctor_id(*), treatment_type:treatment_type_id(*)",
     },
+    filters: [{
+      field: "tenant_id",
+      operator: "eq",
+      value: params?.tenant,
+    },{
+      field: "patient_id",
+      operator: "eq",
+      value: params?.patient,
+    }],
     sorters: [
       {
         field: "date",
@@ -55,6 +66,7 @@ export const MedicalRecordsTimeLine: React.FC<
                   />
                   <EditButton
                     hideText
+                    type="text"
                     recordItemId={record.id}
                     onClick={() => drawerFormPropsEdit.show(record.id)}
                   />

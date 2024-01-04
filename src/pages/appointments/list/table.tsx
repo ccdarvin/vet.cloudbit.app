@@ -1,5 +1,5 @@
 import { EditButton, FilterDropdown, getDefaultSortOrder, useDrawerForm, useTable } from "@refinedev/antd";
-import { IResourceComponentsProps, useParsed, useTranslate } from "@refinedev/core";
+import { CrudFilters, IResourceComponentsProps, useParsed, useTranslate } from "@refinedev/core";
 import { Space, Table } from "antd";
 import { Tables } from "../../../types/supabase";
 import DateField from "../../../components/fields/DateField";
@@ -22,8 +22,14 @@ export const AppointmentsTable: React.FC<IResourceComponentsProps> = () => {
   const translate = useTranslate();
   const { params } = useParsed<{ tenant: string; patient: string }>();
 
+  const patientFilter: CrudFilters = params?.patient ? [{
+    field: "patient_id",
+    operator: "eq",
+    value: params?.patient,
+  }] : []
+
   const { tableProps, sorters } = useTable({
-    syncWithLocation: true,
+    syncWithLocation: false,
     meta: {
       select: "*, patient:patient_id(*), doctor:doctor_id(*)",
     },
@@ -33,7 +39,8 @@ export const AppointmentsTable: React.FC<IResourceComponentsProps> = () => {
           field: "tenant_id",
           operator: "eq",
           value: params?.tenant,
-        }
+        },
+        ...patientFilter
       ],
     },
     sorters: {
@@ -54,7 +61,7 @@ export const AppointmentsTable: React.FC<IResourceComponentsProps> = () => {
   return (
     <>
       <Table {...tableProps} rowKey="id">
-        <Table.Column
+        {!params?.patient && <Table.Column
           dataIndex={"patient_id"}
           title={translate("appointments.fields.patient")}
           render={(value, record: IAppointment) => (record?.patient?.name)}
@@ -65,7 +72,7 @@ export const AppointmentsTable: React.FC<IResourceComponentsProps> = () => {
               </FilterDropdown>
             );
           }}
-        />
+        />}
         <Table.Column
           dataIndex={["doctor_id"]}
           title={translate("appointments.fields.doctor")}

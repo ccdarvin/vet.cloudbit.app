@@ -30,7 +30,7 @@ export const MedicalRecordForm: React.FC<{ formProps: FormProps }> = ({
             label={translate("medical_records.fields.appointment")}
             name={"appointment_id"}
           >
-            <AppointmentSelect isAvailable />
+            <AppointmentSelect />
           </Form.Item>
         </Col>
         <Col xs={{ span: 24 }} sm={{ span: 12 }}>
@@ -63,7 +63,7 @@ export const MedicalRecordForm: React.FC<{ formProps: FormProps }> = ({
               },
             ]}
           >
-            <PatientSelect />
+            <PatientSelect disabled={!!formProps?.initialValues?.patient_id} />
           </Form.Item>
         </Col>
         <Col xs={{ span: 24 }} sm={{ span: 12 }}>

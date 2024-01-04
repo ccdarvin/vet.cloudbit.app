@@ -1,4 +1,5 @@
 import {
+  CrudFilters,
   IResourceComponentsProps,
   useList,
   useParsed,
@@ -142,6 +143,12 @@ export const AppointmentsCalendar: React.FC<IResourceComponentsProps> = () => {
     setEndDate(dayjs().month(month).year(year).endOf("month"));
   }, [month, year]);
   const { params } = useParsed<{ tenant: string; patient: string }>();
+  const patientFilter: CrudFilters = params?.patient ? [{
+    field: "patient_id",
+    operator: "eq",
+    value: params?.patient,
+  }] : [];
+
   const { data } = useList<IAppointment>({
     meta: {
       select: "*, patient:patient_id(*), doctor:doctor_id(*)",
@@ -152,6 +159,7 @@ export const AppointmentsCalendar: React.FC<IResourceComponentsProps> = () => {
         operator: "eq",
         value: params?.tenant,
       },
+      ...patientFilter,
       {
         field: "date",
         operator: "gte",

@@ -49,7 +49,6 @@ import {
   SpeciesIcon,
   StaffIcon,
   TreatmentTypeIcon,
-  VisitIcon,
 } from "./components/icons";
 import { AppointmentsList } from "./pages/appointments";
 import { StaffList } from "./pages/staff";
@@ -132,17 +131,6 @@ function App() {
                       icon: <AppointmentIcon />,
                       tenant,
                       label: "Citas",
-                      hide: true,
-                    },
-                  },
-                  {
-                    name: "appointments",
-                    identifier: "visits",
-                    list: "/:tenant/patients/:patient/visits",
-                    meta: {
-                      icon: <VisitIcon />,
-                      tenant,
-                      label: "Visitas",
                       hide: true,
                     },
                   },

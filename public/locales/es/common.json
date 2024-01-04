@@ -109,6 +109,11 @@
     "true": "Sí",
     "false": "No"
   },
+  "calendar": {
+    "years": "Años",
+    "months": "Meses",
+    "days": "Días"
+  },
   "dashboard": {
     "title": "Dashboard"
   },

@@ -1,7 +1,13 @@
-import { CreateButton, EditButton, List, useSimpleList } from "@refinedev/antd";
+import {
+  CreateButton,
+  DeleteButton,
+  EditButton,
+  List,
+  useSimpleList,
+} from "@refinedev/antd";
 import { Enums, Tables } from "../../types/supabase";
-import { useParsed, useTranslate } from "@refinedev/core";
-import { Flex, List as ListAnt, Typography } from "antd";
+import { useParsed } from "@refinedev/core";
+import { List as ListAnt, Space, Typography } from "antd";
 import { useState } from "react";
 import DateField from "../../components/fields/DateField";
 import { NotesCreate } from "./create";
@@ -15,7 +21,6 @@ type NotesListProps = {
 export const NotesList = ({ objectId, objectType }: NotesListProps) => {
   const { params } = useParsed<{ tenant: string }>();
   const [id, setId] = useState<string>("");
-  const translate = useTranslate();
 
   const { listProps } = useSimpleList<Tables<"notes">>({
     resource: "notes",
@@ -68,11 +73,20 @@ export const NotesList = ({ objectId, objectType }: NotesListProps) => {
             ) : (
               <ListAnt.Item
                 extra={
-                  <EditButton
-                    hideText
-                    recordItemId={item.id}
-                    onClick={() => setId(item.id)}
-                  />
+                  <Space>
+                    <EditButton
+                      hideText
+                      type="text"
+                      recordItemId={item.id}
+                      onClick={() => setId(item.id)}
+                    />
+                    <DeleteButton
+                      hideText
+                      type="text"
+                      recordItemId={item.id}
+                      resource="notes"
+                    />
+                  </Space>
                 }
                 actions={[
                   <DateField

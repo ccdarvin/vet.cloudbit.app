@@ -9,7 +9,6 @@ export default function AgeField({
   value,
   locales,
   format: dateFormat = "L",
-  ...rest
 }: DateFieldProps) {
   const birthDate = new Date(value as string);
   const defaultLocale = dayjs.locale();
@@ -19,18 +18,18 @@ export default function AgeField({
     dayjs.extend(LocalizedFormat);
     // calculate age and month
     const today = new Date();
-    let age = today.getFullYear() - birthDate.getFullYear();
-    let month = today.getMonth() - birthDate.getMonth();
+    const age = today.getFullYear() - birthDate.getFullYear();
+    const month = today.getMonth() - birthDate.getMonth();
     /*if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
       age--;
       month = 12 + month;
     }*/
     if (age === 0) {
-      return `${month} ${translate('common:months')}`;
+      return `${month} ${translate('calendar.months')}`;
     } else if (month === 0) {
-      return `${age} ${translate('common:years')}`;
+      return `${age} ${translate('calendar.years')}`;
     }
-    return `${age} ${translate('common:years')} ${month} ${translate('common:months')}`;
+    return `${age} ${translate('calendar.years')} ${month} ${translate('calendar.months')}`;
   }
 
   if (!value) {

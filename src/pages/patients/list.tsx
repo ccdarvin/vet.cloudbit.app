@@ -4,19 +4,27 @@ import {
   BaseRecord,
   useTranslate,
   useParsed,
+  CrudFilters,
 } from "@refinedev/core";
-import { useTable, List, EditButton, ShowButton, useDrawerForm } from "@refinedev/antd";
+import { useTable, List, EditButton, ShowButton, useDrawerForm, getDefaultSortOrder, FilterDropdown } from "@refinedev/antd";
 import { Table, Space } from "antd";
 import { Tables } from "../../types/supabase";
 import { PatientCreate } from "./create";
 import { PatientEdit } from "./edit";
 import AgeField from "../../components/fields/AgeField";
+import CustomerSelect from "../../components/controls/CustomerSelect";
+import SpeciesSelect from "../../components/controls/SpeciesSelect";
+import ShowField from "../../components/fields/ShowField";
 
 export const PatientsList: React.FC<IResourceComponentsProps> = () => {
   const translate = useTranslate();
   const { params } = useParsed<{ tenant: string, customer:string }>();
-
-  const { tableProps } = useTable({
+  const filterByCustomer: CrudFilters = params?.customer ? [{
+    field: "customer_id",
+    operator: "eq",
+    value: params?.customer,
+  }] : []
+  const { tableProps, sorters } = useTable({
     syncWithLocation: true,
     meta: {
       select: "*, breed_id, species:species_id(*), breed:breed_id(*), customer:customer_id(*)",
@@ -28,11 +36,7 @@ export const PatientsList: React.FC<IResourceComponentsProps> = () => {
           operator: "eq",
           value: params?.tenant,
         },
-        {
-          field: "customer_id",
-          operator: "eq",
-          value: params?.customer,
-        }
+        ...filterByCustomer
       ],
     },
   })
@@ -56,19 +60,39 @@ export const PatientsList: React.FC<IResourceComponentsProps> = () => {
       <Table {...tableProps} rowKey="id">
         <Table.Column
           dataIndex="name"
+          sorter
+          defaultSortOrder={getDefaultSortOrder("name", sorters)}
           title={translate("patients.fields.name")}
+          render={(value: string, record: Tables<"patients">) => (
+            <ShowField resource="patients" recordItemId={record.id}>
+              {value}
+            </ShowField>
+          )}
         />
         {!params?.customer && <Table.Column
-          dataIndex={["customer", "name"]}
+          dataIndex={["customer_id"]}
           title={translate("patients.fields.customer")}
+          render={(value, record: BaseRecord) => (record?.customer?.name)}
+          filterDropdown={(props) => (
+            <FilterDropdown {...props}>
+              <CustomerSelect />
+            </FilterDropdown>
+          )}
         />}
         <Table.Column
-          dataIndex={["species", "name"]}
+          dataIndex={["species_id"]}
           title={translate("patients.fields.species")}
+          render={(value, record: BaseRecord) => (record?.species?.name)}
+          filterDropdown={(props) => (
+            <FilterDropdown {...props}>
+              <SpeciesSelect />
+            </FilterDropdown>
+          )}
         />
         <Table.Column
-          dataIndex={["breed", "name"]}
+          dataIndex={["breed_id"]}
           title={translate("patients.fields.breed")}
+          render={(value, record: BaseRecord) => (record?.breed?.name)}
         />
         <Table.Column
           dataIndex={["birthday"]}
@@ -78,6 +102,8 @@ export const PatientsList: React.FC<IResourceComponentsProps> = () => {
         <Table.Column
           dataIndex={["sex"]}
           title={translate("patients.fields.sex")}
+          sorter
+          defaultSortOrder={getDefaultSortOrder("sex", sorters)}
           render={(value: string) => <span>
             {value? translate(`patients.enums.${value}`): "-"}
           </span>
@@ -89,8 +115,8 @@ export const PatientsList: React.FC<IResourceComponentsProps> = () => {
           dataIndex="actions"
           render={(_, record: BaseRecord) => (
             <Space>
-              <EditButton hideText size="small" recordItemId={record.id} onClick={() => drawerFormPropsEdit.show(record.id)} />
-              <ShowButton hideText size="small" recordItemId={record.id} />
+              <EditButton hideText size="small" type="text" recordItemId={record.id} onClick={() => drawerFormPropsEdit.show(record.id)} />
+              <ShowButton hideText size="small" type="text" recordItemId={record.id} />
             </Space>
           )}
         />

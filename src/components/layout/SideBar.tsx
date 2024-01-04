@@ -1,4 +1,4 @@
-import { CSSProperties } from "react";
+import { CSSProperties, useState } from "react";
 import { useThemedLayoutContext } from "@refinedev/antd";
 import { BarsOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 import {
@@ -53,12 +53,11 @@ export const SideBar: React.FC<{
 }> = ({ fixed, header, resourceMenuList }) => {
   const { token } = useToken();
   const {
-    siderCollapsed,
-    setSiderCollapsed,
     mobileSiderOpen,
     setMobileSiderOpen,
   } = useThemedLayoutContext();
   const breakpoint = Grid.useBreakpoint();
+  const [collapsed, setcollapsed] = useState(false);
   const Link = useLink();
   const translate = useTranslate();
   const isMobile =
@@ -75,7 +74,7 @@ export const SideBar: React.FC<{
   const info = (
     <Menu.Item key="info" icon={<InfoIcon />}>
       <Link to={infoUrl}>{translate("menu.info")}</Link>
-      {/*!siderCollapsed && selectedKey === "/" && (
+      {/*!collapsed && selectedKey === "/" && (
         <div className="ant-menu-tree-arrow" />
       )*/}
     </Menu.Item>
@@ -136,7 +135,7 @@ export const SideBar: React.FC<{
                 }}
               >
                 {/*<RenderToTitle collapsed={false} />*/}
-                {header}
+                {!collapsed ? header: null}
               </div>
               {renderMenu()}
             </Layout.Sider>
@@ -159,6 +158,7 @@ export const SideBar: React.FC<{
   const siderStyles: React.CSSProperties = {
     backgroundColor: token.colorBgContainer,
     borderRight: `1px solid ${token.colorBgElevated}`,
+    minHeight: "86vh",
   };
 
   if (fixed) {
@@ -173,7 +173,7 @@ export const SideBar: React.FC<{
       {fixed && (
         <div
           style={{
-            width: siderCollapsed ? "80px" : "200px",
+            width: collapsed ? "80px" : "200px",
             transition: "all 0.2s",
           }}
         />
@@ -181,10 +181,10 @@ export const SideBar: React.FC<{
       <Layout.Sider
         style={siderStyles}
         collapsible
-        collapsed={siderCollapsed}
+        collapsed={collapsed}
         onCollapse={(collapsed, type) => {
           if (type === "clickTrigger") {
-            setSiderCollapsed(collapsed);
+            setcollapsed(collapsed);
           }
         }}
         collapsedWidth={80}
@@ -199,7 +199,7 @@ export const SideBar: React.FC<{
               backgroundColor: token.colorBgElevated,
             }}
           >
-            {siderCollapsed ? (
+            {collapsed ? (
               <RightOutlined
                 style={{
                   color: token.colorPrimary,
@@ -217,10 +217,10 @@ export const SideBar: React.FC<{
       >
         <div
           style={{
-            width: siderCollapsed ? "80px" : "200px",
-            padding: siderCollapsed ? "0" : "0 16px",
+            width: collapsed ? "80px" : "200px",
+            padding: collapsed ? "0" : "0 16px",
             display: "flex",
-            justifyContent: siderCollapsed ? "center" : "flex-start",
+            justifyContent: collapsed ? "center" : "flex-start",
             alignItems: "center",
             backgroundColor: token.colorBgElevated,
             fontSize: "14px",
@@ -228,8 +228,8 @@ export const SideBar: React.FC<{
             paddingBottom: "15px",
           }}
         >
-          {/*<RenderToTitle collapsed={siderCollapsed} />*/}
-          {header}
+          {/*<RenderToTitle collapsed={collapsed} />*/}
+          {!collapsed ? header: null}
         </div>
         {renderMenu()}
       </Layout.Sider>
