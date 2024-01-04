@@ -161,8 +161,10 @@ function App() {
                     name: "customers",
                     list: "/:tenant/customers",
                     show: "/:tenant/customers/:id",
+                    create: "/:tenant/customers/create",
                     meta: {
                       param: "customer",
+                      canDelete: true,
                       tenant,
                       label: "Clientes",
                       icon: <CustomerIcon />,
