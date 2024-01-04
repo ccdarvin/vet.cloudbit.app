@@ -16,7 +16,7 @@ export const AppointmentsSimpleList: React.FC<
   const translate = useTranslate();
   const { params } = useParsed<{ tenant: string; patient: string }>();
 
-  const { listProps, sorters } = useSimpleList({
+  const { listProps } = useSimpleList({
     syncWithLocation: true,
     meta: {
       select: "*, patient:patient_id(*), doctor:doctor_id(*)",
@@ -45,7 +45,7 @@ export const AppointmentsSimpleList: React.FC<
     },
   });
 
-  const drawerFormPropsEdit = useDrawerForm<Tables<"patients">>({
+  const drawerFormPropsEdit = useDrawerForm<Tables<"appointments">>({
     action: "edit",
     syncWithLocation: true,
   });

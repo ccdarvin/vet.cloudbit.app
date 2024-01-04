@@ -8,7 +8,7 @@ import EditDrawer from "../../components/crud/EditDrawer";
 import { AppointmentForm } from "./form";
 
 export const AppointmentsEdit: React.FC<IResourceComponentsProps & 
-{ drawerFormProps: UseDrawerFormReturnType<Tables<'patients'>> }>  = ({
+{ drawerFormProps: UseDrawerFormReturnType<Tables<'appointments'>> }>  = ({
   drawerFormProps,
 }) => {
 

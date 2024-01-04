@@ -1,4 +1,4 @@
-import { EditButton, FilterDropdown, ShowButton, getDefaultSortOrder, useDrawerForm, useTable } from "@refinedev/antd";
+import { EditButton, FilterDropdown, getDefaultSortOrder, useDrawerForm, useTable } from "@refinedev/antd";
 import { IResourceComponentsProps, useParsed, useTranslate } from "@refinedev/core";
 import { Space, Table } from "antd";
 import { Tables } from "../../../types/supabase";
@@ -7,6 +7,8 @@ import AppointmentStatusSelect from "../../../components/controls/AppointmentSta
 import BadgeField from "../../../components/fields/BadgeField";
 import { appointmentStatusOptions } from "../../../constants";
 import { AppointmentsEdit } from "../edit";
+import PatientSelect from "../../../components/controls/PatientSelect";
+import StaffSelect from "../../../components/controls/StaffSelect";
 
 
 interface IAppointment extends Tables<"appointments"> {
@@ -31,12 +33,7 @@ export const AppointmentsTable: React.FC<IResourceComponentsProps> = () => {
           field: "tenant_id",
           operator: "eq",
           value: params?.tenant,
-        },
-        {
-          field: "patient_id",
-          operator: "eq",
-          value: params?.patient,
-        },
+        }
       ],
     },
     sorters: {
@@ -49,27 +46,41 @@ export const AppointmentsTable: React.FC<IResourceComponentsProps> = () => {
     },
   });
 
-  const drawerFormPropsEdit = useDrawerForm<Tables<"patients">>({
+  const drawerFormPropsEdit = useDrawerForm<Tables<"appointments">>({
     action: "edit",
-    syncWithLocation: true,
+    syncWithLocation: false,
   });
 
   return (
     <>
       <Table {...tableProps} rowKey="id">
         <Table.Column
-          dataIndex={["patient", "name"]}
+          dataIndex={"patient_id"}
           title={translate("appointments.fields.patient")}
+          render={(value, record: IAppointment) => (record?.patient?.name)}
+          filterDropdown={(props) => {
+            return (
+              <FilterDropdown {...props}>
+                <PatientSelect />
+              </FilterDropdown>
+            );
+          }}
         />
         <Table.Column
-          dataIndex={["doctor", "first_name"]}
+          dataIndex={["doctor_id"]}
           title={translate("appointments.fields.doctor")}
-          sorter
           render={(value, record: IAppointment) => (
             <>
               {record?.doctor?.first_name} {record?.doctor?.last_name}
             </>
           )}
+          filterDropdown={(props) => {
+            return (
+              <FilterDropdown {...props}>
+                <StaffSelect isDoctor />
+              </FilterDropdown>
+            );
+          }}
         />
         <Table.Column
           dataIndex={["date"]}
@@ -114,11 +125,11 @@ export const AppointmentsTable: React.FC<IResourceComponentsProps> = () => {
             <Space>
               <EditButton
                 hideText
+                type="text"
                 size="small"
                 recordItemId={record.id}
                 onClick={() => drawerFormPropsEdit.show(record.id)}
               />
-              <ShowButton hideText size="small" recordItemId={record.id} />
             </Space>
           )}
         />
