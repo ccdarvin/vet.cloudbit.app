@@ -1,7 +1,4 @@
-import { Metadata } from 'libphonenumber-js/core'
-import min from 'libphonenumber-js/min/metadata'
-import { CountryCode } from 'libphonenumber-js/types'
-// all countries but the name is in spanish
+
 export const countries: {
     name:string,
     code:string
