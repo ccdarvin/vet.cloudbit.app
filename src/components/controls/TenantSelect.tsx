@@ -21,62 +21,60 @@ export default function TenantSelect() {
   const getToPath = useGetToPath();
   const go = useGo();
   const { data: identity } = useGetIdentity<IIdentity>();
-  const { resource, action, params, pathname } = useParsed<{
+  const { resource, action, params } = useParsed<{
     tenant: string;
   }>();
 
-  const { selectProps: storeSelectProps } = useSelect<Tables<"tenants">>({
+  const { selectProps: storeSelectProps, queryResult } = useSelect<Tables<"tenants">>({
+    meta: {
+      select: '*, accounts!inner(*)',
+    },
+    filters: [
+      {
+        field: "accounts.user_id",
+        operator: "eq",
+        value: identity?.id,
+      },
+    ],
     resource: "tenants",
     optionLabel: "name",
     optionValue: "id",
   });
   useEffect(() => {
-    const path = getToPath({
-      resource,
-      action: action || "list",
-      meta: {
-        tenant: identity?.user_metadata.tenant_id,
-        id: identity?.user_metadata.tenant_id,
-      },
-    });
-    if (params?.tenant === ":tenant") {
-      console.log(path, params?.tenant);
-      setTimeout(() => {
-        go({ to: path, type: "replace" });
-      }, 1);
+    if (queryResult.isFetched) {
+      if (queryResult?.data?.total === 0) {
+        go({
+          to: '/tenants/create',
+        });
+      }
     }
-  }, [
-    action,
-    getToPath,
-    go,
-    identity?.user_metadata.tenant_id,
-    params?.tenant,
-    pathname,
-    resource,
-  ]);
+  }, [queryResult.data, queryResult.isFetched]);
 
   return (
-    <Select
-      value={params?.tenant}
-      style={{ width: 120 }}
-      onChange={(tenant) =>
-        go({
-          to: getToPath({
-            resource,
-            action: action || "list",
-            meta: {
-              tenant,
-            },
-          }),
-        })
-      }
-      onSelect={() => false}
-    >
-      {storeSelectProps.options?.map(({ value, label }) => (
-        <Select.Option key={value} value={value}>
-          {label}
-        </Select.Option>
-      ))}
-    </Select>
+    <>
+      {(queryResult?.data?.total ?? 0) > 0 && <Select
+        value={params?.tenant}
+        style={{ width: 120 }}
+        onChange={(tenant) =>
+          go({
+            to: getToPath({
+              resource,
+              action: action || "list",
+              meta: {
+                tenant,
+              },
+            }),
+          })
+        }
+        onSelect={() => false}
+      >
+        {storeSelectProps.options?.map(({ value, label }) => (
+          <Select.Option key={value} value={value}>
+            {label}
+          </Select.Option>
+        ))}
+      </Select>
+        }
+    </>
   );
 }

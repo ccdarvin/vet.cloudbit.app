@@ -16,7 +16,8 @@
         "submit": "Iniciar sesión",
         "forgotPassword": "¿Olvidaste tu contraseña?",
         "noAccount": "¿No tienes una cuenta?",
-        "rememberMe": "Recuérdame"
+        "rememberMe": "Recuérdame",
+        "haveAccount": "¿Ya tienes una cuenta?"
       }
     },
     "forgotPassword": {
@@ -32,7 +33,7 @@
       }
     },
     "register": {
-      "title": "Create an account",
+      "title": "Crea tu cuenta",
       "fields": {
         "email": "Correo electrónico",
         "password": "Contraseña"
@@ -123,21 +124,13 @@
     "vaccines": "Vacunas",
     "antiparasitics": "Antiparasitarios"
   },
-  "blog_posts": {
-    "blog_posts": "Blog Posts",
+  "tenants": {
     "fields": {
       "id": "Id",
-      "title": "Title",
-      "content": "Content",
-      "status": "Status",
-      "created_at": "Created At",
-      "categoryId": "Category"
-    },
-    "titles": {
-      "create": "Create Blog Post",
-      "edit": "Edit Blog Post",
-      "list": "Blog Posts",
-      "show": "Show Blog Post"
+      "name": "Nombre",
+      "phone": "Teléfono",
+      "currency": "Moneda",
+      "color": "Color"
     }
   },
   "categories": {

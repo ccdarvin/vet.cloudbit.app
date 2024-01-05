@@ -18,7 +18,6 @@ import { Table, Space, Input, Form } from "antd";
 import { Tables } from "../../types/supabase";
 import { CustomerEdit } from "./edit";
 import { CustomerCreate } from "./create";
-import { useState } from "react";
 
 interface ISearch {
   query: string;
@@ -27,7 +26,6 @@ interface ISearch {
 export const CustomerList: React.FC<IResourceComponentsProps> = () => {
   const translate = useTranslate();
   const { params } = useParsed<{ tenant: string }>();
-  const [serach, setSearch] = useState<string>("");
   const { tableProps, sorters, searchFormProps } = useTable<
     Tables<"customers">,
     HttpError,

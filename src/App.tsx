@@ -63,7 +63,7 @@ import { TenantProvider } from "./contexts/TenantProvider";
 import { IndexPage } from "./pages";
 import { ThemedLayoutV2Custom } from "./components/layout";
 import { ThemedSiderV2Custom } from "./components/layout/sider";
-import { LoginPage } from "./components/pages/auth/components";
+import { LoginPage, RegisterPage } from "./components/pages/auth/components";
 import { Header } from "./components";
 
 function App() {
@@ -334,7 +334,6 @@ function App() {
                       />
                       <Route path="/tenants">
                         <Route index element={<TenantList />} />
-                        <Route path="create" element={<TenantCreate />} />
                         <Route path="edit/:id" element={<TenantEdit />} />
                         <Route path="show/:id" element={<TenantShow />} />
                       </Route>
@@ -419,6 +418,24 @@ function App() {
                     <Route
                       element={
                         <Authenticated
+                          key="authenticated-inner"
+                          fallback={<CatchAllNavigate to="/login" />}
+                        >
+                          <ThemedLayoutV2Custom
+                            Header={() => <Header sticky />}
+                            
+                            Sider={() => (<div></div>)}
+                          >
+                            <Outlet />
+                          </ThemedLayoutV2Custom>
+                        </Authenticated>
+                      }
+                    >
+                      <Route path="/tenants/create" element={<TenantCreate />}/>
+                    </Route>
+                    <Route
+                      element={
+                        <Authenticated
                           key="authenticated-outer"
                           fallback={<Outlet />}
                         >
@@ -432,7 +449,7 @@ function App() {
                       />
                       <Route
                         path="/register"
-                        element={<AuthPage type="register" title />}
+                        element={<RegisterPage />}
                       />
                       <Route
                         path="/forgot-password"

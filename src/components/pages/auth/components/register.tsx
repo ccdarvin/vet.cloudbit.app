@@ -9,7 +9,6 @@ import {
   useRouterContext,
   useRegister,
 } from "@refinedev/core";
-import { ThemedTitleV2 } from "@refinedev/antd";
 import {
   layoutStyles,
   containerStyles,
@@ -32,6 +31,7 @@ import {
   Divider,
   theme,
 } from "antd";
+import { ThemedTitleV2Custom } from "../../../layout/title";
 
 const { Text, Title } = Typography;
 const { useToken } = theme;
@@ -76,7 +76,7 @@ export const RegisterPage: React.FC<RegisterProps> = ({
           fontSize: "20px",
         }}
       >
-        {title ?? <ThemedTitleV2 collapsed={false} />}
+        {title ?? <ThemedTitleV2Custom collapsed={false} />}
       </div>
     );
 
@@ -241,7 +241,7 @@ export const RegisterPage: React.FC<RegisterProps> = ({
               fontSize: 12,
             }}
           >
-            {translate("pages.login.buttons.haveAccount", "Have an account?")}{" "}
+            {translate("pages.login.buttons.haveAccount", "Have an account?")}{"  "}
             <ActiveLink
               style={{
                 fontWeight: "bold",
