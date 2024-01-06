@@ -10,10 +10,14 @@ type IIdentity = {
 };
 
 export const IndexPage = () => {
-  const { data: identity } = useGetIdentity<IIdentity>();
+  const { data: identity, isFetched } = useGetIdentity<IIdentity>();
   const go = useGo();
   useEffect(() => {
-    go({ to: `/${identity?.user_metadata.tenant_id}/`, type: "replace" });
+    if (isFetched && identity?.user_metadata.tenant_id) {
+      go({ to: `/${identity?.user_metadata.tenant_id}/`, type: "replace" });
+    } else if (isFetched && !identity?.user_metadata.tenant_id) {
+      go({ to: "/tenants", type: "replace" });
+    } 
   }, [go, identity]);
 
   return (

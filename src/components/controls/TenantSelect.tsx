@@ -8,14 +8,7 @@ import {
 import { Select } from "antd";
 import { Tables } from "../../types/supabase";
 import { useEffect } from "react";
-
-type IIdentity = {
-  id: number;
-  fullName: string;
-  user_metadata: {
-    tenant_id: string;
-  };
-};
+import { IIdentity } from "../../types/interfaces";
 
 export default function TenantSelect() {
   const getToPath = useGetToPath();
@@ -25,9 +18,11 @@ export default function TenantSelect() {
     tenant: string;
   }>();
 
-  const { selectProps: storeSelectProps, queryResult } = useSelect<Tables<"tenants">>({
+  const { selectProps: storeSelectProps, queryResult } = useSelect<
+    Tables<"tenants">
+  >({
     meta: {
-      select: '*, accounts!inner(*)',
+      select: "*, accounts!inner(*)",
     },
     filters: [
       {
@@ -44,7 +39,7 @@ export default function TenantSelect() {
     if (queryResult.isFetched) {
       if (queryResult?.data?.total === 0) {
         go({
-          to: '/tenants/create',
+          to: "/tenants/create",
         });
       }
     }
@@ -52,29 +47,30 @@ export default function TenantSelect() {
 
   return (
     <>
-      {(queryResult?.data?.total ?? 0) > 0 && <Select
-        value={params?.tenant}
-        style={{ width: 120 }}
-        onChange={(tenant) =>
-          go({
-            to: getToPath({
-              resource,
-              action: action || "list",
-              meta: {
-                tenant,
-              },
-            }),
-          })
-        }
-        onSelect={() => false}
-      >
-        {storeSelectProps.options?.map(({ value, label }) => (
-          <Select.Option key={value} value={value}>
-            {label}
-          </Select.Option>
-        ))}
-      </Select>
-        }
+      {(queryResult?.data?.total ?? 0) > 0 && (
+        <Select
+          value={params?.tenant}
+          style={{ width: 120 }}
+          onChange={(tenant) =>
+            go({
+              to: getToPath({
+                resource,
+                action: action || "list",
+                meta: {
+                  tenant,
+                },
+              }),
+            })
+          }
+          onSelect={() => false}
+        >
+          {storeSelectProps.options?.map(({ value, label }) => (
+            <Select.Option key={value} value={value}>
+              {label}
+            </Select.Option>
+          ))}
+        </Select>
+      )}
     </>
   );
 }

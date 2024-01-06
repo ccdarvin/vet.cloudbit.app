@@ -1,84 +1,102 @@
 import React from "react";
 import {
-    IResourceComponentsProps,
-    BaseRecord,
-    useTranslate,
+  IResourceComponentsProps,
+  useTranslate,
+  useList,
+  useGetIdentity,
+  useGo,
 } from "@refinedev/core";
-import {
-    useTable,
-    List,
-    EditButton,
-    ShowButton,
-    DateField,
-} from "@refinedev/antd";
-import { Table, Space } from "antd";
+import { List, EditButton, ShowButton } from "@refinedev/antd";
+import { Card, Flex, Avatar, Typography } from "antd";
+import { Tables } from "../../types/supabase";
+import { IIdentity } from "../../types/interfaces";
+import { supabaseClient } from "../../utility";
 
 export const TenantList: React.FC<IResourceComponentsProps> = () => {
-    const translate = useTranslate();
-    const { tableProps } = useTable({
-        syncWithLocation: true,
-    });
+  const translate = useTranslate();
 
-    return (
-        <List>
-            <Table {...tableProps} rowKey="id">
-                <Table.Column
-                    dataIndex="id"
-                    title={translate("tenants.fields.id")}
-                />
-                <Table.Column
-                    dataIndex="name"
-                    title={translate("tenants.fields.name")}
-                />
-                <Table.Column
-                    dataIndex="country_code"
-                    title={translate("tenants.fields.country_code")}
-                />
-                <Table.Column
-                    dataIndex="currency_code"
-                    title={translate("tenants.fields.currency_code")}
-                />
-                <Table.Column
-                    dataIndex={["created_at"]}
-                    title={translate("tenants.fields.created_at")}
-                    render={(value: any) => <DateField value={value} />}
-                />
-                <Table.Column
-                    dataIndex={["updated_at"]}
-                    title={translate("tenants.fields.updated_at")}
-                    render={(value: any) => <DateField value={value} />}
-                />
-                <Table.Column
-                    dataIndex="color"
-                    title={translate("tenants.fields.color")}
-                />
-                <Table.Column
-                    dataIndex="updated_by"
-                    title={translate("tenants.fields.updated_by")}
-                />
-                <Table.Column
-                    dataIndex="phone"
-                    title={translate("tenants.fields.phone")}
-                />
-                <Table.Column
-                    title={translate("table.actions")}
-                    dataIndex="actions"
-                    render={(_, record: BaseRecord) => (
-                        <Space>
-                            <EditButton
-                                hideText
-                                size="small"
-                                recordItemId={record.id}
-                            />
-                            <ShowButton
-                                hideText
-                                size="small"
-                                recordItemId={record.id}
-                            />
-                        </Space>
-                    )}
-                />
-            </Table>
-        </List>
-    );
+  const { data: identity, refetch } = useGetIdentity<IIdentity>();
+  const go = useGo();
+  const { data } = useList<Tables<"tenants">>({
+    meta: {
+      select: "*, accounts!inner(*)",
+    },
+    filters: [
+      {
+        field: "accounts.user_id",
+        operator: "eq",
+        value: identity?.id,
+      },
+    ],
+  });
+
+  const selectTenantHander = async (tenant_id: string) => {
+    const { error } = await supabaseClient.auth.updateUser({
+      data: { tenant_id }
+    })
+    if (error) {
+      return console.log(error);
+    }
+    refetch();
+    go({
+      to: `/${tenant_id}/`,
+    });
+    console.log(error);
+  }
+  console.log(identity);
+
+  return (
+    <List>
+      <Flex wrap="wrap" gap={20}>
+        {data?.data?.map((record) => (
+          <Card
+            style={{ maxWidth: 550 }}
+            hoverable
+            bordered={false}
+            key={record.id}
+            actions={[
+              <ShowButton
+                type="text"
+                size="small"
+                key={record.id}
+                recordItemId={record.id}
+              >
+                Seleccionar
+              </ShowButton>,
+              <EditButton
+                type="text"
+                size="small"
+                key={record.id}
+                recordItemId={record.id}
+              />,
+            ]}
+          >
+            <Flex justify="space-between">
+              <div>
+                <Avatar size={150}>
+                  {record.name[0].toLocaleUpperCase()}
+                </Avatar>
+              </div>
+              <Flex
+                vertical
+                align="flex-end"
+                justify="space-between"
+                style={{ padding: 32 }}
+              >
+                <Typography.Title level={3}>
+                  {record.name}
+                </Typography.Title>
+                <ShowButton
+                  type="primary"
+                  onClick={() => selectTenantHander(record.id)}
+                >
+                  Seleccionar
+                </ShowButton>
+              </Flex>
+            </Flex>
+          </Card>
+        ))}
+      </Flex>
+    </List>
+  );
 };
