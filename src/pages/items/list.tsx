@@ -45,11 +45,13 @@ export const ItemList: React.FC<IResourceComponentsProps> = () => {
   const drawerFormPropsCreate = useDrawerForm<Tables<"items">>({
     action: "create",
     syncWithLocation: true,
+    submitOnEnter: true,
   });
 
   const drawerFormPropsEdit = useDrawerForm<Tables<"items">>({
     action: "edit",
     syncWithLocation: true,
+    submitOnEnter: true,
   });
 
   return (

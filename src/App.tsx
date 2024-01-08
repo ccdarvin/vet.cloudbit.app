@@ -32,7 +32,7 @@ import { PatientsList, PacientShow, PatientLayout } from "./pages/patients";
 import { SpeciesList } from "./pages/species";
 import { CustomerList, CustomersShow } from "./pages/customers";
 import { ItemList } from "./pages/items";
-import { OrderEdit, OrderList, OrderShow } from "./pages/orders";
+import { OrderCreate, OrderEdit, OrderList, OrderShow } from "./pages/orders";
 import {
   AppointmentIcon,
   CashRegisterIcon,
@@ -385,7 +385,7 @@ function App() {
                         </Route>
                         <Route path="orders">
                           <Route index element={<OrderList />} />
-                          <Route path="create" element={<OrderEdit />} />
+                          <Route path="create" element={<OrderCreate />} />
                           <Route path="edit/:id" element={<OrderEdit />} />
                           <Route path="show/:id" element={<OrderShow />} />
                         </Route>

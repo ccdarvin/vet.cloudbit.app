@@ -3,7 +3,7 @@ import {
   useParsed,
   HttpError,
   useNotification,
-  useInvalidate,
+  useTranslate,
 } from "@refinedev/core";
 import { Button, Flex, Space } from "antd";
 import { Edit, useDrawerForm, useForm } from "@refinedev/antd";
@@ -15,52 +15,50 @@ import { PaymentsCreate } from "../payments";
 import OrderStatusField from "../../components/fields/OrderStatusField";
 
 export const OrderEdit: React.FC<IResourceComponentsProps> = () => {
-  const { params } = useParsed<{ tenant: string, id: string }>();
+  const translate = useTranslate();
   const { open } = useNotification();
-  const invalidate = useInvalidate();
-  const { formProps, saveButtonProps, queryResult } = useForm<
-    Tables<"orders">,
-    HttpError,
-    any
-  >({
+  
+  const { params } = useParsed<{ id: string }>();
+  const { formProps, saveButtonProps } = useForm<Tables<"orders">, HttpError>({
     mutationMode: "optimistic",
     meta: {
       select: "*, items:order_items(*)",
     },
-    onMutationSuccess: (data, variables, context) => {
-      handlerSaveItems(data?.data?.id);
-    },
-    redirect: 'list',
+    redirect: false,
+    warnWhenUnsavedChanges: false
   });
-  const saveItems = async (items: any[]) => {
+
+  const handlerSave = async (values: any) => {
+    const { items } = values;
+    delete values.items;
     const { data, error } = await supabaseClient
-      .from("order_items")
-      .upsert(items);
+      .rpc("update_order_with_items", {
+        order_data: {
+          ...values,
+          id: params?.id,
+        },
+        items_data: items,
+      })
+
     if (error) {
       open?.({
         type: "error",
-        message: "Error",
-        description: error.message,
+        message: translate("notifications.editError"),
+        description: translate("notifications.error"),
         key: "error",
       });
+      return error
     }
-  };
+    open?.({
+      type: "success",
+      message: translate("notifications.editSuccess"),
+      description: translate("notifications.success"),
+      key: "success",
+    });
+    return data;
+  }
 
-  const handlerSaveItems = async (id: string) => {
-    const form = formProps.form;
-    const items = form?.getFieldValue("items") as Tables<"order_items">[];
-    const itemsClear = items.map((item) => ({
-      ...item,
-      order_id: id,
-      tenant_id: params?.tenant as string,
-    }));
-
-    const itemsToUpdate = itemsClear.filter((item) => item.id);
-    // remove id from items to create
-    const itemsToCreate = itemsClear.filter((item) => !item.id);
-    await saveItems(itemsToUpdate);
-    await saveItems(itemsToCreate);
-  };
+  formProps.onFinish = handlerSave;
 
   const drawerFormPropsCreate = useDrawerForm<Tables<"payments">>({
     action: "create",
@@ -70,32 +68,36 @@ export const OrderEdit: React.FC<IResourceComponentsProps> = () => {
   const isReadonly = formProps.initialValues?.status !== "Pend";
 
   return (
-    <Flex gap={20} wrap="wrap" >
-      <Edit
-        saveButtonProps={saveButtonProps}
-        footerButtons={({ defaultButtons }) => (
-          isReadonly ? null : defaultButtons
-        )}
-
-        headerButtons={({ defaultButtons }) => (
-          <Space>
-            {defaultButtons}
-            {["Pend", "Part"].includes(formProps.initialValues?.status) && (
-            <Button
-              icon={<PaymentIcon />}
-              onClick={() => drawerFormPropsCreate.show()}
-            >
-              Pagar
-            </Button>)}
-          </Space>
-        )}
-      >
-        <OrderForm formProps={formProps} isReadonly={isReadonly}/>
-        {formProps.initialValues && <PaymentsCreate 
-          drawerFormProps={drawerFormPropsCreate} 
-          order={formProps.initialValues as Tables<"orders">}
-        />}
-      </Edit>
+    <Flex gap={20} wrap="wrap">
+      <div style={{ flexGrow: 1 }}>
+        <Edit
+          saveButtonProps={saveButtonProps}
+          footerButtons={({ defaultButtons }) =>
+            isReadonly ? null : defaultButtons
+          }
+          headerButtons={({ defaultButtons }) => (
+            <Space>
+              {defaultButtons}
+              {["Pend", "Part"].includes(formProps.initialValues?.status) && (
+                <Button
+                  icon={<PaymentIcon />}
+                  onClick={() => drawerFormPropsCreate.show()}
+                >
+                  Pagar
+                </Button>
+              )}
+            </Space>
+          )}
+        >
+          <OrderForm formProps={formProps} isReadonly={isReadonly} />
+          {formProps.initialValues && (
+            <PaymentsCreate
+              drawerFormProps={drawerFormPropsCreate}
+              order={formProps.initialValues as Tables<"orders">}
+            />
+          )}
+        </Edit>
+      </div>
       <OrderStatusField value={formProps.initialValues?.status} />
     </Flex>
   );

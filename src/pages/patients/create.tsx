@@ -1,5 +1,5 @@
 
-import { IResourceComponentsProps } from "@refinedev/core";
+import { IResourceComponentsProps, useParsed } from "@refinedev/core";
 import { UseDrawerFormReturnType } from "@refinedev/antd";
 
 import { Tables } from "../../types/supabase";
@@ -12,6 +12,12 @@ export const PatientCreate: React.FC<IResourceComponentsProps &
 }) => {
 
   const { formProps, drawerProps, saveButtonProps } = drawerFormProps;
+
+  const { params } = useParsed<{ tenant: string, customer:string }>();
+  formProps.initialValues = {
+    ...formProps.initialValues,
+    customer_id: params?.customer,
+  }
 
   return (
       <CreateDrawer drawerProps={drawerProps} saveButtonProps={saveButtonProps}>

@@ -35,7 +35,7 @@ export const PatientForm: React.FC<{ formProps: FormProps }> = ({
             },
           ]}
         >
-          <CustomerSelect />
+          <CustomerSelect disabled={!!formProps.initialValues?.customer_id} />
         </Form.Item>
         </Col>
         <Col xs={{ span: 24 }}>

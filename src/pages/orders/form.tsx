@@ -23,25 +23,23 @@ export const OrderForm: React.FC<{ formProps: FormProps, isReadonly?: boolean }>
       Math.round(
         items?.reduce((acc, item) => acc + Number(item.subtotal), 0) * 100
       ) / 100;
-    const discount = form?.getFieldValue("discount");
-    const total = Math.round(subtotal_base * (1 - discount / 100) * 100) / 100;
+    //const discount = form?.getFieldValue("discount");
+    //const total = Math.round(subtotal_base * (1 - discount / 100) * 100) / 100;
     // set values
-    form?.setFieldValue("subtotal_base", subtotal_base);
-    form?.setFieldValue("total", total);
+    //form?.setFieldValue("subtotal_base", subtotal_base);
+    form?.setFieldValue("total", subtotal_base);
   };
 
   return (
     <Form
       {...formProps}
-      onFinish={(values: any) => {
-        const { items } = values;
-        delete values.items;
+      onFinish={(values) => {
         return formProps.onFinish?.({
           ...values,
           tenant_id: params?.tenant as string,
         });
       }}
-      onFieldsChange={(changedFields, allFields) => {
+      onFieldsChange={() => {
         handleTotals();
       }}
       layout="vertical"
@@ -63,7 +61,7 @@ export const OrderForm: React.FC<{ formProps: FormProps, isReadonly?: boolean }>
         </Col>
       </Row>
       <Form.List name="items">
-        {(fields, { add, remove, ...props }) => (
+        {(fields, { add, remove }) => (
           <>
             <Table
               pagination={false}
@@ -304,12 +302,6 @@ export const OrderForm: React.FC<{ formProps: FormProps, isReadonly?: boolean }>
         }}
       >
         <Space.Compact>
-          <Form.Item
-            label={translate("orders.fields.subtotal_base")}
-            name={["subtotal_base"]}
-          >
-            <Input readOnly bordered={false} />
-          </Form.Item>
           <Form.Item label={translate("orders.fields.total")} name={["total"]}>
             <Input readOnly bordered={false} />
           </Form.Item>

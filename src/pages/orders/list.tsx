@@ -3,6 +3,7 @@ import {
   IResourceComponentsProps,
   BaseRecord,
   useTranslate,
+  useParsed,
 } from "@refinedev/core";
 import {
   useTable,
@@ -14,11 +15,22 @@ import { Table, Space } from "antd";
 
 export const OrderList: React.FC<IResourceComponentsProps> = () => {
   const translate = useTranslate();
+  const { params } = useParsed<{ tenant: string }>();
+  console.log(params);
   const { tableProps } = useTable({
     syncWithLocation: true,
     meta: {
       select: "*, customer:customer_id(*)",
     },
+    filters: {
+      permanent: [
+        {
+          field: "tenant_id",
+          operator: "eq",
+          value: params?.tenant,
+        },
+      ]
+    }
   });
 
   return (

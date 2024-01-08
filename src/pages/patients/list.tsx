@@ -44,11 +44,13 @@ export const PatientsList: React.FC<IResourceComponentsProps> = () => {
   const drawerFormPropsCreate = useDrawerForm<Tables<'patients'>>({
     action: "create",
     syncWithLocation: true,
+    submitOnEnter: true,
   });
 
   const drawerFormPropsEdit = useDrawerForm<Tables<'patients'>>({
     action: "edit",
     syncWithLocation: true,
+    submitOnEnter: true,
   });
 
   return (

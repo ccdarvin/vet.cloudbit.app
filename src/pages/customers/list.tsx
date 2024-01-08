@@ -55,15 +55,20 @@ export const CustomerList: React.FC<IResourceComponentsProps> = () => {
   const drawerFormPropsCreate = useDrawerForm<Tables<"customers">>({
     action: "create",
     syncWithLocation: true,
+    submitOnEnter: true,
   });
 
   const drawerFormPropsEdit = useDrawerForm<Tables<"customers">>({
     action: "edit",
     syncWithLocation: true,
+    submitOnEnter: true,
   });
 
   return (
     <List
+      createButtonProps={{
+        onClick: () => drawerFormPropsCreate.show(),
+      }}
       headerButtons={({ defaultButtons }) => (
         <Space>
           <Form {...searchFormProps} layout="inline">

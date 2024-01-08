@@ -18,7 +18,7 @@ export const IndexPage = () => {
     } else if (isFetched && !identity?.user_metadata.tenant_id) {
       go({ to: "/tenants", type: "replace" });
     } 
-  }, [go, identity]);
+  }, [go, identity, isFetched]);
 
   return (
     <div>
